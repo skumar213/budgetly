@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const Home = props => {
+const Home = () => {
   const firstName = useSelector(state => state.auth.firstName);
 
   return (

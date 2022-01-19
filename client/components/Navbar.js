@@ -13,12 +13,13 @@ const Navbar = () => {
 
   return (
     <div>
-      <h1>Boilerplate</h1>
+      <h1>Budgetly</h1>
       <nav>
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
+            <Link to='/user'>Profile</Link>
             <a href="#" onClick={handleClick}>
               Logout
             </a>

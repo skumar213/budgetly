@@ -7,10 +7,12 @@ const TOKEN = 'token'
 
 //ACTION TYPES
 const SET_AUTH = 'SET_AUTH'
+const UPDATE_USER = 'UPDATE_USER'
 
 
 //ACTION CREATORS
 const setAuth = auth => ({type: SET_AUTH, auth})
+const updateUser = user => ({type: UPDATE_USER, user})
 
 
 //THUNK CREATORS
@@ -48,12 +50,24 @@ export const logout = () => {
   }
 }
 
+export const _updateUser = (newUserInfo) => async dispatch => {
+  try {
+    const updatedUser = await authenticateRequest('put', '/api/users', newUserInfo)
+
+    dispatch(updateUser(updatedUser))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 //REDUCER
 export default function(state = {}, action) {
   switch (action.type) {
     case SET_AUTH:
       return action.auth
+    case UPDATE_USER:
+      return action.user
     default:
       return state
   }
