@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import { authenticateRequest } from "./gateKeepingMiddleware";
 
 const TOKEN = 'token'
 
@@ -15,12 +16,14 @@ const setAuth = auth => ({type: SET_AUTH, auth})
 //THUNK CREATORS
 export const me = () => async dispatch => {
   const token = window.localStorage.getItem(TOKEN)
+
   if (token) {
     const res = await axios.get('/auth/me', {
       headers: {
         authorization: token
       }
     })
+
     return dispatch(setAuth(res.data))
   }
 }
@@ -28,6 +31,7 @@ export const me = () => async dispatch => {
 export const authenticate = (email, password, method, firstName, lastName, monthlyIncome) => async dispatch => {
   try {
     const res = await axios.post(`/auth/${method}`, {email, password, firstName, lastName, monthlyIncome})
+
     window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
   } catch (authError) {

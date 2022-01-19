@@ -1,26 +1,41 @@
-const router = require('express').Router()
-const { models: { User }} = require('../db')
+const router = require("express").Router();
+const {
+  models: { User },
+} = require("../db");
 const { requireToken } = require("./gateKeepingMiddleware");
-module.exports = router
+module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'username']
-    })
-    res.json(users)
+      attributes: ["id", "username"],
+    });
+    res.json(users);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
+//PUT /users
+router.put("/", requireToken, async (req, res, next) => {
+  try {
+    console.log(req.body);
 
-//PUT /user
-router.put('/', requireToken, async (req, res, next) => {
-  const { email, password, firstname, lastname } = req.body;
+    const { email, password, firstName, lastName, monthlyIncome } = req.body;
 
+    const updatedUser = await req.user.update({
+      email,
+      password,
+      firstName,
+      lastName,
+      monthlyIncome,
+    });
 
-})
+    res.send(updatedUser).status(202);
+  } catch (error) {
+    next(error);
+  }
+});
