@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { models: { User }} = require('../db')
+const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -18,4 +19,8 @@ router.get('/', async (req, res, next) => {
 
 
 //PUT /user
-router.put('/', async ())
+router.put('/', requireToken, async (req, res, next) => {
+  const { email, password, firstname, lastname } = req.body;
+
+
+})
