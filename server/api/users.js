@@ -15,3 +15,7 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+
+//PUT /user
+router.put('/', async ())

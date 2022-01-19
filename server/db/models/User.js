@@ -7,6 +7,22 @@ const axios = require('axios');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isEmail: true,
+    },
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -21,22 +37,6 @@ const User = db.define('user', {
       notEmpty: true,
     },
   },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      isEmail: true,
-    },
-  },
   monthlyIncome: {
     type: Sequelize.DECIMAL(10,2),
     allowNull: false,
@@ -44,7 +44,11 @@ const User = db.define('user', {
       notEmpty: true,
       min: 0
     },
-  }
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 
 })
 
@@ -65,10 +69,10 @@ User.prototype.generateToken = function() {
 /**
  * classMethods
  */
-User.authenticate = async function({ username, password }){
-    const user = await this.findOne({where: { username }})
+User.authenticate = async function({ email, password }){
+    const user = await this.findOne({where: { email }})
     if (!user || !(await user.correctPassword(password))) {
-      const error = Error('Incorrect username/password');
+      const error = Error('Incorrect email/password');
       error.status = 401;
       throw error;
     }

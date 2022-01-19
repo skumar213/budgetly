@@ -3,19 +3,16 @@ import history from '../history'
 
 const TOKEN = 'token'
 
-/**
- * ACTION TYPES
- */
+
+//ACTION TYPES
 const SET_AUTH = 'SET_AUTH'
 
-/**
- * ACTION CREATORS
- */
+
+//ACTION CREATORS
 const setAuth = auth => ({type: SET_AUTH, auth})
 
-/**
- * THUNK CREATORS
- */
+
+//THUNK CREATORS
 export const me = () => async dispatch => {
   const token = window.localStorage.getItem(TOKEN)
   if (token) {
@@ -28,9 +25,9 @@ export const me = () => async dispatch => {
   }
 }
 
-export const authenticate = (username, password, method) => async dispatch => {
+export const authenticate = (email, password, method, firstName, lastName, monthlyIncome) => async dispatch => {
   try {
-    const res = await axios.post(`/auth/${method}`, {username, password})
+    const res = await axios.post(`/auth/${method}`, {email, password, firstName, lastName, monthlyIncome})
     window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
   } catch (authError) {
@@ -47,9 +44,8 @@ export const logout = () => {
   }
 }
 
-/**
- * REDUCER
- */
+
+//REDUCER
 export default function(state = {}, action) {
   switch (action.type) {
     case SET_AUTH:

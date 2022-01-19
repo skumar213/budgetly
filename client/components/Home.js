@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const Home = props => {
-  const username = useSelector(state => state.auth.username);
+  const firstName = useSelector(state => state.auth.firstName);
 
   return (
     <div>
-      <h3>Welcome, {username}</h3>
+      <h3>Welcome, {firstName}</h3>
     </div>
   );
 };

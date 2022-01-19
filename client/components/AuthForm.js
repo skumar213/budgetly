@@ -8,19 +8,19 @@ export const Login = () => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    const username = evt.target.username.value;
+    const email = evt.target.email.value.toLowerCase();
     const password = evt.target.password.value;
-    dispatch(authenticate(username, password, "login"));
+    dispatch(authenticate(email, password, "login"));
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">
-            <small>Username</small>
+          <label htmlFor="email">
+            <small>Email</small>
           </label>
-          <input name="username" type="text" />
+          <input name="email" type="text" />
         </div>
         <div>
           <label htmlFor="password">
@@ -43,25 +43,56 @@ export const Signup = () => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    const username = evt.target.username.value;
+    const firstName = evt.target.firstName.value;
+    const lastName = evt.target.lastName.value;
+    const email = evt.target.email.value.toLowerCase();
     const password = evt.target.password.value;
-    dispatch(authenticate(username, password, "signup"));
+    const monthlyIncome = evt.target.monthlyIncome.value;
+
+    dispatch(
+      authenticate(
+        email,
+        password,
+        "signup",
+        firstName,
+        lastName,
+        monthlyIncome
+      )
+    );
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">
-            <small>Username</small>
+          <label htmlFor="firstName">
+            <small>First Name</small>
           </label>
-          <input name="username" type="text" />
+          <input name="firstName" type="text" />
+        </div>
+        <div>
+          <label htmlFor="lastName">
+            <small>Last Name</small>
+          </label>
+          <input name="lastName" type="text" />
+        </div>
+        <div>
+          <label htmlFor="email">
+            <small>Email</small>
+          </label>
+          <input name="email" type="text" />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
           <input name="password" type="password" />
+        </div>
+        <div>
+          <label htmlFor="monthlyIncome">
+            <small>Monthly Income</small>
+          </label>
+          <input name="monthlyIncome" type="number" />
         </div>
         <div>
           <button type="submit">Login</button>
