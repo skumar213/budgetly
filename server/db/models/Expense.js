@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-const Expense = db.define('expense', {
+const Expense = db.define("expense", {
   merchant: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -10,7 +10,7 @@ const Expense = db.define('expense', {
     },
   },
   amount: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL(10,2),
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -21,21 +21,19 @@ const Expense = db.define('expense', {
     allowNull: false,
     validate: {
       notEmpty: true,
+      isDate: true,
     },
   },
   paidDate: {
     type: Sequelize.DATEONLY,
-    allowNull: false,
     validate: {
-      notEmpty: true,
+      isDate: true,
     },
   },
   isRepeat: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
+});
 
-
-})
-
-module.exports = Expense
+module.exports = Expense;
