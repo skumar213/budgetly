@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { User, Expense },
+  models: { User, Expense, Category },
 } = require("../db");
 const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router;
@@ -23,25 +23,73 @@ router.get("/", requireToken, async (req, res, next) => {
   }
 });
 
-
 //PUT /expenses, updates a single expense for a user
 router.put("/", requireToken, async (req, res, next) => {
   try {
     const userExpense = await Expense.findOne({
       where: {
-        id: req.body.id
+        id: req.body.id,
       },
       include: {
         model: User,
         where: {
-          id: req.user.id
-        }
-      }
-    })
+          id: req.user.id,
+        },
+      },
+    });
 
-    const updatedExpense = await userExpense.update(req.body)
+    if (req.body.category) {
+      const expCatName = req.body.category;
+      delete req.body.category;
 
-    res.send(updatedExpense);
+      const category = await Category.findOne({
+        where: {
+          name: expCatName,
+        },
+      });
+
+      await userExpense.setCategory(category);
+    }
+
+    const updatedExpense = await userExpense.update(req.body);
+
+    res.send(updatedExpense).status(202);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PUT /expenses, creates a single expense for a user
+router.post("/", requireToken, async (req, res, next) => {
+  try {
+    const expCatName = req.body.category;
+    delete req.body.category;
+
+    const newExpense = await Expense.create(req.body);
+    const category = await Category.findOne({
+      where: {
+        name: expCatName,
+      },
+    });
+    await newExpense.setCategory(category);
+
+    const user = await User.findByPk(req.user.id);
+    await user.addExpense(newExpense);
+
+    res.send(newExpense).status(201);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//DELETE /expenses, deletes expense for user
+router.delete("/", requireToken, async (req, res, next) => {
+  try {
+    const expense = await Expense.findByPk(req.body.id);
+
+    await expense.destroy();
+
+    res.sendStatus(202);
   } catch (error) {
     next(error);
   }

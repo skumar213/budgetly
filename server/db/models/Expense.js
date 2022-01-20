@@ -39,23 +39,21 @@ const Expense = db.define("expense", {
 //hooks
 
 Expense.beforeCreate(exp => {
-  const nameArr = exp.merchant.split(" ");
-  const properCasing = nameArr.map(word => {
-    return word[0].toUpperCase() + word.slice(1).toLowerCase();
-  });
-
-  exp.merchant = properCasing.join(" ");
+  exp.merchant = exp.merchant
+    .split(" ")
+    .map(word => {
+      return word[0].toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(" ");
 });
 
 Expense.beforeUpdate(exp => {
-  const nameArr = exp.merchant.split(" ");
-  const properCasing = nameArr.map(word => {
-    return word[0].toUpperCase() + word.slice(1).toLowerCase();
-  });
-
-  exp.merchant = properCasing.join(" ");
+  exp.merchant = exp.merchant
+    .split(" ")
+    .map(word => {
+      return word[0].toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(" ");
 });
-
-
 
 module.exports = Expense;
