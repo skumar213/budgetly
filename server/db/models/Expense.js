@@ -47,4 +47,15 @@ Expense.beforeCreate(exp => {
   exp.merchant = properCasing.join(" ");
 });
 
+Expense.beforeUpdate(exp => {
+  const nameArr = exp.merchant.split(" ");
+  const properCasing = nameArr.map(word => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  });
+
+  exp.merchant = properCasing.join(" ");
+});
+
+
+
 module.exports = Expense;
