@@ -12,6 +12,8 @@ Expense.belongsTo(User)
 Category.hasMany(Expense)
 Expense.belongsTo(Category)
 
+// console.log(Object.keys(User.prototype))
+
 
 module.exports = {
   db,

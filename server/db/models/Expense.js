@@ -10,7 +10,7 @@ const Expense = db.define("expense", {
     },
   },
   amount: {
-    type: Sequelize.DECIMAL(10,2),
+    type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -34,6 +34,17 @@ const Expense = db.define("expense", {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
+});
+
+//hooks
+
+Expense.beforeCreate(exp => {
+  const nameArr = exp.merchant.split(" ");
+  const properCasing = nameArr.map(word => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  });
+
+  exp.merchant = properCasing.join(" ");
 });
 
 module.exports = Expense;

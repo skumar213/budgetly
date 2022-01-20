@@ -22,8 +22,6 @@ router.get("/", async (req, res, next) => {
 //PUT /users
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    console.log(req.body);
-
     const { email, password, firstName, lastName, monthlyIncome } = req.body;
 
     const updatedUser = await req.user.update({
