@@ -16,7 +16,7 @@ const deleteExpense = expense => ({ type: DELETE_EXPENSE, expense });
 export const _getExpenses = expenses => async dispatch => {
   const expenses = await authenticateRequest("get", "/api/expenses");
 
-  dispatch(getExpenses(expenses));
+  dispatch(getExpenses(expenses.expenses));
 };
 
 export const _updateExpense = newExpInfo => async dispatch => {
@@ -71,6 +71,8 @@ export default function (state = [], action) {
     case SET_EXPENSES:
       return action.expenses;
     case UPDATE_EXPENSE:
+      console.log(state)
+
       const updatedExpenses = state.filter(exp => exp.id !== action.expense.id);
       updatedExpenses.push(action.expense);
       return updatedExpenses;

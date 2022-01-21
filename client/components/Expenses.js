@@ -10,7 +10,7 @@ import {
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const allExpenses = useSelector(state => state.expenses).expenses || [];
+  const allExpenses = useSelector(state => state.expenses) || [];
 
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
@@ -40,26 +40,39 @@ const UserProfile = () => {
     setDueDate(exp.dueDate);
     setPaidDate(exp.paidDate);
     setIsRepeat(exp.isRepeat);
-
   };
 
   const handleChange = evt => {
     const fn = legend[evt.target.name];
 
     fn(evt.target.value);
-
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    //In the handle submit remove the current id
 
+    const repeat = isRepeat === "Yes" ? true : false;
+    const paid = paidDate ? paidDate : "";
 
+    dispatch(
+      _updateExpense({
+        id: currentId,
+        merchant,
+        amount,
+        dueDate,
+        paidDate: paid,
+        isRepeat: repeat,
+      })
+    );
 
+    for (let key in legend) {
+      legend[key]("");
+    }
+
+    setCurrentId("")
   };
 
-
-  console.log(allExpenses);
+  console.log(allExpenses, currentId);
 
   return (
     <div>
@@ -72,25 +85,45 @@ const UserProfile = () => {
                   <label htmlFor="merchant">
                     <small>Merchant</small>
                   </label>
-                  <input name="merchant" type="text" value={exp.merchant} readOnly/>
+                  <input
+                    name="merchant"
+                    type="text"
+                    value={exp.merchant}
+                    readOnly
+                  />
                 </div>
                 <div>
                   <label htmlFor="amount">
                     <small>Amount</small>
                   </label>
-                  <input name="amount" type="text" value={exp.amount} readOnly/>
+                  <input
+                    name="amount"
+                    type="text"
+                    value={exp.amount}
+                    readOnly
+                  />
                 </div>
                 <div>
                   <label htmlFor="dueDate">
                     <small>dueDate</small>
                   </label>
-                  <input name="dueDate" type="text" value={exp.dueDate} readOnly/>
+                  <input
+                    name="dueDate"
+                    type="text"
+                    value={exp.dueDate}
+                    readOnly
+                  />
                 </div>
                 <div>
                   <label htmlFor="paidDate">
                     <small>paidDate</small>
                   </label>
-                  <input name="paidDate" type="paidDate" value={exp.paidDate ? exp.paidDate : ""} readOnly/>
+                  <input
+                    name="paidDate"
+                    type="paidDate"
+                    value={exp.paidDate ? exp.paidDate : ""}
+                    readOnly
+                  />
                 </div>
                 <div>
                   <label htmlFor="isRepeat">
@@ -104,13 +137,13 @@ const UserProfile = () => {
                   />
                 </div>
                 <div>
-                {!currentId ? (
-                  <button onClick={handleEdit(exp)}>Select to Edit</button>
-                ) : null}
-              </div>
+                  {!currentId ? (
+                    <button onClick={handleEdit(exp)}>Select to Edit</button>
+                  ) : null}
+                </div>
               </form>
             </div>
-          )
+          );
         } else {
           return (
             <div key={exp.id}>
@@ -119,19 +152,34 @@ const UserProfile = () => {
                   <label htmlFor="merchant">
                     <small>Merchant</small>
                   </label>
-                  <input name="merchant" type="text" value={merchant} onChange={handleChange}/>
+                  <input
+                    name="merchant"
+                    type="text"
+                    value={merchant}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div>
                   <label htmlFor="amount">
                     <small>Last Name</small>
                   </label>
-                  <input name="amount" type="text" value={amount} onChange={handleChange}/>
+                  <input
+                    name="amount"
+                    type="text"
+                    value={amount}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div>
                   <label htmlFor="dueDate">
                     <small>dueDate</small>
                   </label>
-                  <input name="dueDate" type="text" value={dueDate} onChange={handleChange}/>
+                  <input
+                    name="dueDate"
+                    type="text"
+                    value={dueDate}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div>
                   <label htmlFor="paidDate">
