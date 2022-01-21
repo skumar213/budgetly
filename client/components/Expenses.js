@@ -31,21 +31,33 @@ const UserProfile = () => {
     dispatch(_getExpenses());
   }, []);
 
-  const handleEdit = expId => evt => {
+  const handleEdit = exp => evt => {
     evt.preventDefault();
 
-    allExpenses.map(exp => {
-      if (exp.id === expId) {
-        exp.isForm = true;
-      }
+    setCurrentId(Number(exp.id));
+    setMerchant(exp.merchant);
+    setAmount(exp.amount);
+    setDueDate(exp.dueDate);
+    setPaidDate(exp.paidDate);
+    setIsRepeat(exp.isRepeat);
 
-      return exp;
-    });
-
-    setCurrentId(Number(expId));
   };
 
-  //In the handle submit you need to remove that property that tells it to be a form
+  const handleChange = evt => {
+    const fn = legend[evt.target.name];
+
+    fn(evt.target.value);
+
+  };
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    //In the handle submit remove the current id
+
+
+
+  };
+
 
   console.log(allExpenses);
 
@@ -55,56 +67,30 @@ const UserProfile = () => {
         if (currentId !== exp.id) {
           return (
             <div key={exp.id}>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>{exp.merchant}</td>
-                    <td>{exp.amount}</td>
-                    <td>{exp.dueDate}</td>
-                    <td>{exp.paidDate ? exp.paidDate : ""}</td>
-                    <td>{exp.isRepeat ? "Yes" : "No"}</td>
-                    <td>{exp.isForm ? "form" : ""}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div>
-                {!currentId ? (
-                  <button onClick={handleEdit(exp.id)}>Edit</button>
-                ) : null}
-              </div>
-            </div>
-          );
-        } else {
-          return (
-            <div key={exp.id}>
               <form>
                 <div>
                   <label htmlFor="merchant">
                     <small>Merchant</small>
                   </label>
-                  <input name="merchant" type="text" value={exp.merchant} />
+                  <input name="merchant" type="text" value={exp.merchant} readOnly/>
                 </div>
                 <div>
                   <label htmlFor="amount">
-                    <small>Last Name</small>
+                    <small>Amount</small>
                   </label>
-                  <input name="amount" type="text" value={exp.amount} />
+                  <input name="amount" type="text" value={exp.amount} readOnly/>
                 </div>
                 <div>
                   <label htmlFor="dueDate">
                     <small>dueDate</small>
                   </label>
-                  <input name="dueDate" type="text" value={exp.dueDate} />
+                  <input name="dueDate" type="text" value={exp.dueDate} readOnly/>
                 </div>
                 <div>
                   <label htmlFor="paidDate">
                     <small>paidDate</small>
                   </label>
-                  <input
-                    name="paidDate"
-                    type="paidDate"
-                    value={exp.paidDate ? exp.paidDate : ""}
-                  />
+                  <input name="paidDate" type="paidDate" value={exp.paidDate ? exp.paidDate : ""} readOnly/>
                 </div>
                 <div>
                   <label htmlFor="isRepeat">
@@ -114,10 +100,63 @@ const UserProfile = () => {
                     name="isRepeat"
                     type="text"
                     value={exp.isRepeat ? "Yes" : "No"}
+                    readOnly
                   />
                 </div>
                 <div>
-                  <button type="submit">Edit</button>
+                {!currentId ? (
+                  <button onClick={handleEdit(exp)}>Select to Edit</button>
+                ) : null}
+              </div>
+              </form>
+            </div>
+          )
+        } else {
+          return (
+            <div key={exp.id}>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="merchant">
+                    <small>Merchant</small>
+                  </label>
+                  <input name="merchant" type="text" value={merchant} onChange={handleChange}/>
+                </div>
+                <div>
+                  <label htmlFor="amount">
+                    <small>Last Name</small>
+                  </label>
+                  <input name="amount" type="text" value={amount} onChange={handleChange}/>
+                </div>
+                <div>
+                  <label htmlFor="dueDate">
+                    <small>dueDate</small>
+                  </label>
+                  <input name="dueDate" type="text" value={dueDate} onChange={handleChange}/>
+                </div>
+                <div>
+                  <label htmlFor="paidDate">
+                    <small>paidDate</small>
+                  </label>
+                  <input
+                    name="paidDate"
+                    type="paidDate"
+                    value={paidDate ? paidDate : ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="isRepeat">
+                    <small>Repeat</small>
+                  </label>
+                  <input
+                    name="isRepeat"
+                    type="text"
+                    value={isRepeat ? "Yes" : "No"}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <button type="submit">Update</button>
                 </div>
               </form>
             </div>
@@ -174,4 +213,14 @@ export default UserProfile;
             </form>
           </div>
         )
+*/
+
+/*
+
+<div>
+                {!currentId ? (
+                  <button onClick={handleEdit(exp.id)}>Edit</button>
+                ) : null}
+              </div>
+
 */
