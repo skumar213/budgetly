@@ -51,11 +51,10 @@ export const _deleteExpense = exp => async dispatch => {
   try {
     const deleteConfirmation = await authenticateRequest(
       "delete",
-      "/api/expense",
-      exp
+      `/api/expenses/${exp.id}`
     );
 
-    if (deleteConfirmation === 202) {
+    if (deleteConfirmation.status === 202) {
       dispatch(deleteExpense(exp));
     } else {
       throw new Error("Item not deleted");
@@ -71,7 +70,7 @@ export default function (state = [], action) {
     case SET_EXPENSES:
       return action.expenses;
     case UPDATE_EXPENSE:
-      console.log(state)
+      console.log(state);
 
       const updatedExpenses = state.filter(exp => exp.id !== action.expense.id);
       updatedExpenses.push(action.expense);

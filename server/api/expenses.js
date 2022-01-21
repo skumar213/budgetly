@@ -83,9 +83,9 @@ router.post("/", requireToken, async (req, res, next) => {
 });
 
 //DELETE /expenses, deletes expense for user
-router.delete("/", requireToken, async (req, res, next) => {
+router.delete("/:expId", requireToken, async (req, res, next) => {
   try {
-    const expense = await Expense.findByPk(req.body.id);
+    const expense = await Expense.findByPk(req.params.expId);
 
     await expense.destroy();
 

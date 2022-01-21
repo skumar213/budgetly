@@ -25,6 +25,7 @@ const UserProfile = () => {
     dueDate: setDueDate,
     paidDate: setPaidDate,
     isRepeat: setIsRepeat,
+    currentId: setCurrentId,
   };
 
   useEffect(() => {
@@ -68,11 +69,14 @@ const UserProfile = () => {
     for (let key in legend) {
       legend[key]("");
     }
-
-    setCurrentId("")
   };
 
-  console.log(allExpenses, currentId);
+  const handleDelete = exp => evt => {
+    evt.preventDefault();
+
+
+    dispatch(_deleteExpense(exp))
+  };
 
   return (
     <div>
@@ -139,6 +143,11 @@ const UserProfile = () => {
                 <div>
                   {!currentId ? (
                     <button onClick={handleEdit(exp)}>Select to Edit</button>
+                  ) : null}
+                </div>
+                <div>
+                  {!currentId ? (
+                    <button onClick={handleDelete(exp)}>Delete</button>
                   ) : null}
                 </div>
               </form>
