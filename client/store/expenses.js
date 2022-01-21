@@ -7,19 +7,19 @@ const CREATE_EXPENSE = "CREATE_EXPENSE";
 const DELETE_EXPENSE = "DELETE_EXPENSE";
 
 //ACTION CREATORS
-const setExpenses = expenses => ({ type: SET_EXPENSES, expenses });
+const getExpenses = expenses => ({ type: SET_EXPENSES, expenses });
 const updateExpense = expense => ({ type: UPDATE_EXPENSE, expense });
 const createExpense = expense => ({ type: CREATE_EXPENSE, expense });
 const deleteExpense = expense => ({ type: DELETE_EXPENSE, expense });
 
 //THUNK CREATORS
-export const _setExpenses = expenses => {
+export const _getExpenses = expenses => async dispatch => {
   const expenses = await authenticateRequest("get", "/api/expenses");
 
-  dispatch(setExpenses(expenses));
+  dispatch(getExpenses(expenses));
 };
 
-export const _updateExpenses = newExpInfo => async dispatch => {
+export const _updateExpense = newExpInfo => async dispatch => {
   try {
     const updatedExpense = await authenticateRequest(
       "put",

@@ -20,6 +20,7 @@ const Navbar = () => {
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
             <Link to='/user'>Profile</Link>
+            <Link to='/expenses'>Expenses</Link>
             <a href="#" onClick={handleClick}>
               Logout
             </a>

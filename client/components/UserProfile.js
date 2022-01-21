@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { _updateUser } from "../store";
+import { _updateUser } from "../store/auth";
 import history from "../history";
 
 const UserProfile = () => {
