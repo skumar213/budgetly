@@ -53,18 +53,24 @@ const UserProfile = () => {
     evt.preventDefault();
 
     const repeat = isRepeat === "Yes" ? true : false;
-    const paid = paidDate ? paidDate : "";
+    const expToUpdate = paidDate
+      ? {
+          id: currentId,
+          merchant,
+          amount,
+          dueDate,
+          paidDate,
+          isRepeat: repeat,
+        }
+      : {
+          id: currentId,
+          merchant,
+          amount,
+          dueDate,
+          isRepeat: repeat,
+        };
 
-    dispatch(
-      _updateExpense({
-        id: currentId,
-        merchant,
-        amount,
-        dueDate,
-        paidDate: paid,
-        isRepeat: repeat,
-      })
-    );
+    dispatch(_updateExpense(expToUpdate));
 
     for (let key in legend) {
       legend[key]("");
@@ -74,8 +80,7 @@ const UserProfile = () => {
   const handleDelete = exp => evt => {
     evt.preventDefault();
 
-
-    dispatch(_deleteExpense(exp))
+    dispatch(_deleteExpense(exp));
   };
 
   return (
