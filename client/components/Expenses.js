@@ -83,8 +83,19 @@ const UserProfile = () => {
     dispatch(_deleteExpense(exp));
   };
 
+  const handleCancel = evt => {
+    evt.preventDefault();
+
+    for (let key in legend) {
+      legend[key]("");
+    }
+  };
+
   return (
     <div>
+      <div>Add</div>
+      <hr></hr>
+
       {allExpenses.map(exp => {
         if (currentId !== exp.id) {
           return (
@@ -219,6 +230,9 @@ const UserProfile = () => {
                 </div>
                 <div>
                   <button type="submit">Update</button>
+                </div>
+                <div>
+                  <button onClick={handleCancel}>Cancel</button>
                 </div>
               </form>
             </div>
