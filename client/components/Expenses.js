@@ -12,9 +12,12 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const allExpenses = useSelector(state => state.expenses) || [];
 
+  console.log(allExpenses)
+
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
   const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [paidDate, setPaidDate] = useState("");
   const [isRepeat, setIsRepeat] = useState("");
@@ -23,6 +26,7 @@ const UserProfile = () => {
   const legend = {
     merchant: setMerchant,
     amount: setAmount,
+    category: setCategory,
     dueDate: setDueDate,
     paidDate: setPaidDate,
     isRepeat: setIsRepeat,
@@ -34,7 +38,7 @@ const UserProfile = () => {
     for (let key in legend) {
       legend[key]("");
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(_getExpenses());
@@ -46,6 +50,7 @@ const UserProfile = () => {
     setCurrentId(Number(exp.id));
     setMerchant(exp.merchant);
     setAmount(exp.amount);
+    setCategory(exp.category.name)
     setDueDate(exp.dueDate);
     setPaidDate(exp.paidDate);
     setIsRepeat(exp.isRepeat);
@@ -64,22 +69,15 @@ const UserProfile = () => {
   const handleUpdateSubmit = evt => {
     evt.preventDefault();
 
-    const expToUpdate = paidDate
-      ? {
-          id: currentId,
-          merchant,
-          amount,
-          dueDate,
-          paidDate,
-          isRepeat
-        }
-      : {
-          id: currentId,
-          merchant,
-          amount,
-          dueDate,
-          isRepeat
-        };
+    const expToUpdate = {
+      id: currentId,
+      merchant,
+      amount,
+      category,
+      dueDate,
+      paidDate: paidDate ? paidDate : null,
+      isRepeat,
+    };
 
     dispatch(_updateExpense(expToUpdate));
 
@@ -101,23 +99,14 @@ const UserProfile = () => {
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
-    const repeat = isRepeat === "Yes" ? true : false;
-    const newExp = paidDate
-      ? {
-          id: currentId,
-          merchant,
-          amount,
-          dueDate,
-          paidDate,
-          isRepeat: repeat,
-        }
-      : {
-          id: currentId,
-          merchant,
-          amount,
-          dueDate,
-          isRepeat: repeat,
-        };
+    const newExp = {
+      merchant,
+      amount,
+      category,
+      dueDate,
+      paidDate: paidDate ? paidDate : null,
+      isRepeat: isRepeat ? true : false,
+    };
 
     dispatch(_createExpense(newExp));
 
@@ -129,7 +118,6 @@ const UserProfile = () => {
 
     setIsCreate(true);
   };
-
 
   return (
     <div>
@@ -158,7 +146,7 @@ const UserProfile = () => {
               </div>
               <div>
                 <label htmlFor="amount">
-                  <small>Last Name</small>
+                  <small>Amount</small>
                 </label>
                 <input
                   name="amount"
@@ -206,6 +194,7 @@ const UserProfile = () => {
               <div>
                 <button onClick={handleCancel}>Cancel</button>
               </div>
+              <hr></hr>
             </form>
           </div>
         ) : null}
@@ -235,6 +224,17 @@ const UserProfile = () => {
                     name="amount"
                     type="text"
                     value={exp.amount}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="category">
+                    <small>Category</small>
+                  </label>
+                  <input
+                    name="category"
+                    type="text"
+                    value={exp.category.name}
                     readOnly
                   />
                 </div>
@@ -301,12 +301,23 @@ const UserProfile = () => {
                 </div>
                 <div>
                   <label htmlFor="amount">
-                    <small>Last Name</small>
+                    <small>Amount</small>
                   </label>
                   <input
                     name="amount"
                     type="text"
                     value={amount}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="category">
+                    <small>Category</small>
+                  </label>
+                  <input
+                    name="category"
+                    type="text"
+                    value={category}
                     onChange={handleChange}
                   />
                 </div>

@@ -14,6 +14,9 @@ router.get("/", requireToken, async (req, res, next) => {
       },
       include: {
         model: Expense,
+        include: {
+          model: Category,
+        },
       },
     });
 
