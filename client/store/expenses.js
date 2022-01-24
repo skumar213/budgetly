@@ -70,8 +70,6 @@ export default function (state = [], action) {
     case SET_EXPENSES:
       return action.expenses;
     case UPDATE_EXPENSE:
-      console.log(state);
-
       const updatedExpenses = state.filter(exp => exp.id !== action.expense.id);
       updatedExpenses.push(action.expense);
       return updatedExpenses;
