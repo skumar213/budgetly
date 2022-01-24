@@ -30,6 +30,12 @@ const UserProfile = () => {
     isCreate: setIsCreate,
   };
 
+  const clearState = () => {
+    for (let key in legend) {
+      legend[key]("");
+    }
+  }
+
   useEffect(() => {
     dispatch(_getExpenses());
   }, []);
@@ -77,9 +83,7 @@ const UserProfile = () => {
 
     dispatch(_updateExpense(expToUpdate));
 
-    for (let key in legend) {
-      legend[key]("");
-    }
+    clearState();
   };
 
   const handleDelete = exp => evt => {
@@ -91,9 +95,7 @@ const UserProfile = () => {
   const handleCancel = evt => {
     evt.preventDefault();
 
-    for (let key in legend) {
-      legend[key]("");
-    }
+    clearState();
   };
 
   const handleCreateSubmit = evt => {
@@ -119,9 +121,7 @@ const UserProfile = () => {
 
     dispatch(_createExpense(newExp));
 
-    for (let key in legend) {
-      legend[key]("");
-    }
+    clearState();
   };
 
   const handleCreate = evt => {
@@ -130,7 +130,6 @@ const UserProfile = () => {
     setIsCreate(true);
   };
 
-  console.log(isRepeat);
 
   return (
     <div>
@@ -196,7 +195,7 @@ const UserProfile = () => {
                 </label>
                 <input
                   name="isRepeat"
-                  type="text"
+                  type="checkbox"
                   value={isRepeat}
                   onChange={handleChange}
                 />
