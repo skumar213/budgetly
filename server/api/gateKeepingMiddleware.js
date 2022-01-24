@@ -2,6 +2,11 @@ const {
   models: { User },
 } = require("../db");
 
+//change these as per you database. adminNameInDB is the column name
+//and adminType is the value
+const adminNameInDB = "isAdmin";
+const adminType = true; //this could be: true, admin, yes, etc
+
 //makes sure user is logged in
 const requireToken = async (req, res, next) => {
   try {
@@ -26,7 +31,7 @@ const isAdmin = (req, res, next) => {
     return;
   }
 
-  if (req.user.type !== "admin") {
+  if (req.user[adminNameInDB] !== adminType) {
     return res.sendStatus(403);
   } else {
     next();

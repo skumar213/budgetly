@@ -21,6 +21,7 @@ async function seed() {
       firstName: "cody",
       lastName: "pug",
       monthlyIncome: 4000.0,
+      isAdmin: true
     }),
     User.create({
       email: "murphy@gmail.com",
@@ -28,6 +29,7 @@ async function seed() {
       firstName: "murphy",
       lastName: "bulldog",
       monthlyIncome: 2000.0,
+      isAdmin: true
     }),
   ]);
 
