@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Category, Expense },
+  models: { User, Category, Expense, Budget },
 } = require("../server/db");
 
 /**
@@ -56,12 +56,27 @@ async function seed() {
     }),
   ]);
 
-  // Assigning user to expenses
+  // Creating Budgets
+  const budgets = await Promise.all([
+    Budget.create({amount: 1000, month: 1}),
+    Budget.create({amount: 2000, month: 1}),
+    Budget.create({amount: 3000, month: 1})
+  ])
+
+
+  // Assigning user to expenses and each expense to a category
   const user = await User.findByPk(1);
 
   for (let i = 0; i < expenses.length; i++) {
+    //setting category for expenses
     await expenses[i].setCategory(categories[i]);
+
+    //setting category for budgets
+    await budgets[i].setCategory(categories[1]);
+
+    //adding expenses and budgets to user
     await user.addExpense(expenses[i]);
+    await user.addBudget(budgets[i])
   }
 
   console.log(`seeded ${users.length} users`);

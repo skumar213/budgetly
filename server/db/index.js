@@ -6,7 +6,6 @@ const Expense = require('./models/Expense')
 const Budget = require('./models/Budget')
 
 //model associations
-
 User.hasMany(Expense)
 Expense.belongsTo(User)
 
