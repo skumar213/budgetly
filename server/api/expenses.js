@@ -29,8 +29,6 @@ router.get("/", requireToken, async (req, res, next) => {
 //PUT /expenses, updates a single expense for a user
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    let newCategory;
-
     const userExpense = await Expense.findOne({
       where: {
         id: req.body.id,
@@ -58,11 +56,27 @@ router.put("/", requireToken, async (req, res, next) => {
         },
       });
 
-      newCategory = await userExpense.setCategory(category);
+      await userExpense.setCategory(category);
     }
 
-    const updatedExpense = await userExpense.update(req.body);
-    updatedExpense.category = newCategory;
+    await userExpense.update(req.body);
+
+    const updatedExpense = await Expense.findOne({
+      where: {
+        id: req.body.id,
+      },
+      include: [
+        {
+          model: User,
+          where: {
+            id: req.user.id,
+          },
+        },
+        {
+          model: Category,
+        },
+      ],
+    });
 
     res.send(updatedExpense).status(202);
   } catch (error) {

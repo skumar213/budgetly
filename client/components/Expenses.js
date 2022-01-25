@@ -11,8 +11,15 @@ import { _getCategories } from "../store/categories";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const allExpenses = useSelector(state => state.expenses) || [];
+  const allExpenses =
+    useSelector(state => state.expenses).sort((a, b) => {
+      if (a.merchant < b.merchant) return -1;
+      if (a.merchant > b.merchant) return 1;
+      return 0;
+    }) || [];
   const allCategories = useSelector(state => state.categories) || [];
+
+  console.log(allExpenses);
 
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
