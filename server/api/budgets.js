@@ -91,7 +91,6 @@ router.post("/", requireToken, async (req, res, next) => {
 
     const newBudget = await Budget.create(req.body);
 
-
     const category = await Category.findOne({
       where: {
         name: expCatName,
@@ -99,11 +98,11 @@ router.post("/", requireToken, async (req, res, next) => {
     });
 
     const user = await User.findByPk(req.user.id);
-    console.log(user)
+    console.log(user);
 
     await user.addBudget(newBudget);
 
-    await newBudget.setCategory(category)
+    await newBudget.setCategory(category);
 
     const budgetWithCategory = await Budget.findOne({
       where: {
@@ -122,8 +121,19 @@ router.post("/", requireToken, async (req, res, next) => {
       ],
     });
 
-
     res.send(budgetWithCategory).status(201);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:budId", requireToken, async (req, res, next) => {
+  try {
+    const budget = await Budget.findByPk(req.params.budId);
+
+    await budget.destroy();
+
+    res.sendStatus(202);
   } catch (error) {
     next(error);
   }
