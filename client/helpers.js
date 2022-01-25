@@ -1,5 +1,4 @@
 //For sorting all items arrays
-
 export const sortSingle = (arr, name) => {
   return (
     arr.sort((a, b) => {
@@ -10,7 +9,6 @@ export const sortSingle = (arr, name) => {
   );
 };
 
-
 export const sortDouble = (arr, name, subName) => {
   return (
     arr.sort((a, b) => {
@@ -20,3 +18,19 @@ export const sortDouble = (arr, name, subName) => {
     }) || []
   );
 };
+
+//Months
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

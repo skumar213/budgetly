@@ -17,12 +17,18 @@ const Expenses = () => {
       useSelector(state => state.expenses),
       "merchant"
     ) || [];
-    const allCategories =
+  const allCategories =
     sortSingle(
       useSelector(state => state.categories),
       "name"
     ) || [];
 
+  useEffect(() => {
+    dispatch(_getExpenses());
+    dispatch(_getCategories());
+  }, []);
+
+  //all states
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
   const [amount, setAmount] = useState("");
@@ -32,6 +38,7 @@ const Expenses = () => {
   const [isRepeat, setIsRepeat] = useState("");
   const [isCreate, setIsCreate] = useState("");
 
+  //legend to help call the setstate functions
   const legend = {
     merchant: setMerchant,
     amount: setAmount,
@@ -43,17 +50,32 @@ const Expenses = () => {
     isCreate: setIsCreate,
   };
 
+  //clear state helper
   const clearState = () => {
     for (let key in legend) {
       legend[key]("");
     }
   };
 
-  useEffect(() => {
-    dispatch(_getExpenses());
-    dispatch(_getCategories());
-  }, []);
+  //event handler for changing any form
+  const handleChange = evt => {
+    const fn = legend[evt.target.name];
 
+    if (evt.target.name === "isRepeat") {
+      fn(Boolean(evt.target.checked));
+    } else {
+      fn(evt.target.value);
+    }
+  };
+
+  //event handler for cancelling form edit
+  const handleCancel = evt => {
+    evt.preventDefault();
+
+    clearState();
+  };
+
+  //event handlers for UPDATE
   const handleEdit = exp => evt => {
     evt.preventDefault();
 
@@ -64,16 +86,6 @@ const Expenses = () => {
     setDueDate(exp.dueDate);
     setPaidDate(exp.paidDate);
     setIsRepeat(exp.isRepeat);
-  };
-
-  const handleChange = evt => {
-    const fn = legend[evt.target.name];
-
-    if (evt.target.name === "isRepeat") {
-      fn(Boolean(evt.target.checked));
-    } else {
-      fn(evt.target.value);
-    }
   };
 
   const handleUpdateSubmit = evt => {
@@ -94,18 +106,14 @@ const Expenses = () => {
     clearState();
   };
 
+  //event handler for DELETE
   const handleDelete = exp => evt => {
     evt.preventDefault();
 
     dispatch(_deleteExpense(exp));
   };
 
-  const handleCancel = evt => {
-    evt.preventDefault();
-
-    clearState();
-  };
-
+  //Event handler for CREATE
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
@@ -127,7 +135,7 @@ const Expenses = () => {
     evt.preventDefault();
 
     setIsCreate(true);
-    setCategory(allCategories[0].name)
+    setCategory(allCategories[0].name);
   };
 
   return (
