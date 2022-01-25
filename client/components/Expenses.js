@@ -19,8 +19,6 @@ const UserProfile = () => {
     }) || [];
   const allCategories = useSelector(state => state.categories) || [];
 
-  console.log(allExpenses);
-
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
   const [amount, setAmount] = useState("");
