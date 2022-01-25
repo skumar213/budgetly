@@ -8,21 +8,20 @@ import {
   _deleteExpense,
 } from "../store/expenses";
 import { _getCategories } from "../store/categories";
+import { sortSingle } from "../helpers";
 
 const Expenses = () => {
   const dispatch = useDispatch();
   const allExpenses =
-    useSelector(state => state.expenses).sort((a, b) => {
-      if (a.merchant < b.merchant) return -1;
-      if (a.merchant > b.merchant) return 1;
-      return 0;
-    }) || [];
-  const allCategories =
-    useSelector(state => state.categories).sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    }) || [];
+    sortSingle(
+      useSelector(state => state.expenses),
+      "merchant"
+    ) || [];
+    const allCategories =
+    sortSingle(
+      useSelector(state => state.categories),
+      "name"
+    ) || [];
 
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
