@@ -12,7 +12,7 @@ Expense.belongsTo(User)
 Category.hasMany(Expense)
 Expense.belongsTo(Category)
 
-// console.log(Object.keys(User.prototype))
+// console.log(Object.keys(Expense.prototype))
 
 
 module.exports = {

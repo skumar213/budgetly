@@ -96,12 +96,30 @@ router.post("/", requireToken, async (req, res, next) => {
         name: expCatName,
       },
     });
-    await newExpense.setCategory(category);
 
     const user = await User.findByPk(req.user.id);
     await user.addExpense(newExpense);
 
-    res.send(newExpense).status(201);
+    await newExpense.setCategory(category);
+
+    const expWithCategory = await Expense.findOne({
+      where: {
+        id: newExpense.id,
+      },
+      include: [
+        {
+          model: User,
+          where: {
+            id: req.user.id,
+          },
+        },
+        {
+          model: Category,
+        },
+      ],
+    });
+
+    res.send(expWithCategory).status(201);
   } catch (error) {
     next(error);
   }

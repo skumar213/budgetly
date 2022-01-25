@@ -17,7 +17,12 @@ const UserProfile = () => {
       if (a.merchant > b.merchant) return 1;
       return 0;
     }) || [];
-  const allCategories = useSelector(state => state.categories) || [];
+  const allCategories =
+    useSelector(state => state.categories).sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    }) || [];
 
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
@@ -123,6 +128,7 @@ const UserProfile = () => {
     evt.preventDefault();
 
     setIsCreate(true);
+    setCategory(allCategories[0].name)
   };
 
   return (
@@ -160,6 +166,24 @@ const UserProfile = () => {
                   value={amount}
                   onChange={handleChange}
                 />
+              </div>
+              <div>
+                <label htmlFor="category">
+                  <small>Category</small>
+                </label>
+                <select
+                  name="category"
+                  value={category}
+                  onChange={handleChange}
+                >
+                  {allCategories.map(cat => {
+                    return (
+                      <option value={cat.name} key={cat.id}>
+                        {cat.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div>
                 <label htmlFor="dueDate">

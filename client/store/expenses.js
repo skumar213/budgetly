@@ -75,7 +75,6 @@ export default function (state = [], action) {
       return action.expenses;
     case UPDATE_EXPENSE:
       const updatedExpenses = state.filter(exp => exp.id !== action.expense.id);
-
       return [...updatedExpenses, action.expense];
     case CREATE_EXPENSE:
       const newExpenses = [...state, action.expense];
