@@ -29,7 +29,6 @@ async function seed() {
       firstName: "murphy",
       lastName: "bulldog",
       monthlyIncome: 2000.0,
-      isAdmin: true
     }),
   ]);
 

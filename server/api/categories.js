@@ -5,7 +5,7 @@ const {
 const { requireToken, isAdmin } = require("./gateKeepingMiddleware");
 module.exports = router;
 
-router.get("/", requireToken, isAdmin, async (req, res, next) => {
+router.get("/", requireToken, async (req, res, next) => {
   try {
     const allCategories = await Category.findAll();
 

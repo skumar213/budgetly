@@ -7,12 +7,14 @@ import {
   _createExpense,
   _deleteExpense,
 } from "../store/expenses";
+import { _getCategories } from "../store/categories";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const allExpenses = useSelector(state => state.expenses) || [];
+  const allCategories = useSelector(state => state.categories) || [];
 
-  console.log(allExpenses)
+  console.log(allCategories);
 
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
@@ -42,6 +44,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(_getExpenses());
+    dispatch(_getCategories());
   }, []);
 
   const handleEdit = exp => evt => {
@@ -50,7 +53,7 @@ const UserProfile = () => {
     setCurrentId(Number(exp.id));
     setMerchant(exp.merchant);
     setAmount(exp.amount);
-    setCategory(exp.category.name)
+    setCategory(exp.category.name);
     setDueDate(exp.dueDate);
     setPaidDate(exp.paidDate);
     setIsRepeat(exp.isRepeat);
@@ -314,12 +317,19 @@ const UserProfile = () => {
                   <label htmlFor="category">
                     <small>Category</small>
                   </label>
-                  <input
+                  <select
                     name="category"
-                    type="text"
-                    value={category}
+                    defaultValue={category}
                     onChange={handleChange}
-                  />
+                  >
+                    {allCategories.map(cat => {
+                      return (
+                        <option value={cat.name} key={cat.id}>
+                          {cat.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div>
                   <label htmlFor="dueDate">
