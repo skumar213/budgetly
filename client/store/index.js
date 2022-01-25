@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import auth from './auth'
 import expenses from './expenses'
 import categories from './categories'
+import budgets from './budgets'
 
-const reducer = combineReducers({ auth, expenses, categories })
+const reducer = combineReducers({ auth, expenses, categories, budgets })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

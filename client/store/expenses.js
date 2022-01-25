@@ -15,9 +15,9 @@ const deleteExpense = expense => ({ type: DELETE_EXPENSE, expense });
 //THUNK CREATORS
 export const _getExpenses = () => async dispatch => {
   try {
-    const expenses = await authenticateRequest("get", "/api/expenses");
+    const userExpenses = await authenticateRequest("get", "/api/expenses");
 
-    dispatch(getExpenses(expenses.expenses));
+    dispatch(getExpenses(userExpenses.expenses));
   } catch (error) {
     console.log(error);
   }
