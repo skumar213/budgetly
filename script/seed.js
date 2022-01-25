@@ -21,7 +21,7 @@ async function seed() {
       firstName: "cody",
       lastName: "pug",
       monthlyIncome: 4000.0,
-      isAdmin: true
+      isAdmin: true,
     }),
     User.create({
       email: "murphy@gmail.com",
@@ -58,11 +58,10 @@ async function seed() {
 
   // Creating Budgets
   const budgets = await Promise.all([
-    Budget.create({amount: 1000, month: 1}),
-    Budget.create({amount: 2000, month: 1}),
-    Budget.create({amount: 3000, month: 1})
-  ])
-
+    Budget.create({ amount: 1000, month: 1 }),
+    Budget.create({ amount: 2000, month: 1 }),
+    Budget.create({ amount: 3000, month: 1 }),
+  ]);
 
   // Assigning user to expenses and each expense to a category
   const user = await User.findByPk(1);
@@ -72,11 +71,11 @@ async function seed() {
     await expenses[i].setCategory(categories[i]);
 
     //setting category for budgets
-    await budgets[i].setCategory(categories[1]);
+    await budgets[i].setCategory(categories[i]);
 
     //adding expenses and budgets to user
     await user.addExpense(expenses[i]);
-    await user.addBudget(budgets[i])
+    await user.addBudget(budgets[i]);
   }
 
   console.log(`seeded ${users.length} users`);
