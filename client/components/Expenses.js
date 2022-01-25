@@ -9,7 +9,7 @@ import {
 } from "../store/expenses";
 import { _getCategories } from "../store/categories";
 
-const UserProfile = () => {
+const Expenses = () => {
   const dispatch = useDispatch();
   const allExpenses =
     useSelector(state => state.expenses).sort((a, b) => {
@@ -406,60 +406,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
-
-/*
-(
-          <div key={exp.id}>
-            <form>
-              <div>
-                <label htmlFor="merchant">
-                  <small>Merchant</small>
-                </label>
-                <input name="merchant" type="text" value={exp.merchant} />
-              </div>
-              <div>
-                <label htmlFor="amount">
-                  <small>Last Name</small>
-                </label>
-                <input name="amount" type="text" value={exp.amount} />
-              </div>
-              <div>
-                <label htmlFor="dueDate">
-                  <small>dueDate</small>
-                </label>
-                <input name="dueDate" type="text" value={exp.dueDate} />
-              </div>
-              <div>
-                <label htmlFor="paidDate">
-                  <small>paidDate</small>
-                </label>
-                <input name="paidDate" type="paidDate" value={exp.paidDate ? exp.paidDate : ""} />
-              </div>
-              <div>
-                <label htmlFor="isRepeat">
-                  <small>Repeat</small>
-                </label>
-                <input
-                  name="isRepeat"
-                  type="text"
-                  value={exp.isRepeat ? "Yes" : "No"}
-                />
-              </div>
-              <div>
-                <button type="submit">Edit</button>
-              </div>
-            </form>
-          </div>
-        )
-*/
-
-/*
-
-<div>
-                {!currentId ? (
-                  <button onClick={handleEdit(exp.id)}>Edit</button>
-                ) : null}
-              </div>
-
-*/
+export default Expenses;

@@ -21,6 +21,7 @@ const Navbar = () => {
             <Link to="/home">Home</Link>
             <Link to='/user'>Profile</Link>
             <Link to='/expenses'>Expenses</Link>
+            <Link to='/budgets'>Budgets</Link>
             <a href="#" onClick={handleClick}>
               Logout
             </a>
