@@ -11,8 +11,6 @@ export const _getCategories = () => async dispatch => {
   try {
     const categories = await authenticateRequest("get", "/api/categories");
 
-    console.log(categories);
-
     dispatch(getCategories(categories));
   } catch (error) {
     console.log(error);

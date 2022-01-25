@@ -29,16 +29,23 @@ router.get("/", requireToken, async (req, res, next) => {
 //PUT /expenses, updates a single expense for a user
 router.put("/", requireToken, async (req, res, next) => {
   try {
+    let newCategory;
+
     const userExpense = await Expense.findOne({
       where: {
         id: req.body.id,
       },
-      include: {
-        model: User,
-        where: {
-          id: req.user.id,
+      include: [
+        {
+          model: User,
+          where: {
+            id: req.user.id,
+          },
         },
-      },
+        {
+          model: Category,
+        },
+      ],
     });
 
     if (req.body.category) {
@@ -51,10 +58,11 @@ router.put("/", requireToken, async (req, res, next) => {
         },
       });
 
-      await userExpense.setCategory(category);
+      newCategory = await userExpense.setCategory(category);
     }
 
     const updatedExpense = await userExpense.update(req.body);
+    updatedExpense.category = newCategory;
 
     res.send(updatedExpense).status(202);
   } catch (error) {
@@ -62,7 +70,7 @@ router.put("/", requireToken, async (req, res, next) => {
   }
 });
 
-//PUT /expenses, creates a single expense for a user
+//POST /expenses, creates a single expense for a user
 router.post("/", requireToken, async (req, res, next) => {
   try {
     const expCatName = req.body.category;

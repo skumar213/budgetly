@@ -14,8 +14,6 @@ const UserProfile = () => {
   const allExpenses = useSelector(state => state.expenses) || [];
   const allCategories = useSelector(state => state.categories) || [];
 
-  console.log(allCategories);
-
   const [currentId, setCurrentId] = useState("");
   const [merchant, setMerchant] = useState("");
   const [amount, setAmount] = useState("");
@@ -319,7 +317,7 @@ const UserProfile = () => {
                   </label>
                   <select
                     name="category"
-                    defaultValue={category}
+                    value={category}
                     onChange={handleChange}
                   >
                     {allCategories.map(cat => {
