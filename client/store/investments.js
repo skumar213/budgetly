@@ -37,7 +37,7 @@ export const _updateInvestment = newInvInfo => async dispatch => {
   }
 };
 
-export const _createinvestment = newInv => async dispatch => {
+export const _createInvestment = newInv => async dispatch => {
   try {
     const newInvestment = await authenticateRequest(
       "post",

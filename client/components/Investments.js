@@ -11,7 +11,7 @@ import { sortSingle } from "../helpers";
 
 const Investments = () => {
   const dispatch = useDispatch();
-  const allInvestments = useSelector(state => state.investments);
+  const allInvestments = sortSingle(useSelector(state => state.investments),'tickerSymbol');
 
   useEffect(() => {
     dispatch(_getInvestments());
@@ -21,6 +21,7 @@ const Investments = () => {
   const [currentId, setCurrentId] = useState("");
   const [tickerSymbol, setTickerSymbol] = useState("");
   const [buyPrice, setBuyPrice] = useState("");
+  const [totalShares, setTotalShares] = useState('')
   const [isCreate, setIsCreate] = useState("");
 
   //legend to help call the setstate functions
@@ -28,6 +29,7 @@ const Investments = () => {
     currentId: setCurrentId,
     tickerSymbol: setTickerSymbol,
     buyPrice: setBuyPrice,
+    totalShares: setTotalShares,
     isCreate: setIsCreate,
   };
 
@@ -54,11 +56,12 @@ const Investments = () => {
 
   //event handlers for UPDATE
   const handleEdit = inv => evt => {
-    inv.preventDefault();
+    evt.preventDefault();
 
     setCurrentId(Number(inv.id));
     setTickerSymbol(inv.tickerSymbol);
     setBuyPrice(inv.buyPrice);
+    setTotalShares(inv.totalShares)
   };
 
   const handleUpdateSubmit = evt => {
@@ -68,6 +71,7 @@ const Investments = () => {
       id: currentId,
       tickerSymbol,
       buyPrice,
+      totalShares
     };
 
     dispatch(_updateInvestment(invToUpdate));
@@ -89,6 +93,7 @@ const Investments = () => {
     const newInv = {
       tickerSymbol,
       buyPrice,
+      totalShares
     };
 
     dispatch(_createInvestment(newInv));
@@ -148,7 +153,7 @@ const Investments = () => {
                 <input
                   name="totalShares"
                   type="number"
-                  value={amount}
+                  value={totalShares}
                   onChange={handleChange}
                 />
               </div>
