@@ -23,7 +23,7 @@ User.hasMany(Investment);
 Investment.belongsTo(User);
 
 
-// console.log(Object.keys(Expense.prototype))
+// console.log(Object.keys(Investment.prototype))
 
 module.exports = {
   db,

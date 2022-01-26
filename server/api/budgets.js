@@ -128,9 +128,12 @@ router.delete("/:budId", requireToken, async (req, res, next) => {
   try {
     const budget = await Budget.findByPk(req.params.budId);
 
-    await budget.destroy();
-
-    res.sendStatus(202);
+    if (budget.userId !== req.user.id) {
+      throw new Error("Budget does not belong to current user");
+    } else {
+      await budget.destroy();
+      res.sendStatus(202);
+    }
   } catch (error) {
     next(error);
   }

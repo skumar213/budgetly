@@ -129,9 +129,13 @@ router.delete("/:expId", requireToken, async (req, res, next) => {
   try {
     const expense = await Expense.findByPk(req.params.expId);
 
-    await expense.destroy();
+    if (expense.userId !== req.user.id) {
+      throw new Error("Expense does not belong to current user");
+    } else {
+      await expense.destroy();
+      res.sendStatus(202);
+    }
 
-    res.sendStatus(202);
   } catch (error) {
     next(error);
   }
