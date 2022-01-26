@@ -37,6 +37,7 @@ const Expenses = () => {
   const [paidDate, setPaidDate] = useState("");
   const [isRepeat, setIsRepeat] = useState("");
   const [isCreate, setIsCreate] = useState("");
+  const [filterType, setFilterType] = useState("all");
 
   //legend to help call the setstate functions
   const legend = {
@@ -63,6 +64,8 @@ const Expenses = () => {
 
     if (evt.target.name === "isRepeat") {
       fn(Boolean(evt.target.checked));
+    } else if (evt.target.name === "sort") {
+      setFilterType(evt.target.value);
     } else {
       fn(evt.target.value);
     }
@@ -138,12 +141,39 @@ const Expenses = () => {
     setCategory(allCategories[0].name);
   };
 
+  const filteredExpenses = allExpenses.filter(exp => {
+    if (filterType === "paid") {
+      return exp.paidDate;
+    } else if (filterType === "outstanding") {
+      return !exp.paidDate;
+    } else {
+      return exp;
+    }
+  });
+
   return (
     <div>
       <>
         {!currentId && !isCreate ? (
           <div>
-            <button onClick={handleCreate}>Add New Expense</button> <hr></hr>
+            <div>
+              <button onClick={handleCreate}>Add New Expense</button>
+            </div>
+            <br></br>
+
+            <form>
+              <div>
+                <label htmlFor="sort">
+                  <strong>Sort</strong>
+                </label>
+                <select name="sort" onChange={handleChange}>
+                  <option value="all">All</option>
+                  <option value="outstanding">Outstanding</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
+            </form>
+            <hr></hr>
           </div>
         ) : null}
       </>
@@ -237,7 +267,7 @@ const Expenses = () => {
         ) : null}
       </>
 
-      {allExpenses.map(exp => {
+      {filteredExpenses.map(exp => {
         if (currentId !== exp.id) {
           return (
             <div key={exp.id}>
