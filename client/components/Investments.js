@@ -13,6 +13,7 @@ const Investments = () => {
   const dispatch = useDispatch();
   const allInvestments = sortSingle(useSelector(state => state.investments),'tickerSymbol');
 
+
   useEffect(() => {
     dispatch(_getInvestments());
   }, []);
