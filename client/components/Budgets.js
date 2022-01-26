@@ -53,6 +53,7 @@ const Budgets = () => {
   const currentRemainingBudget = (
     currentMonthlyIncome - currentTotalBudgetAmount
   ).toFixed(2);
+  const allocatedCategories = allBudgets.map(bud => bud.category.name);
 
   //all states
   const [currentMonth, setCurrentMonth] = useState({});
@@ -149,11 +150,13 @@ const Budgets = () => {
         <h2>{currentMonth.name}</h2>
         <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
         <h4>Remaining Budget for the month: ${currentRemainingBudget}</h4>
+        <hr></hr>
       </div>
-      <hr></hr>
 
       <>
-        {!currentId && !isCreate ? (
+        {!currentId &&
+        !isCreate &&
+        allocatedCategories.length !== allCategories.length ? (
           <div>
             <button onClick={handleCreate}>Add New Budget</button> <hr></hr>
           </div>
@@ -173,13 +176,15 @@ const Budgets = () => {
                   value={category}
                   onChange={handleChange}
                 >
-                  {allCategories.map(cat => {
-                    return (
-                      <option value={cat.name} key={cat.id}>
-                        {cat.name}
-                      </option>
-                    );
-                  })}
+                  {allCategories
+                    .filter(cat => !allocatedCategories.includes(cat.name))
+                    .map(cat => {
+                      return (
+                        <option value={cat.name} key={cat.id}>
+                          {cat.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div>

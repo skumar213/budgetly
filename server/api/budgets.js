@@ -98,10 +98,7 @@ router.post("/", requireToken, async (req, res, next) => {
     });
 
     const user = await User.findByPk(req.user.id);
-    console.log(user);
-
     await user.addBudget(newBudget);
-
     await newBudget.setCategory(category);
 
     const budgetWithCategory = await Budget.findOne({

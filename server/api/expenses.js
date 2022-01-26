@@ -99,7 +99,6 @@ router.post("/", requireToken, async (req, res, next) => {
 
     const user = await User.findByPk(req.user.id);
     await user.addExpense(newExpense);
-
     await newExpense.setCategory(category);
 
     const expWithCategory = await Expense.findOne({
