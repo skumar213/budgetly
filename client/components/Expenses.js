@@ -196,7 +196,7 @@ const Expenses = () => {
                 </label>
                 <input
                   name="amount"
-                  type="text"
+                  type="number"
                   value={amount}
                   onChange={handleChange}
                 />
@@ -286,7 +286,7 @@ const Expenses = () => {
                   </label>
                   <input
                     name="amount"
-                    type="text"
+                    type="number"
                     value={exp.amount}
                     readOnly
                   />
@@ -369,7 +369,7 @@ const Expenses = () => {
                   </label>
                   <input
                     name="amount"
-                    type="text"
+                    type="number"
                     value={amount}
                     onChange={handleChange}
                   />

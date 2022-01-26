@@ -193,7 +193,7 @@ const Budgets = () => {
                 </label>
                 <input
                   name="amount"
-                  type="text"
+                  type="number"
                   value={amount}
                   onChange={handleChange}
                 />
@@ -232,7 +232,7 @@ const Budgets = () => {
                   </label>
                   <input
                     name="amount"
-                    type="text"
+                    type="number"
                     value={bud.amount}
                     readOnly
                   />
@@ -278,7 +278,7 @@ const Budgets = () => {
                   </label>
                   <input
                     name="amount"
-                    type="text"
+                    type="number"
                     value={amount}
                     onChange={handleChange}
                   />
