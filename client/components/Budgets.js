@@ -59,6 +59,7 @@ const Budgets = () => {
     amount: setAmount,
     category: setCategory,
     amountRemaining: setamountRemaining,
+    isCreate: setIsCreate,
   };
 
   //clear state helper
@@ -115,9 +116,11 @@ const Budgets = () => {
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
+
     const newBud = {
       amount,
       category,
+      month: currentMonth.num
     };
 
     dispatch(_createBudget(newBud));
@@ -132,7 +135,147 @@ const Budgets = () => {
     setCategory(allCategories[0].name);
   };
 
-  return <div>Budgets</div>;
+  return (
+    <div>
+      <>
+        {!currentId && !isCreate ? (
+          <div>
+            <button onClick={handleCreate}>Add New Budget</button> <hr></hr>
+          </div>
+        ) : null}
+      </>
+
+      <>
+        {isCreate ? (
+          <div>
+            <form onSubmit={handleCreateSubmit}>
+              <div>
+                <label htmlFor="category">
+                  <small>Category</small>
+                </label>
+                <select
+                  name="category"
+                  value={category}
+                  onChange={handleChange}
+                >
+                  {allCategories.map(cat => {
+                    return (
+                      <option value={cat.name} key={cat.id}>
+                        {cat.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="amount">
+                  <small>Amount</small>
+                </label>
+                <input
+                  name="amount"
+                  type="text"
+                  value={amount}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <button type="submit">Add Budget</button>
+              </div>
+              <div>
+                <button onClick={handleCancel}>Cancel</button>
+              </div>
+              <hr></hr>
+            </form>
+          </div>
+        ) : null}
+      </>
+
+      {allBudgets.map(bud => {
+        if (currentId !== bud.id) {
+          return (
+            <div key={bud.id}>
+              <form>
+                <div>
+                  <label htmlFor="category">
+                    <small>Category</small>
+                  </label>
+                  <input
+                    name="category"
+                    type="text"
+                    value={bud.category.name}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="amount">
+                    <small>Amount</small>
+                  </label>
+                  <input
+                    name="amount"
+                    type="text"
+                    value={bud.amount}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  {!currentId && !isCreate ? (
+                    <button onClick={handleEdit(bud)}>Select to Edit</button>
+                  ) : null}
+                </div>
+                <div>
+                  {!currentId && !isCreate ? (
+                    <button onClick={handleDelete(bud)}>Delete</button>
+                  ) : null}
+                </div>
+              </form>
+            </div>
+          );
+        } else {
+          return (
+            <div key={bud.id}>
+              <form onSubmit={handleUpdateSubmit}>
+                <div>
+                  <label htmlFor="category">
+                    <small>Category</small>
+                  </label>
+                  <select
+                    name="category"
+                    value={category}
+                    onChange={handleChange}
+                  >
+                    {allCategories.map(cat => {
+                      return (
+                        <option value={cat.name} key={cat.id}>
+                          {cat.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="amount">
+                    <small>Amount</small>
+                  </label>
+                  <input
+                    name="amount"
+                    type="text"
+                    value={amount}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <button type="submit">Update</button>
+                </div>
+                <div>
+                  <button onClick={handleCancel}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          );
+        }
+      })}
+    </div>
+  );
 };
 
 export default Budgets;

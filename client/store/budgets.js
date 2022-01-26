@@ -46,6 +46,7 @@ export const _createBudget = newBud => async dispatch => {
       newBud
     );
 
+
     dispatch(createBudget(newBudget));
   } catch (error) {
     console.log(error);
