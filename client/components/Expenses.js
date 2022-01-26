@@ -162,16 +162,14 @@ const Expenses = () => {
             <br></br>
 
             <form>
-              <div>
-                <label htmlFor="sort">
-                  <strong>Sort</strong>
-                </label>
-                <select name="sort" onChange={handleChange}>
-                  <option value="all">All</option>
-                  <option value="outstanding">Outstanding</option>
-                  <option value="paid">Paid</option>
-                </select>
-              </div>
+              <label htmlFor="sort">
+                <strong>Sort</strong>
+              </label>
+              <select name="sort" onChange={handleChange}>
+                <option value="all">All</option>
+                <option value="outstanding">Outstanding</option>
+                <option value="paid">Paid</option>
+              </select>
             </form>
             <hr></hr>
           </div>
