@@ -145,7 +145,7 @@ const Budgets = () => {
       <div>
         <h2>{currentMonth.name}</h2>
         <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
-        <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
+        <h4>Remaining Buget for the month: ${currentRemainingBudget}</h4>
 
       </div>
       <hr></hr>
