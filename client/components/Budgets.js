@@ -45,6 +45,11 @@ const Budgets = () => {
     });
   }, []);
 
+  const currentMonthlyIncome = useSelector(state => state.auth.monthlyIncome)
+  const currentTotalBudgetAmount = allBudgets.reduce((accu, bud) => accu + parseFloat(bud.amount), 0)
+  const currentRemainingBudget = (currentMonthlyIncome - currentTotalBudgetAmount).toFixed(2);
+
+
   //all states
   const [currentMonth, setCurrentMonth] = useState({});
   const [currentId, setCurrentId] = useState("");
@@ -137,6 +142,14 @@ const Budgets = () => {
 
   return (
     <div>
+      <div>
+        <h2>{currentMonth.name}</h2>
+        <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
+        <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
+
+      </div>
+      <hr></hr>
+
       <>
         {!currentId && !isCreate ? (
           <div>

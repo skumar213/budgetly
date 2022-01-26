@@ -15,7 +15,7 @@ if(process.env.DATABASE_URL){
   config.dialectOptions = {
     ssl: {
       rejectUnauthorized: false
-    }
+    },
   };
 }
 
