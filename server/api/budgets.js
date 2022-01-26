@@ -5,7 +5,7 @@ const {
 const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router;
 
-//GET /budget, gets all current budgets for user
+//GET /budget, gets all budgets for user
 router.get("/", requireToken, async (req, res, next) => {
   try {
     const userBudgets = await User.findOne({

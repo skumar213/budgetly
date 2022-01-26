@@ -27,4 +27,15 @@ const Investment = db.define('investment', {
 })
 
 
+//hooks
+
+Investment.beforeCreate(inv => {
+  inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
+})
+
+Investment.beforeUpdate(inv => {
+  inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
+})
+
+
 module.exports = Investment

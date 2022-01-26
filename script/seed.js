@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Category, Expense, Budget },
+  models: { User, Category, Expense, Budget, Investment },
 } = require("../server/db");
 
 /**
@@ -63,7 +63,14 @@ async function seed() {
     Budget.create({ amount: 3000, month: 1 }),
   ]);
 
-  // Assigning user to expenses and each expense to a category
+  // Creating Investments
+  const investments = await Promise.all([
+    Investment.create({tickerSymbol: 'aapl', buyPrice: 160, totalShares: 2}),
+    Investment.create({tickerSymbol: 'tsla', buyPrice: 930, totalShares: 5}),
+    Investment.create({tickerSymbol: 'msft', buyPrice: 297, totalShares: 1})
+  ])
+
+  // Assigning user to expenses/investments and each expense to a category
   const user = await User.findByPk(1);
 
   for (let i = 0; i < expenses.length; i++) {
@@ -73,9 +80,10 @@ async function seed() {
     //setting category for budgets
     await budgets[i].setCategory(categories[i]);
 
-    //adding expenses and budgets to user
+    //adding expenses, investments, and budgets to user
     await user.addExpense(expenses[i]);
     await user.addBudget(budgets[i]);
+    await user.addInvestment(investments[i]);
   }
 
   console.log(`seeded ${users.length} users`);

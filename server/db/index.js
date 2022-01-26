@@ -4,7 +4,7 @@ const User = require("./models/User");
 const Category = require("./models/Category");
 const Expense = require("./models/Expense");
 const Budget = require("./models/Budget");
-const Investement = require("./models/Investment");
+const Investment = require("./models/Investment");
 
 //model associations
 User.hasMany(Expense);
@@ -19,8 +19,8 @@ Budget.belongsTo(User);
 Category.hasMany(Budget);
 Budget.belongsTo(Category);
 
-User.hasMany(Investement);
-Investement.belongsTo(User);
+User.hasMany(Investment);
+Investment.belongsTo(User);
 
 
 // console.log(Object.keys(Expense.prototype))
@@ -32,5 +32,6 @@ module.exports = {
     Category,
     Expense,
     Budget,
+    Investment
   },
 };
