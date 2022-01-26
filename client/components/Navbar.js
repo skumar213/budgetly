@@ -22,6 +22,7 @@ const Navbar = () => {
             <Link to='/user'>Profile</Link>
             <Link to='/expenses'>Expenses</Link>
             <Link to='/budgets'>Budgets</Link>
+            <Link to='/investments'>Investments</Link>
             <a href="#" onClick={handleClick}>
               Logout
             </a>
