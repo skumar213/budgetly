@@ -34,3 +34,6 @@ export const months = [
   "November",
   "December",
 ];
+
+//Yahoo finance api credential
+

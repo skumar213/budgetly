@@ -8,6 +8,8 @@ import {
   _deleteInvestment,
 } from "../store/investments";
 import { sortSingle } from "../helpers";
+var axios = require("axios").default;
+
 
 const Investments = () => {
   const dispatch = useDispatch();
@@ -65,8 +67,10 @@ const Investments = () => {
     setTotalShares(inv.totalShares)
   };
 
-  const handleUpdateSubmit = evt => {
+  const handleUpdateSubmit = async evt => {
     evt.preventDefault();
+
+    const correctTicker = authenticateRequest('get', `https://yfapi.net/v11/finance/quote/${tickerSymbol.toUpperCase()}`)
 
     const invToUpdate = {
       id: currentId,
