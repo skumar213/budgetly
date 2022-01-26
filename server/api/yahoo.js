@@ -17,18 +17,28 @@ const options = tickerSymbol => {
   };
 };
 
-//GET /yahoo/singleStock, will get the single stock that the user wants to add to their portfolio
-router.get("/stock/:tickerSymbol", async (req, res, next) => {
+//GET /yahoo/:tickerSymbol, will get a single or multiple stocks
+router.get("/:tickerSymbol", async (req, res, next) => {
   try {
     const symbolsArr = req.params.tickerSymbol.split(',')
     const params = options(req.params.tickerSymbol);
     const { data } = await axios.request(params);
     const stock = data.quoteResponse.result;
 
+    //Throw error if any of the stock names are wrong
     if (stock.length !== symbolsArr.length) {
       throw new Error("Invalid stock name");
     } else {
-      res.send(stock);
+      const mappedStock = stock.map(s => {
+        return {
+          symbol: s.symbol,
+          name: s.displayName,
+          currentPrice: s.regularMarketPrice
+        }
+      })
+
+
+      res.send(mappedStock);
     }
   } catch (error) {
     next(error);
