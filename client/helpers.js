@@ -5,7 +5,7 @@ export const sortSingle = (arr, name) => {
       if (a[name] < b[name]) return -1;
       if (a[name] > b[name]) return 1;
       return 0;
-    }) || []
+    })
   );
 };
 
@@ -15,7 +15,7 @@ export const sortDouble = (arr, name, subName) => {
       if (a[name][subName] < b[name][subName]) return -1;
       if (a[name][subName] > b[name]) return 1;
       return 0;
-    }) || []
+    })
   );
 };
 

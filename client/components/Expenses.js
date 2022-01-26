@@ -13,10 +13,11 @@ import { sortSingle } from "../helpers";
 const Expenses = () => {
   const dispatch = useDispatch();
   const allExpenses =
-    sortSingle(
-      useSelector(state => state.expenses),
-      "merchant"
-    ) || [];
+    useSelector(state => state.expenses).sort((a, b) => {
+      if (!a.paidDate) return -1;
+      if (!b.paidDate) return 1;
+      return 0;
+    }) || [];
   const allCategories =
     sortSingle(
       useSelector(state => state.categories),
