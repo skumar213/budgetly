@@ -13,11 +13,9 @@ import { sortSingle } from "../helpers";
 const Expenses = () => {
   const dispatch = useDispatch();
   const allExpenses =
-    useSelector(state => state.expenses).sort((a, b) => {
-      if (!a.paidDate) return -1;
-      if (!b.paidDate) return 1;
-      return 0;
-    }) || [];
+    sortSingle(useSelector(state => state.expenses),'dueDate') || [];
+
+
   const allCategories =
     sortSingle(
       useSelector(state => state.categories),
@@ -38,7 +36,7 @@ const Expenses = () => {
   const [paidDate, setPaidDate] = useState("");
   const [isRepeat, setIsRepeat] = useState("");
   const [isCreate, setIsCreate] = useState("");
-  const [filterType, setFilterType] = useState("all");
+  const [filterType, setFilterType] = useState("outstanding");
 
   //legend to help call the setstate functions
   const legend = {
@@ -166,7 +164,7 @@ const Expenses = () => {
               <label htmlFor="sort">
                 <strong>Sort</strong>
               </label>
-              <select name="sort" onChange={handleChange}>
+              <select name="sort" value={filterType} onChange={handleChange}>
                 <option value="all">All</option>
                 <option value="outstanding">Outstanding</option>
                 <option value="paid">Paid</option>
