@@ -45,10 +45,14 @@ const Budgets = () => {
     });
   }, []);
 
-  const currentMonthlyIncome = useSelector(state => state.auth.monthlyIncome)
-  const currentTotalBudgetAmount = allBudgets.reduce((accu, bud) => accu + parseFloat(bud.amount), 0)
-  const currentRemainingBudget = (currentMonthlyIncome - currentTotalBudgetAmount).toFixed(2);
-
+  const currentMonthlyIncome = useSelector(state => state.auth.monthlyIncome);
+  const currentTotalBudgetAmount = allBudgets.reduce(
+    (accu, bud) => accu + parseFloat(bud.amount),
+    0
+  );
+  const currentRemainingBudget = (
+    currentMonthlyIncome - currentTotalBudgetAmount
+  ).toFixed(2);
 
   //all states
   const [currentMonth, setCurrentMonth] = useState({});
@@ -121,11 +125,10 @@ const Budgets = () => {
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
-
     const newBud = {
       amount,
       category,
-      month: currentMonth.num
+      month: currentMonth.num,
     };
 
     dispatch(_createBudget(newBud));
@@ -145,8 +148,7 @@ const Budgets = () => {
       <div>
         <h2>{currentMonth.name}</h2>
         <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
-        <h4>Remaining Buget for the month: ${currentRemainingBudget}</h4>
-
+        <h4>Remaining Budget for the month: ${currentRemainingBudget}</h4>
       </div>
       <hr></hr>
 
