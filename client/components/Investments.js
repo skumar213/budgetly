@@ -10,12 +10,13 @@ import {
 import { sortSingle } from "../helpers";
 import { clearError } from "../store/errorHandler";
 
-
 const Investments = () => {
   const dispatch = useDispatch();
-  const allInvestments = sortSingle(useSelector(state => state.investments),'tickerSymbol');
-  const error = useSelector(state => state.errorHandler)
-
+  const allInvestments = sortSingle(
+    useSelector(state => state.investments),
+    "tickerSymbol"
+  );
+  const error = useSelector(state => state.errorHandler);
 
   useEffect(() => {
     dispatch(_getInvestments());
@@ -25,7 +26,7 @@ const Investments = () => {
   const [currentId, setCurrentId] = useState("");
   const [tickerSymbol, setTickerSymbol] = useState("");
   const [buyPrice, setBuyPrice] = useState("");
-  const [totalShares, setTotalShares] = useState('')
+  const [totalShares, setTotalShares] = useState("");
   const [isCreate, setIsCreate] = useState("");
 
   //legend to help call the setstate functions
@@ -61,12 +62,12 @@ const Investments = () => {
   //event handlers for UPDATE
   const handleEdit = inv => evt => {
     evt.preventDefault();
-    dispatch(clearError())
+    dispatch(clearError());
 
     setCurrentId(Number(inv.id));
     setTickerSymbol(inv.tickerSymbol);
     setBuyPrice(inv.buyPrice);
-    setTotalShares(inv.totalShares)
+    setTotalShares(inv.totalShares);
   };
 
   const handleUpdateSubmit = async evt => {
@@ -76,7 +77,7 @@ const Investments = () => {
       id: currentId,
       tickerSymbol,
       buyPrice,
-      totalShares
+      totalShares,
     };
 
     dispatch(_updateInvestment(invToUpdate));
@@ -84,13 +85,11 @@ const Investments = () => {
     clearState();
   };
 
-  console.log(error)
-
   //event handler for DELETE
   const handleDelete = inv => evt => {
     evt.preventDefault();
 
-    dispatch(clearError())
+    dispatch(clearError());
     dispatch(_deleteInvestment(inv));
   };
 
@@ -101,7 +100,7 @@ const Investments = () => {
     const newInv = {
       tickerSymbol,
       buyPrice,
-      totalShares
+      totalShares,
     };
 
     dispatch(_createInvestment(newInv));
@@ -112,11 +111,9 @@ const Investments = () => {
   const handleCreate = evt => {
     evt.preventDefault();
 
-    dispatch(clearError())
+    dispatch(clearError());
     setIsCreate(true);
   };
-
-
 
   return (
     <div>
@@ -132,7 +129,7 @@ const Investments = () => {
       </>
 
       <>
-      {error.error ? <div>{error.error} - Try Again</div> : null}
+        {error.error ? <div>{error.error} - Try Again</div> : null}
         {isCreate ? (
           <div>
             <form onSubmit={handleCreateSubmit}>
