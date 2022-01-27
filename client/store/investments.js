@@ -1,4 +1,6 @@
 import { authenticateRequest } from "./gateKeepingMiddleware";
+import axios from "axios";
+import { setError } from "./errorHandler";
 
 //ACTION TYPES
 const SET_INVESTMENTS = "SET_INVESTMENTS";
@@ -8,14 +10,26 @@ const DELETE_INVESTMENT = "DELETE_INVESTMENT";
 
 //ACTION CREATORS
 const getInvestments = investments => ({ type: SET_INVESTMENTS, investments });
-const updateInvestment = investment => ({ type: UPDATE_INVESTMENT, investment });
-const createInvestment = investment => ({ type: CREATE_INVESTMENT, investment });
-const deleteInvestment = investment => ({ type: DELETE_INVESTMENT, investment });
+const updateInvestment = investment => ({
+  type: UPDATE_INVESTMENT,
+  investment,
+});
+const createInvestment = investment => ({
+  type: CREATE_INVESTMENT,
+  investment,
+});
+const deleteInvestment = investment => ({
+  type: DELETE_INVESTMENT,
+  investment,
+});
 
 //THUNK CREATORS
 export const _getInvestments = () => async dispatch => {
   try {
-    const userInvestments = await authenticateRequest("get", "/api/investments");
+    const userInvestments = await authenticateRequest(
+      "get",
+      "/api/investments"
+    );
 
     dispatch(getInvestments(userInvestments.investments));
   } catch (error) {
@@ -25,20 +39,27 @@ export const _getInvestments = () => async dispatch => {
 
 export const _updateInvestment = newInvInfo => async dispatch => {
   try {
+    const stockSymbol = newInvInfo.tickerSymbol.toUpperCase();
+    const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
+
     const updatedInvestment = await authenticateRequest(
       "put",
       "/api/investments",
       newInvInfo
     );
-
     dispatch(updateInvestment(updatedInvestment));
   } catch (error) {
     console.log(error);
+    return dispatch(setError({error: error.response.data}))
   }
 };
 
 export const _createInvestment = newInv => async dispatch => {
   try {
+    const stockSymbol = newInv.tickerSymbol.toUpperCase();
+    const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
+
+
     const newInvestment = await authenticateRequest(
       "post",
       "/api/investments",
@@ -48,6 +69,7 @@ export const _createInvestment = newInv => async dispatch => {
     dispatch(createInvestment(newInvestment));
   } catch (error) {
     console.log(error);
+    return dispatch(setError({error: error.response.data}))
   }
 };
 
@@ -74,13 +96,17 @@ export default function (state = [], action) {
     case SET_INVESTMENTS:
       return action.investments;
     case UPDATE_INVESTMENT:
-      const updatedInvestments = state.filter(inv => inv.id !== action.investment.id);
+      const updatedInvestments = state.filter(
+        inv => inv.id !== action.investment.id
+      );
       return [...updatedInvestments, action.investment];
     case CREATE_INVESTMENT:
       const newInvestments = [...state, action.investment];
       return newInvestments;
     case DELETE_INVESTMENT:
-      const removedInvestments = state.filter(inv => inv.id !== action.investment.id);
+      const removedInvestments = state.filter(
+        inv => inv.id !== action.investment.id
+      );
       return removedInvestments;
     default:
       return state;

@@ -7,8 +7,9 @@ import expenses from './expenses'
 import categories from './categories'
 import budgets from './budgets'
 import investments from './investments'
+import errorHandler from './errorHandler'
 
-const reducer = combineReducers({ auth, expenses, categories, budgets, investments })
+const reducer = combineReducers({ auth, expenses, categories, budgets, investments, errorHandler })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

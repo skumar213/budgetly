@@ -8,12 +8,13 @@ import {
   _deleteInvestment,
 } from "../store/investments";
 import { sortSingle } from "../helpers";
-var axios = require("axios").default;
+import { clearError } from "../store/errorHandler";
 
 
 const Investments = () => {
   const dispatch = useDispatch();
   const allInvestments = sortSingle(useSelector(state => state.investments),'tickerSymbol');
+  const error = useSelector(state => state.errorHandler)
 
 
   useEffect(() => {
@@ -60,6 +61,7 @@ const Investments = () => {
   //event handlers for UPDATE
   const handleEdit = inv => evt => {
     evt.preventDefault();
+    dispatch(clearError())
 
     setCurrentId(Number(inv.id));
     setTickerSymbol(inv.tickerSymbol);
@@ -69,8 +71,6 @@ const Investments = () => {
 
   const handleUpdateSubmit = async evt => {
     evt.preventDefault();
-
-    const correctTicker = authenticateRequest('get', `https://yfapi.net/v11/finance/quote/${tickerSymbol.toUpperCase()}`)
 
     const invToUpdate = {
       id: currentId,
@@ -84,10 +84,13 @@ const Investments = () => {
     clearState();
   };
 
+  console.log(error)
+
   //event handler for DELETE
   const handleDelete = inv => evt => {
     evt.preventDefault();
 
+    dispatch(clearError())
     dispatch(_deleteInvestment(inv));
   };
 
@@ -109,8 +112,11 @@ const Investments = () => {
   const handleCreate = evt => {
     evt.preventDefault();
 
+    dispatch(clearError())
     setIsCreate(true);
   };
+
+
 
   return (
     <div>
@@ -126,6 +132,7 @@ const Investments = () => {
       </>
 
       <>
+      {error.error ? <div>{error.error} - Try Again</div> : null}
         {isCreate ? (
           <div>
             <form onSubmit={handleCreateSubmit}>

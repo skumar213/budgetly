@@ -3,10 +3,11 @@ const {
   models: { User },
 } = require("../db");
 const axios = require("axios").default;
+const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router;
 
 //Yahoo finance api settings
-const options = tickerSymbol => {
+const yahooOptions = tickerSymbol => {
   return {
     method: "GET",
     url: `https://yfapi.net/v6/finance/quote`,
@@ -20,23 +21,23 @@ const options = tickerSymbol => {
 //GET /yahoo/:tickerSymbol, will get a single or multiple stocks
 router.get("/:tickerSymbol", async (req, res, next) => {
   try {
-    const symbolsArr = req.params.tickerSymbol.split(',')
-    const params = options(req.params.tickerSymbol);
+    const symbolsArr = req.params.tickerSymbol.split(",");
+    const params = yahooOptions(req.params.tickerSymbol);
     const { data } = await axios.request(params);
     const stock = data.quoteResponse.result;
 
     //Throw error if any of the stock names are wrong
     if (stock.length !== symbolsArr.length) {
-      throw new Error("Invalid stock name");
+      const wrongNameError = new Error("Invalid Stock Ticker");
+      next(wrongNameError)
     } else {
       const mappedStock = stock.map(s => {
         return {
           symbol: s.symbol,
           name: s.displayName,
-          currentPrice: s.regularMarketPrice
-        }
-      })
-
+          currentPrice: s.regularMarketPrice,
+        };
+      });
 
       res.send(mappedStock);
     }
