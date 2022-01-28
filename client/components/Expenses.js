@@ -13,8 +13,10 @@ import { sortSingle } from "../helpers";
 const Expenses = () => {
   const dispatch = useDispatch();
   const allExpenses =
-    sortSingle(useSelector(state => state.expenses),'dueDate') || [];
-
+    sortSingle(
+      useSelector(state => state.expenses),
+      "dueDate"
+    ) || [];
 
   const allCategories =
     sortSingle(
@@ -93,6 +95,27 @@ const Expenses = () => {
   const handleUpdateSubmit = evt => {
     evt.preventDefault();
 
+    const oldPaidDate = allExpenses.filter(exp => exp.id === currentId)[0]
+      .paidDate;
+
+    const expToUpdateRepeat = {
+      id: currentId,
+      merchant,
+      amount,
+      category,
+      dueDate,
+      paidDate,
+      isRepeat: false
+    };
+
+    const expToCreateRepeat = {
+      merchant,
+      amount,
+      category,
+      dueDate,
+      isRepeat,
+    };
+
     const expToUpdate = {
       id: currentId,
       merchant,
@@ -103,7 +126,14 @@ const Expenses = () => {
       isRepeat,
     };
 
-    dispatch(_updateExpense(expToUpdate));
+    //creates a duplicate expense if its a repeat
+    if (paidDate && !oldPaidDate && isRepeat) {
+      dispatch(_updateExpense(expToUpdateRepeat));
+
+      dispatch(_createExpense(expToCreateRepeat));
+    } else {
+      dispatch(_updateExpense(expToUpdate));
+    }
 
     clearState();
   };

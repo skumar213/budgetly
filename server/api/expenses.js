@@ -135,7 +135,6 @@ router.delete("/:expId", requireToken, async (req, res, next) => {
       await expense.destroy();
       res.sendStatus(202);
     }
-
   } catch (error) {
     next(error);
   }
