@@ -98,6 +98,9 @@ const Expenses = () => {
     const oldPaidDate = allExpenses.filter(exp => exp.id === currentId)[0]
       .paidDate;
 
+    const currentDueDate = new Date(dueDate);
+    const newDueDate = currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+
     const expToUpdateRepeat = {
       id: currentId,
       merchant,
@@ -105,14 +108,14 @@ const Expenses = () => {
       category,
       dueDate,
       paidDate,
-      isRepeat: false
+      isRepeat: false,
     };
 
     const expToCreateRepeat = {
       merchant,
       amount,
       category,
-      dueDate,
+      dueDate: newDueDate,
       isRepeat,
     };
 
@@ -127,10 +130,14 @@ const Expenses = () => {
     };
 
     //creates a duplicate expense if its a repeat
+    //also will prevent setting repeat if its paid
     if (paidDate && !oldPaidDate && isRepeat) {
       dispatch(_updateExpense(expToUpdateRepeat));
 
       dispatch(_createExpense(expToCreateRepeat));
+    } else if (paidDate) {
+      delete expToUpdate.isRepeat;
+      dispatch(_updateExpense(expToUpdate));
     } else {
       dispatch(_updateExpense(expToUpdate));
     }
