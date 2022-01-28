@@ -156,6 +156,9 @@ const Expenses = () => {
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
+    const currentDueDate = new Date(dueDate);
+    const newDueDate = currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+
     const newExp = {
       merchant,
       amount,
@@ -165,7 +168,29 @@ const Expenses = () => {
       isRepeat: isRepeat ? true : false,
     };
 
-    dispatch(_createExpense(newExp));
+    const newExpPaid = {
+      merchant,
+      amount,
+      category,
+      dueDate,
+      paidDate: paidDate ? paidDate : null,
+    };
+
+    const newExpRepeat = {
+      merchant,
+      amount,
+      category,
+      dueDate: newDueDate,
+      isRepeat: isRepeat ? true : false,
+    };
+
+    //will if an expense is made with a paid date and repeat it will create a duplicate a month ahead without the paid date
+    if (paidDate && isRepeat) {
+      dispatch(_createExpense(newExpPaid));
+      dispatch(_createExpense(newExpRepeat));
+    } else {
+      dispatch(_createExpense(newExp));
+    }
 
     clearState();
   };
