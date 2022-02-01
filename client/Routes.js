@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
+import Dashboard from './components/Dashboard';
 import {me} from './store'
 import UserProfile from './components/UserProfile';
 import Expenses from './components/Expenses'
@@ -21,15 +21,15 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <div>
+      <div  id="content-wrapper" className="d-flex flex-column">
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route path="/dashboard" component={Dashboard} />
             <Route path='/user' component={UserProfile}/>
             <Route path='/expenses' component={Expenses}/>
             <Route path='/budgets' component={Budgets}/>
             <Route path='/investments' component={Investments}/>
-            <Redirect to="/home" />
+            <Redirect to="/dashboard" />
           </Switch>
         ) : (
           <Switch>
