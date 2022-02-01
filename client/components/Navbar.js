@@ -38,7 +38,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link active" to="/user">
-                <i className="fas fa-tachometer-alt"></i>
+                <i className="fas fa-user"></i>
                 <span>Profile</span>
               </Link>
             </li>
@@ -50,13 +50,13 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link active" to="/budgets">
-                <i className="fas fa-table"></i>
+                <i className="fas fa-align-right"></i>
                 <span>Budgets</span>
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link active" to="/investments">
-                <i className="fas fa-table"></i>
+                <i className="fas fa-area-chart"></i>
                 <span>Investments</span>
               </Link>
             </li>
