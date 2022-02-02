@@ -1,8 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { _getBudgets } from "../store/budgets";
+import { _getInvestments } from "../store/investments";
 
 const Dashboard = () => {
-  const firstName = useSelector(state => state.auth.firstName);
+  const dispatch = useDispatch();
+  const monthlyIncome = parseFloat(useSelector(state => state.auth.monthlyIncome));
+  const totalBudget = useSelector(state => state.budgets).reduce((accu, bud) => accu + parseFloat(bud.amount), 0)
+
+  useEffect(() => {
+    dispatch(_getBudgets())
+    dispatch(_getInvestments())
+  },[])
+
+  console.log(totalBudget)
+
 
   return (
     <div id="container-fluid">
@@ -17,7 +29,7 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-primary fw-bold text-xs mb-1">
-                      <span>Earnings (monthly)</span>
+                      <span>Total Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>$40,000</span>
@@ -36,7 +48,7 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-success fw-bold text-xs mb-1">
-                      <span>Earnings (annual)</span>
+                      <span>Remaining Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>$215,000</span>
@@ -55,7 +67,7 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-info fw-bold text-xs mb-1">
-                      <span>Earnings (monthly)</span>
+                      <span>Expected Expenses (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0 me-3">
                       <span>$40,000</span>
@@ -74,7 +86,7 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                      <span>Earnings (monthly)</span>
+                      <span>Total Portfolio Value</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>$40,000</span>
