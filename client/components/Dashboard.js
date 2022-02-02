@@ -21,8 +21,6 @@ const Dashboard = () => {
     dispatch(setDate())
   },[])
 
-  console.log(currentDate)
-
 
   console.log(allExpenses)
 
