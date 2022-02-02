@@ -9,7 +9,8 @@ import {
 } from "../store/budgets";
 import { _getCategories } from "../store/categories";
 import { _getExpenses } from "../store/expenses";
-import { sortSingle, sortDouble, months } from "../helpers";
+import { sortSingle, sortDouble } from "../helpers";
+import { setDate } from "../store/date";
 
 const Budgets = () => {
   const dispatch = useDispatch();
@@ -36,13 +37,7 @@ const Budgets = () => {
     dispatch(_getBudgets());
     dispatch(_getExpenses());
     dispatch(_getCategories());
-
-    const currentDate = new Date();
-
-    setCurrentMonth({
-      name: months[currentDate.getMonth()],
-      num: currentDate.getMonth() + 1,
-    });
+    dispatch(setDate());
   }, []);
 
   const currentMonthlyIncome = useSelector(state => state.auth.monthlyIncome);
@@ -55,8 +50,9 @@ const Budgets = () => {
   ).toFixed(2);
   const allocatedCategories = allBudgets.map(bud => bud.category.name);
 
+  const currentDate = useSelector(state => state.date)
+
   //all states
-  const [currentMonth, setCurrentMonth] = useState({});
   const [currentId, setCurrentId] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -129,7 +125,7 @@ const Budgets = () => {
     const newBud = {
       amount,
       category,
-      month: currentMonth.num,
+      month: currentDate.num,
     };
 
     dispatch(_createBudget(newBud));
@@ -147,7 +143,7 @@ const Budgets = () => {
   return (
     <div>
       <div>
-        <h2>{currentMonth.name}</h2>
+        <h2>{currentDate.name}</h2>
         <h4>Total Monthly Budget: ${currentMonthlyIncome}</h4>
         <h4>Remaining Budget for the month: ${currentRemainingBudget}</h4>
         <hr></hr>

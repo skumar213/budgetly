@@ -2,19 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _getBudgets } from "../store/budgets";
 import { _getInvestments } from "../store/investments";
+import { _getExpenses } from "../store/expenses";
+import { setDate } from "../store/date";
+
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const monthlyIncome = parseFloat(useSelector(state => state.auth.monthlyIncome));
   const totalBudget = useSelector(state => state.budgets).reduce((accu, bud) => accu + parseFloat(bud.amount), 0)
+  const allInvestments = useSelector(state => state.investments)
+  const allExpenses = useSelector(state => state.expenses)
+  const currentDate = useSelector(state => state.date)
 
   useEffect(() => {
     dispatch(_getBudgets())
     dispatch(_getInvestments())
+    dispatch(_getExpenses())
+    dispatch(setDate())
   },[])
 
-  console.log(totalBudget)
+  console.log(currentDate)
 
+
+  console.log(allExpenses)
 
   return (
     <div id="container-fluid">
@@ -32,7 +42,7 @@ const Dashboard = () => {
                       <span>Total Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>$40,000</span>
+                      <span>${monthlyIncome.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="col-auto">
@@ -51,7 +61,7 @@ const Dashboard = () => {
                       <span>Remaining Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>$215,000</span>
+                      <span>{(monthlyIncome - totalBudget) >= 0 ? <span>${(monthlyIncome - totalBudget).toFixed(2)}</span> : <span className='text-danger'>${(monthlyIncome - totalBudget).toFixed(2)}</span>}</span>
                     </div>
                   </div>
                   <div className="col-auto">
