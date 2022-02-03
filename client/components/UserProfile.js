@@ -7,23 +7,38 @@ import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.auth);
+  const monthlyIncomes = useSelector(state => state.monthlyIncomes);
+  const currentDate = useSelector(state => state.date)
 
   const [email, setEmail] = useState(currentUser.email);
   const [firstName, setFirstName] = useState(currentUser.firstName);
   const [lastName, setLastName] = useState(currentUser.lastName);
   const [password, setPassword] = useState("");
-  const [monthlyIncome, setMonthlyIncome] = useState(currentUser.monthlyIncome);
+  const [currentIncome, setCurrentIncome] = useState("");
+
+  console.log(monthlyIncomes);
+
+  const thisMonthIncome = monthlyIncomes.filter(inc => inc.createdAt >= `${currentDate.num}/1/${currentDate.year}` )
+
+  console.log(thisMonthIncome)
+
+
+  // setCurrentIncome()
+
+
+
+
 
   useEffect(() => {
-    dispatch(_getMonthlyIncomes())
-  }, [])
+    dispatch(_getMonthlyIncomes());
+  }, []);
 
   const legend = {
     email: setEmail,
     firstName: setFirstName,
     lastName: setLastName,
     password: setPassword,
-    monthlyIncome: setMonthlyIncome,
+    // monthlyIncome: setMonthlyIncome,
   };
 
   const handleChange = evt => {
@@ -42,7 +57,7 @@ const UserProfile = () => {
       : { email: lowerCaseEmail, firstName, lastName };
 
     dispatch(_updateUser(newInfo));
-    history.push('/home')
+    history.push("/home");
   };
 
   return (
@@ -99,7 +114,7 @@ const UserProfile = () => {
           <input
             name="monthlyIncome"
             type="number"
-            value={monthlyIncome}
+            // value={monthlyIncomes[0]}
             onChange={handleChange}
           />
         </div>
