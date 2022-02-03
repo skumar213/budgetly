@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _updateUser } from "../store/auth";
 import history from "../history";
-import { _getMonthlyIncomes } from "../store/monthlyIncomes";
+import {
+  _getMonthlyIncomes,
+  _updateMonthlyIncome,
+} from "../store/monthlyIncomes";
 import { setDate } from "../store/date";
 import { compareDates, sortSingle } from "../helpers";
 
@@ -46,13 +49,12 @@ const UserProfile = () => {
     }
   });
 
-
   const legend = {
     email: setEmail,
     firstName: setFirstName,
     lastName: setLastName,
     password: setPassword,
-    monthlyIncomes: setMonthlyIncome,
+    monthlyIncome: setMonthlyIncome,
   };
 
   useEffect(() => {
@@ -118,6 +120,17 @@ const UserProfile = () => {
     }
   };
 
+  const handleIncomeSubmit = evt => {
+    evt.preventDefault();
+
+    const incToUpdate = {
+      id: incomeId,
+      amount: monthlyIncome,
+    };
+
+    dispatch(_updateMonthlyIncome(incToUpdate));
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -166,10 +179,10 @@ const UserProfile = () => {
           />
         </div>
         <div>
-          <button type="submit">Update</button>
+          <button type="submit">Update Profile</button>
         </div>
       </form>
-      <form>
+      <form onSubmit={handleIncomeSubmit}>
         <div>
           <label htmlFor="incomeDropDownMonth">
             <small>Select Month </small>
@@ -217,6 +230,9 @@ const UserProfile = () => {
               onChange={handleChange}
             />
           </div>
+        </div>
+        <div>
+          <button type="submit">Update Income</button>
         </div>
       </form>
     </div>

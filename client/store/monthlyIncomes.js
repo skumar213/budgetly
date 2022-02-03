@@ -47,9 +47,9 @@ export default function (state = [], action) {
       return action.monthlyIncomes;
     case UPDATE_MONTHLY_INCOME:
       const updatedIncomes = state.filter(
-        inc => inc.id !== action.monthlyIncomes.id
+        inc => inc.id !== action.monthlyIncome.id
       );
-      return [...updatedIncomes, action.monthlyIncomes];
+      return [...updatedIncomes, action.monthlyIncome];
     default:
       return state;
   }
