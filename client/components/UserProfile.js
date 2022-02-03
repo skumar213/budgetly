@@ -63,7 +63,7 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (monthlyIncomes.length) {
+    if (monthlyIncomes.length && !monthlyIncome) {
       setMonthlyIncome(thisMonthIncome[0].amount);
       setIncomeId(thisMonthIncome[0].id);
       setSelectedYear(currentDate.year);
