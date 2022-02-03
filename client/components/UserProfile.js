@@ -46,7 +46,6 @@ const UserProfile = () => {
     }
   });
 
-  console.log(selectedYear);
 
   const legend = {
     email: setEmail,
