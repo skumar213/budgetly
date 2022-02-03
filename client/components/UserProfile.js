@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _updateUser } from "../store/auth";
 import history from "../history";
+import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ const UserProfile = () => {
   const [lastName, setLastName] = useState(currentUser.lastName);
   const [password, setPassword] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState(currentUser.monthlyIncome);
+
+  useEffect(() => {
+    dispatch(_getMonthlyIncomes())
+  }, [])
 
   const legend = {
     email: setEmail,
