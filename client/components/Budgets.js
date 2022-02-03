@@ -21,9 +21,7 @@ const Budgets = () => {
   const [amount, setAmount] = useState("");
   const [amountRemaining, setamountRemaining] = useState("");
   const [isCreate, setIsCreate] = useState("");
-  const [monthlyIncome, setMonthlyIncome] = useState('')
-
-
+  const [monthlyIncome, setMonthlyIncome] = useState("");
 
   const allCategories =
     sortSingle(
@@ -44,15 +42,11 @@ const Budgets = () => {
       "name"
     ) || [];
 
-
-
-  const currentDate = useSelector(state => state.date)
-  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes)
+  const currentDate = useSelector(state => state.date);
+  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
   const currentMonthlyIncome = allMonthlyIncomes.filter(inc =>
     compareDates(inc.createdAt, currentDate.full)
   );
-
-  console.log(monthlyIncome)
 
   const currentTotalBudgetAmount = allBudgets.reduce(
     (accu, bud) => accu + parseFloat(bud.amount),
@@ -68,16 +62,14 @@ const Budgets = () => {
     dispatch(_getExpenses());
     dispatch(_getCategories());
     dispatch(setDate());
-    dispatch(_getMonthlyIncomes())
+    dispatch(_getMonthlyIncomes());
   }, []);
 
   useEffect(() => {
     if (currentMonthlyIncome.length && !monthlyIncome) {
-      setMonthlyIncome(parseInt(currentMonthlyIncome[0].amount).toFixed(2))
+      setMonthlyIncome(parseInt(currentMonthlyIncome[0].amount).toFixed(2));
     }
-  },[currentMonthlyIncome])
-
-
+  }, [currentMonthlyIncome]);
 
   //legend to help call the setstate functions
   const legend = {
@@ -164,7 +156,7 @@ const Budgets = () => {
       <div>
         <h2>{currentDate.name}</h2>
         <h4>Total Monthly Budget: ${monthlyIncome}</h4>
-        <h4>Remaining Budget for the month: ${currentRemainingBudget}</h4>
+        <h4>Remaining Budget for the Month: ${currentRemainingBudget}</h4>
         <hr></hr>
       </div>
 

@@ -58,24 +58,27 @@ async function seed() {
 
   // Creating Budgets
   const budgets = await Promise.all([
-    Budget.create({ amount: 250 }),
-    Budget.create({ amount: 2000 }),
-    Budget.create({ amount: 750 }),
+    Budget.create({ amount: 250, createdAt: "1/1/2022" }),
+    Budget.create({ amount: 2000, createdAt: "1/1/2022" }),
+    Budget.create({ amount: 750, createdAt: "1/1/2022" }),
+    Budget.create({ amount: 250, createdAt: "2/1/2022" }),
+    Budget.create({ amount: 2000, createdAt: "2/1/2022" }),
+    Budget.create({ amount: 750, createdAt: "2/1/2022" }),
   ]);
 
   // Creating Investments
   const investments = await Promise.all([
-    Investment.create({tickerSymbol: 'aapl', buyPrice: 160, totalShares: 2}),
-    Investment.create({tickerSymbol: 'tsla', buyPrice: 930, totalShares: 5}),
-    Investment.create({tickerSymbol: 'msft', buyPrice: 297, totalShares: 1})
-  ])
+    Investment.create({ tickerSymbol: "aapl", buyPrice: 160, totalShares: 2 }),
+    Investment.create({ tickerSymbol: "tsla", buyPrice: 930, totalShares: 5 }),
+    Investment.create({ tickerSymbol: "msft", buyPrice: 297, totalShares: 1 }),
+  ]);
 
   // Creating Monthly Income
   const monthlyIncomes = await Promise.all([
-    MonthlyIncome.create({amount: 3000, createdAt: "12/1/2021"}),
-    MonthlyIncome.create({amount: 4000, createdAt: "1/1/2022"}),
-    MonthlyIncome.create({amount: 5000, createdAt: "2/1/2022"}),
-  ])
+    MonthlyIncome.create({ amount: 3000, createdAt: "12/1/2021" }),
+    MonthlyIncome.create({ amount: 4000, createdAt: "1/1/2022" }),
+    MonthlyIncome.create({ amount: 5000, createdAt: "2/1/2022" }),
+  ]);
 
   // Assigning user to expenses/investments and each expense to a category
   const user = await User.findByPk(1);
@@ -86,10 +89,12 @@ async function seed() {
 
     //setting category for budgets
     await budgets[i].setCategory(categories[i]);
+    await budgets[i+3].setCategory(categories[i])
 
     //adding expenses, investments, monthly incomes, and budgets to user
     await user.addExpense(expenses[i]);
     await user.addBudget(budgets[i]);
+    await user.addBudget(budgets[i+3]);
     await user.addInvestment(investments[i]);
     await user.addMonthlyIncome(monthlyIncomes[i]);
   }
