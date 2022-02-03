@@ -4,7 +4,7 @@ import { _updateUser } from "../store/auth";
 import history from "../history";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { setDate } from "../store/date";
-import { compareDates } from "../helpers";
+import { compareDates, sortSingle } from "../helpers";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -14,11 +14,21 @@ const UserProfile = () => {
   const thisMonthIncome = monthlyIncomes.filter(inc =>
     compareDates(inc.createdAt, currentDate.full)
   );
+  const allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt").map(
+    inc => {
+      const date = new Date(inc.createdAt);
+      return {
+        id: inc.id,
+        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
+      };
+    }
+  );
 
   const [email, setEmail] = useState(currentUser.email);
   const [firstName, setFirstName] = useState(currentUser.firstName);
   const [lastName, setLastName] = useState(currentUser.lastName);
   const [password, setPassword] = useState("");
+  const [incomeId, setIncomeId] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
 
   const legend = {
@@ -26,7 +36,7 @@ const UserProfile = () => {
     firstName: setFirstName,
     lastName: setLastName,
     password: setPassword,
-    monthlyIncome: setMonthlyIncome,
+    monthlyIncomes: setMonthlyIncome,
   };
 
   useEffect(() => {
@@ -37,9 +47,11 @@ const UserProfile = () => {
   useEffect(() => {
     if (monthlyIncomes.length) {
       setMonthlyIncome(thisMonthIncome[0].amount);
+      setIncomeId(thisMonthIncome[0].id);
     }
   }, [monthlyIncomes]);
 
+  //for user info
   const handleChange = evt => {
     const fn = legend[evt.target.name];
 
@@ -57,6 +69,16 @@ const UserProfile = () => {
 
     dispatch(_updateUser(newInfo));
     history.push("/home");
+  };
+
+  //for monthly income
+  const handeIncomeChange = evt => {
+    const id = parseInt(evt.target.value);
+    const amount = parseFloat(monthlyIncomes.filter(inc => inc.id === id)[0].amount).toFixed(2)
+
+
+    setIncomeId(id);
+    setMonthlyIncome(amount);
   };
 
   return (
@@ -107,18 +129,38 @@ const UserProfile = () => {
           />
         </div>
         <div>
-          <label htmlFor="monthlyIncome">
-            <small>Monthly Income $</small>
-          </label>
-          <input
-            name="monthlyIncome"
-            type="number"
-            value={monthlyIncome}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
           <button type="submit">Update</button>
+        </div>
+      </form>
+      <form>
+        <div>
+          <label htmlFor="incomeDropDown">
+            <small>Select Month to Edit </small>
+          </label>
+          <select
+            name="incomeDropDown"
+            value={incomeId}
+            onChange={handeIncomeChange}
+          >
+            {allDatesForIncomes.map(date => {
+              return (
+                <option key={date.id} value={date.id}>
+                  {date.date}
+                </option>
+              );
+            })}
+          </select>
+          <div>
+            <label htmlFor="monthlyIncome">
+              <small>Monthly Income $</small>
+            </label>
+            <input
+              name="monthlyIncome"
+              type="number"
+              value={monthlyIncome}
+              onChange={handleChange}
+            />
+          </div>
         </div>
       </form>
     </div>
