@@ -26,6 +26,7 @@ export const me = () => async dispatch => {
       }
     })
 
+
     return dispatch(setAuth(res.data))
   }
 }

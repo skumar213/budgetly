@@ -92,7 +92,7 @@ const Budgets = () => {
   const handleEdit = bud => evt => {
     evt.preventDefault();
 
-    setCurrentId(Number(bud.id));
+    setCurrentId(parseInt(bud.id));
     setAmount(bud.amount);
     setCategory(bud.category.name);
   };
@@ -125,7 +125,6 @@ const Budgets = () => {
     const newBud = {
       amount,
       category,
-      month: currentDate.num,
     };
 
     dispatch(_createBudget(newBud));

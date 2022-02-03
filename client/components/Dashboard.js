@@ -22,7 +22,7 @@ const Dashboard = () => {
   },[])
 
 
-  console.log(allExpenses)
+  console.log(currentDate)
 
   return (
     <div id="container-fluid">

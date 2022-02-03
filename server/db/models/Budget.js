@@ -9,15 +9,6 @@ const Budget = db.define('budget', {
       notEmpty: true,
     },
   },
-  month: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      min: 1,
-      max: 12
-    },
-  }
 })
 
 module.exports = Budget;

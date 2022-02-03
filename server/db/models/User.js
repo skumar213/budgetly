@@ -37,14 +37,6 @@ const User = db.define('user', {
       notEmpty: true,
     },
   },
-  monthlyIncome: {
-    type: Sequelize.DECIMAL(10,2),
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      min: 0
-    },
-  },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,

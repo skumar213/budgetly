@@ -11,9 +11,9 @@ export const setDate = () => {
   return {
     type: SET_DATE,
     date: {
-      name: months[currentDate.getMonth()][0],
+      name: months[currentDate.getMonth()],
       num: currentDate.getMonth() + 1,
-      lastDay: months[currentDate.getMonth()][1]
+      year: currentDate.getFullYear()
     }
   }
 }
