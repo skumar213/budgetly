@@ -14,15 +14,7 @@ const UserProfile = () => {
   const thisMonthIncome = monthlyIncomes.filter(inc =>
     compareDates(inc.createdAt, currentDate.full)
   );
-  const allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt").map(
-    inc => {
-      const date = new Date(inc.createdAt);
-      return {
-        id: inc.id,
-        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
-      };
-    }
-  );
+  const years = {};
 
   const [email, setEmail] = useState(currentUser.email);
   const [firstName, setFirstName] = useState(currentUser.firstName);
@@ -30,6 +22,31 @@ const UserProfile = () => {
   const [password, setPassword] = useState("");
   const [incomeId, setIncomeId] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+
+  let allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt").map(inc => {
+    const date = new Date(inc.createdAt);
+    return {
+      id: inc.id,
+      date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
+    };
+  });
+
+  allDatesForIncomes = allDatesForIncomes.filter(date => {
+    const year = new Date(date.date).getFullYear();
+
+    if (!years[`${year}`]) {
+      years[`${year}`] = date.id
+    }
+
+    if (year === selectedYear) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  console.log(selectedYear);
 
   const legend = {
     email: setEmail,
@@ -48,6 +65,7 @@ const UserProfile = () => {
     if (monthlyIncomes.length) {
       setMonthlyIncome(thisMonthIncome[0].amount);
       setIncomeId(thisMonthIncome[0].id);
+      setSelectedYear(currentDate.year);
     }
   }, [monthlyIncomes]);
 
@@ -74,12 +92,35 @@ const UserProfile = () => {
   //for monthly income
   const handeIncomeChange = evt => {
     const id = parseInt(evt.target.value);
-    const amount = parseFloat(monthlyIncomes.filter(inc => inc.id === id)[0].amount).toFixed(2)
-
+    const amount = parseFloat(
+      monthlyIncomes.filter(inc => inc.id === id)[0].amount
+    ).toFixed(2);
 
     setIncomeId(id);
     setMonthlyIncome(amount);
   };
+
+  const handeIncomeYearChange = evt => {
+
+    const evtYear = parseInt(evt.target.value)
+    const evtId = years[evt.target.value]
+    const todayYear = new Date(thisMonthIncome[0].createdAt).getFullYear()
+    const amount = parseFloat(
+      monthlyIncomes.filter(inc => inc.id === evtId)[0].amount
+    ).toFixed(2);
+
+
+    setSelectedYear(evtYear)
+
+    if (evtYear === todayYear) {
+      setIncomeId(thisMonthIncome[0].id)
+      setMonthlyIncome(thisMonthIncome[0].amount)
+    } else {
+      setIncomeId(evtId);
+      setMonthlyIncome(amount)
+    }
+
+  }
 
   return (
     <div>
@@ -134,22 +175,42 @@ const UserProfile = () => {
       </form>
       <form>
         <div>
-          <label htmlFor="incomeDropDown">
-            <small>Select Month to Edit </small>
+          <label htmlFor="incomeDropDownMonth">
+            <small>Select Month </small>
           </label>
+
           <select
-            name="incomeDropDown"
+            name="incomeDropDownMonth"
             value={incomeId}
             onChange={handeIncomeChange}
           >
             {allDatesForIncomes.map(date => {
+              const month = date.date.split("/")[0];
+
               return (
                 <option key={date.id} value={date.id}>
-                  {date.date}
+                  {month}
                 </option>
               );
             })}
           </select>
+
+          <label htmlFor="incomeDropDownYear">
+            <small>Select Year </small>
+          </label>
+
+          <select
+            name="incomeDropDownYear"
+            value={selectedYear}
+            onChange={handeIncomeYearChange}
+          >
+            {Object.entries(years).map((year) => (
+              <option key={year[1]} value={year[0]}>
+                {year[0]}
+              </option>
+            ))}
+          </select>
+
           <div>
             <label htmlFor="monthlyIncome">
               <small>Monthly Income $</small>
