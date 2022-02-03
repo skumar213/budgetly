@@ -3,43 +3,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { _updateUser } from "../store/auth";
 import history from "../history";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
+import { setDate } from "../store/date";
+import { compareDates } from "../helpers";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.auth);
   const monthlyIncomes = useSelector(state => state.monthlyIncomes);
-  const currentDate = useSelector(state => state.date)
+  const currentDate = useSelector(state => state.date);
+  const thisMonthIncome = monthlyIncomes.filter(inc =>
+    compareDates(inc.createdAt, currentDate.full)
+  );
 
   const [email, setEmail] = useState(currentUser.email);
   const [firstName, setFirstName] = useState(currentUser.firstName);
   const [lastName, setLastName] = useState(currentUser.lastName);
   const [password, setPassword] = useState("");
-  const [currentIncome, setCurrentIncome] = useState("");
-
-  console.log(monthlyIncomes);
-
-  const thisMonthIncome = monthlyIncomes.filter(inc => inc.createdAt >= `${currentDate.num}/1/${currentDate.year}` )
-
-  console.log(thisMonthIncome)
-
-
-  // setCurrentIncome()
-
-
-
-
-
-  useEffect(() => {
-    dispatch(_getMonthlyIncomes());
-  }, []);
+  const [monthlyIncome, setMonthlyIncome] = useState("");
 
   const legend = {
     email: setEmail,
     firstName: setFirstName,
     lastName: setLastName,
     password: setPassword,
-    // monthlyIncome: setMonthlyIncome,
+    monthlyIncome: setMonthlyIncome,
   };
+
+  useEffect(() => {
+    dispatch(_getMonthlyIncomes());
+    dispatch(setDate());
+  }, []);
+
+  useEffect(() => {
+    if (monthlyIncomes.length) {
+      setMonthlyIncome(thisMonthIncome[0].amount);
+    }
+  }, [monthlyIncomes]);
 
   const handleChange = evt => {
     const fn = legend[evt.target.name];
@@ -109,12 +108,12 @@ const UserProfile = () => {
         </div>
         <div>
           <label htmlFor="monthlyIncome">
-            <small>Monthly Income</small>
+            <small>Monthly Income $</small>
           </label>
           <input
             name="monthlyIncome"
             type="number"
-            // value={monthlyIncomes[0]}
+            value={monthlyIncome}
             onChange={handleChange}
           />
         </div>

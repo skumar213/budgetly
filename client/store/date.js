@@ -13,7 +13,8 @@ export const setDate = () => {
     date: {
       name: months[currentDate.getMonth()],
       num: currentDate.getMonth() + 1,
-      year: currentDate.getFullYear()
+      year: currentDate.getFullYear(),
+      full: currentDate
     }
   }
 }
