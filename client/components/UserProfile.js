@@ -36,7 +36,7 @@ const UserProfile = () => {
     const year = new Date(date.date).getFullYear();
 
     if (!years[`${year}`]) {
-      years[`${year}`] = date.id
+      years[`${year}`] = date.id;
     }
 
     if (year === selectedYear) {
@@ -101,26 +101,23 @@ const UserProfile = () => {
   };
 
   const handeIncomeYearChange = evt => {
-
-    const evtYear = parseInt(evt.target.value)
-    const evtId = years[evt.target.value]
-    const todayYear = new Date(thisMonthIncome[0].createdAt).getFullYear()
+    const evtYear = parseInt(evt.target.value);
+    const evtId = years[evt.target.value];
+    const todayYear = new Date(thisMonthIncome[0].createdAt).getFullYear();
     const amount = parseFloat(
       monthlyIncomes.filter(inc => inc.id === evtId)[0].amount
     ).toFixed(2);
 
-
-    setSelectedYear(evtYear)
+    setSelectedYear(evtYear);
 
     if (evtYear === todayYear) {
-      setIncomeId(thisMonthIncome[0].id)
-      setMonthlyIncome(thisMonthIncome[0].amount)
+      setIncomeId(thisMonthIncome[0].id);
+      setMonthlyIncome(thisMonthIncome[0].amount);
     } else {
       setIncomeId(evtId);
-      setMonthlyIncome(amount)
+      setMonthlyIncome(amount);
     }
-
-  }
+  };
 
   return (
     <div>
@@ -198,13 +195,12 @@ const UserProfile = () => {
           <label htmlFor="incomeDropDownYear">
             <small>Select Year </small>
           </label>
-
           <select
             name="incomeDropDownYear"
             value={selectedYear}
             onChange={handeIncomeYearChange}
           >
-            {Object.entries(years).map((year) => (
+            {Object.entries(years).map(year => (
               <option key={year[1]} value={year[0]}>
                 {year[0]}
               </option>
