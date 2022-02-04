@@ -8,7 +8,6 @@ import {
   _deleteBudget,
 } from "../store/budgets";
 import { _getCategories } from "../store/categories";
-import { _getExpenses } from "../store/expenses";
 import { sortSingle, sortDouble, compareDates } from "../helpers";
 import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
@@ -19,7 +18,6 @@ const Budgets = () => {
   const [currentId, setCurrentId] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [amountRemaining, setamountRemaining] = useState("");
   const [isCreate, setIsCreate] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
 
@@ -27,12 +25,6 @@ const Budgets = () => {
     sortSingle(
       useSelector(state => state.categories),
       "name"
-    ) || [];
-
-  const allExpenses =
-    sortSingle(
-      useSelector(state => state.expenses),
-      "merchant"
     ) || [];
 
   const allBudgets =
@@ -59,7 +51,6 @@ const Budgets = () => {
 
   useEffect(() => {
     dispatch(_getBudgets());
-    dispatch(_getExpenses());
     dispatch(_getCategories());
     dispatch(setDate());
     dispatch(_getMonthlyIncomes());
@@ -76,7 +67,6 @@ const Budgets = () => {
     currentId: setCurrentId,
     amount: setAmount,
     category: setCategory,
-    amountRemaining: setamountRemaining,
     isCreate: setIsCreate,
   };
 
