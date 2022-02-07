@@ -17,6 +17,7 @@ import { months } from "../helpers";
 Page notes
 1) can only create a budget for a category once
 2) need to delete/update if you want to change categoryes around
+3) created date will default to the selected month and year
 */
 
 const Budgets = () => {
@@ -31,7 +32,6 @@ const Budgets = () => {
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [budgetCreatedAt, setBudgetCreatedAt] = useState("");
 
   const allCategories =
     sortSingle(
