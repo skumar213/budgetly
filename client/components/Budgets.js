@@ -11,6 +11,13 @@ import { _getCategories } from "../store/categories";
 import { sortSingle, sortDouble, compareDates } from "../helpers";
 import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
+import { months } from "../helpers";
+
+/*
+Page notes
+1) can only create a budget for a category once
+2) need to delete/update if you want to change categoryes around
+*/
 
 const Budgets = () => {
   const dispatch = useDispatch();
@@ -58,7 +65,7 @@ const Budgets = () => {
     const year = tmpDate.getFullYear();
     const month = tmpDate.getMonth() + 1;
 
-    //Puts the current year with the an array of all the months for the year. No duplicates in the object or array.
+    //Puts the current year with the an array of all the currentMonths for the year. No duplicates in the object or array.
     if (!years[`${year}`]) {
       years[`${year}`] = [month];
     } else if (!years[`${year}`].includes(month)) {
@@ -72,6 +79,12 @@ const Budgets = () => {
     }
   });
   const allocatedCategories = filteredBudgets.map(bud => bud.category.name);
+  const remainingCategoriesWithCurrent = allCategories.filter(
+    cat => !allocatedCategories.includes(cat.name) || cat.name === category
+  );
+  const remainingCategories = allCategories.filter(
+    cat => !allocatedCategories.includes(cat.name)
+  );
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -147,15 +160,16 @@ const Budgets = () => {
     dispatch(_deleteBudget(bud));
   };
 
-  console.log(category);
-
   //Event handler for CREATE
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
+    const createDate = new Date(`${selectedMonth}/1/${selectedYear}`);
+
     const newBud = {
       amount,
       category,
+      createdAt: createDate,
     };
 
     dispatch(_createBudget(newBud));
@@ -165,10 +179,6 @@ const Budgets = () => {
 
   const handleCreate = evt => {
     evt.preventDefault();
-
-    const remainingCategories = allCategories.filter(
-      cat => !allocatedCategories.includes(cat.name)
-    );
 
     setIsCreate(true);
     setCategory(remainingCategories[0].name);
@@ -191,12 +201,12 @@ const Budgets = () => {
     }
   };
 
-  const months = years[selectedYear] || [];
+  const currentMonths = years[selectedYear] || [];
 
   return (
     <div>
       <div>
-        <h2>{currentDate.name}</h2>
+        <h2>{months[selectedMonth-1]} {selectedYear}</h2>
         <h4>Total Monthly Budget: ${monthlyIncome}</h4>
         <h4>Remaining Budget for the Month: ${currentRemainingBudget}</h4>
         <hr></hr>
@@ -247,17 +257,6 @@ const Budgets = () => {
                   onChange={handleChange}
                 />
               </div>
-              {/* <div>
-                <label htmlFor="budgetCreatedAt">
-                  <small>Amount</small>
-                </label>
-                <input
-                  name="budgetCreatedAt"
-                  type="date"
-                  value={budgetCreatedAt}
-                  onChange={handleChange}
-                />
-              </div> */}
               <div>
                 <button type="submit">Add Budget</button>
               </div>
@@ -280,7 +279,7 @@ const Budgets = () => {
           value={selectedMonth}
           onChange={handleMonthChange}
         >
-          {months.map((month, idx) => (
+          {currentMonths.map((month, idx) => (
             <option key={idx} value={month}>
               {month}
             </option>
@@ -356,7 +355,7 @@ const Budgets = () => {
                     value={category}
                     onChange={handleChange}
                   >
-                    {allCategories.map(cat => {
+                    {remainingCategoriesWithCurrent.map(cat => {
                       return (
                         <option value={cat.name} key={cat.id}>
                           {cat.name}
