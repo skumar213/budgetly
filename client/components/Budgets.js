@@ -48,17 +48,15 @@ const Budgets = () => {
 
   const currentDate = useSelector(state => state.date);
   const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
-  const currentMonthlyIncome = allMonthlyIncomes.filter(inc =>
-    compareDates(inc.createdAt, currentDate.full)
-  );
+  const currentMonthlyIncome = allMonthlyIncomes.filter(inc => {
+    if (selectedYear && selectedMonth) {
+      const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
 
-  const currentTotalBudgetAmount = allBudgets.reduce(
-    (accu, bud) => accu + parseFloat(bud.amount),
-    0
-  );
-  const currentRemainingBudget = (
-    monthlyIncome - currentTotalBudgetAmount
-  ).toFixed(2);
+      return compareDates(inc.createdAt, tmpDate);
+    } else {
+      return compareDates(inc.createdAt, currentDate.full);
+    }
+  });
 
   const filteredBudgets = allBudgets.filter(bud => {
     const tmpDate = new Date(bud.createdAt);
@@ -78,6 +76,15 @@ const Budgets = () => {
       return false;
     }
   });
+
+  const currentTotalBudgetAmount = filteredBudgets.reduce(
+    (accu, bud) => accu + parseFloat(bud.amount),
+    0
+  );
+  const currentRemainingBudget = (
+    monthlyIncome - currentTotalBudgetAmount
+  ).toFixed(2);
+
   const allocatedCategories = filteredBudgets.map(bud => bud.category.name);
   const remainingCategoriesWithCurrent = allCategories.filter(
     cat => !allocatedCategories.includes(cat.name) || cat.name === category
@@ -94,10 +101,12 @@ const Budgets = () => {
   }, []);
 
   useEffect(() => {
-    if (currentMonthlyIncome.length && !monthlyIncome) {
+    if (currentMonthlyIncome.length) {
+      if (!monthlyIncome) {
+        setSelectedYear(currentDate.year);
+        setSelectedMonth(currentDate.num);
+      }
       setMonthlyIncome(parseInt(currentMonthlyIncome[0].amount).toFixed(2));
-      setSelectedYear(currentDate.year);
-      setSelectedMonth(currentDate.num);
     }
   }, [currentMonthlyIncome]);
 
@@ -202,11 +211,14 @@ const Budgets = () => {
   };
 
   const currentMonths = years[selectedYear] || [];
+  currentMonths.sort((a, b) => a - b);
 
   return (
     <div>
       <div>
-        <h2>{months[selectedMonth-1]} {selectedYear}</h2>
+        <h2>
+          {months[selectedMonth - 1]} {selectedYear}
+        </h2>
         <h4>Total Monthly Budget: ${monthlyIncome}</h4>
         <h4>Remaining Budget for the Month: ${currentRemainingBudget}</h4>
         <hr></hr>
@@ -273,7 +285,6 @@ const Budgets = () => {
         <label htmlFor="DropDownMonth">
           <small>Select Month </small>
         </label>
-
         <select
           name="DropDownMonth"
           value={selectedMonth}
