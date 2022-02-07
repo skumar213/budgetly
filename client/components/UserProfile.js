@@ -38,6 +38,7 @@ const UserProfile = () => {
   allDatesForIncomes = allDatesForIncomes.filter(date => {
     const year = new Date(date.date).getFullYear();
 
+    //Puts the current year with the id of the earliest month in the years object. No duplicates
     if (!years[`${year}`]) {
       years[`${year}`] = date.id;
     }

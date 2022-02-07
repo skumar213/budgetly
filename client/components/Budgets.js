@@ -14,12 +14,16 @@ import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 
 const Budgets = () => {
   const dispatch = useDispatch();
+  const years = {};
+
   //all states
   const [currentId, setCurrentId] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
   const [isCreate, setIsCreate] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const allCategories =
     sortSingle(
@@ -49,6 +53,35 @@ const Budgets = () => {
   ).toFixed(2);
   const allocatedCategories = allBudgets.map(bud => bud.category.name);
 
+  const allDatesForBudgets = allBudgets
+    .map(bud => {
+      const date = new Date(bud.createdAt);
+      return {
+        id: bud.id,
+        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
+      };
+    })
+    .filter(date => {
+      const tmpDate = new Date(date.date);
+      const year = tmpDate.getFullYear();
+      const month = tmpDate.getMonth() + 1;
+
+      //Puts the current year with the an array of all the months for the year. No duplicates in the object or array.
+      if (!years[`${year}`]) {
+        years[`${year}`] = [month];
+      } else if (!years[`${year}`].includes(month)) {
+        years[`${year}`].push(month);
+      }
+
+      if (year === selectedYear && month === selectedMonth) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+  console.log(selectedYear);
+
   useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getCategories());
@@ -59,6 +92,8 @@ const Budgets = () => {
   useEffect(() => {
     if (currentMonthlyIncome.length && !monthlyIncome) {
       setMonthlyIncome(parseInt(currentMonthlyIncome[0].amount).toFixed(2));
+      setSelectedYear(currentDate.year);
+      setSelectedMonth(currentDate.num);
     }
   }, [currentMonthlyIncome]);
 
@@ -141,6 +176,18 @@ const Budgets = () => {
     setCategory(allCategories[0].name);
   };
 
+  //Event handler for dropdown
+  const handleMonthChange = (evt) => {
+    setSelectedMonth(parseInt(evt.target.value))
+  }
+
+  const handleYearChange = (evt) => {
+    setSelectedYear(parseInt(evt.target.value))
+  }
+
+
+  const months = years[selectedYear] || [];
+
   return (
     <div>
       <div>
@@ -208,39 +255,33 @@ const Budgets = () => {
       </>
 
       <div>
-        <label htmlFor="incomeDropDownMonth">
+        <label htmlFor="DropDownMonth">
           <small>Select Month </small>
         </label>
 
         <select
-          name="incomeDropDownMonth"
-          // value={incomeId}
-          // onChange={handeIncomeChange}
+          name="DropDownMonth"
+          value={selectedMonth}
+          onChange={handleMonthChange}
         >
-          {/* {allDatesForIncomes.map(date => {
-            const month = date.date.split("/")[0];
-
-            return (
-              <option key={date.id} value={date.id}>
-                {month}
-              </option>
-            );
-          })} */}
+          {months.map((month, idx) => (
+            <option key={idx} value={month}>{month}</option>
+          ))}
         </select>
 
-        <label htmlFor="incomeDropDownYear">
+        <label htmlFor="DropDownYear">
           <small>Select Year </small>
         </label>
         <select
-          name="incomeDropDownYear"
-          // value={selectedYear}
-          // onChange={handeIncomeYearChange}
+          name="DropDownYear"
+          value={selectedYear}
+          onChange={handleYearChange}
         >
-          {/* {Object.entries(years).map(year => (
+          {Object.entries(years).map(year => (
             <option key={year[1]} value={year[0]}>
               {year[0]}
             </option>
-          ))} */}
+          ))}
         </select>
       </div>
 
