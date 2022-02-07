@@ -22,7 +22,7 @@ const Dashboard = () => {
   },[])
 
 
-  console.log(currentDate)
+  // console.log(currentDate)
 
   return (
     <div id="container-fluid">

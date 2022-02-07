@@ -207,6 +207,43 @@ const Budgets = () => {
         ) : null}
       </>
 
+      <div>
+        <label htmlFor="incomeDropDownMonth">
+          <small>Select Month </small>
+        </label>
+
+        <select
+          name="incomeDropDownMonth"
+          // value={incomeId}
+          // onChange={handeIncomeChange}
+        >
+          {/* {allDatesForIncomes.map(date => {
+            const month = date.date.split("/")[0];
+
+            return (
+              <option key={date.id} value={date.id}>
+                {month}
+              </option>
+            );
+          })} */}
+        </select>
+
+        <label htmlFor="incomeDropDownYear">
+          <small>Select Year </small>
+        </label>
+        <select
+          name="incomeDropDownYear"
+          // value={selectedYear}
+          // onChange={handeIncomeYearChange}
+        >
+          {/* {Object.entries(years).map(year => (
+            <option key={year[1]} value={year[0]}>
+              {year[0]}
+            </option>
+          ))} */}
+        </select>
+      </div>
+
       {allBudgets.map(bud => {
         if (currentId !== bud.id) {
           return (
