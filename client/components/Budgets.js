@@ -53,34 +53,26 @@ const Budgets = () => {
   ).toFixed(2);
   const allocatedCategories = allBudgets.map(bud => bud.category.name);
 
-  const allDatesForBudgets = allBudgets
-    .map(bud => {
-      const date = new Date(bud.createdAt);
-      return {
-        id: bud.id,
-        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
-      };
-    })
-    .filter(date => {
-      const tmpDate = new Date(date.date);
-      const year = tmpDate.getFullYear();
-      const month = tmpDate.getMonth() + 1;
+  const filteredBudgets = allBudgets.filter(bud => {
+    const tmpDate = new Date(bud.createdAt);
+    const year = tmpDate.getFullYear();
+    const month = tmpDate.getMonth() + 1;
 
-      //Puts the current year with the an array of all the months for the year. No duplicates in the object or array.
-      if (!years[`${year}`]) {
-        years[`${year}`] = [month];
-      } else if (!years[`${year}`].includes(month)) {
-        years[`${year}`].push(month);
-      }
+    //Puts the current year with the an array of all the months for the year. No duplicates in the object or array.
+    if (!years[`${year}`]) {
+      years[`${year}`] = [month];
+    } else if (!years[`${year}`].includes(month)) {
+      years[`${year}`].push(month);
+    }
 
-      if (year === selectedYear && month === selectedMonth) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    if (year === selectedYear && month === selectedMonth) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
-  console.log(selectedYear);
+  console.log(selectedMonth, selectedYear);
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -177,14 +169,21 @@ const Budgets = () => {
   };
 
   //Event handler for dropdown
-  const handleMonthChange = (evt) => {
-    setSelectedMonth(parseInt(evt.target.value))
-  }
+  const handleMonthChange = evt => {
+    setSelectedMonth(parseInt(evt.target.value));
+  };
 
-  const handleYearChange = (evt) => {
-    setSelectedYear(parseInt(evt.target.value))
-  }
+  const handleYearChange = evt => {
+    const evtYear = parseInt(evt.target.value);
 
+    setSelectedYear(evtYear);
+
+    if (evtYear === currentDate.year) {
+      setSelectedMonth(currentDate.num);
+    } else {
+      setSelectedMonth(years[evtYear][0]);
+    }
+  };
 
   const months = years[selectedYear] || [];
 
@@ -265,7 +264,9 @@ const Budgets = () => {
           onChange={handleMonthChange}
         >
           {months.map((month, idx) => (
-            <option key={idx} value={month}>{month}</option>
+            <option key={idx} value={month}>
+              {month}
+            </option>
           ))}
         </select>
 
@@ -285,7 +286,7 @@ const Budgets = () => {
         </select>
       </div>
 
-      {allBudgets.map(bud => {
+      {filteredBudgets.map(bud => {
         if (currentId !== bud.id) {
           return (
             <div key={bud.id}>
