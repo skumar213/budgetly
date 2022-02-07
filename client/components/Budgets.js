@@ -24,6 +24,7 @@ const Budgets = () => {
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [budgetCreatedAt, setBudgetCreatedAt] = useState("");
 
   const allCategories =
     sortSingle(
@@ -51,7 +52,6 @@ const Budgets = () => {
   const currentRemainingBudget = (
     monthlyIncome - currentTotalBudgetAmount
   ).toFixed(2);
-  const allocatedCategories = allBudgets.map(bud => bud.category.name);
 
   const filteredBudgets = allBudgets.filter(bud => {
     const tmpDate = new Date(bud.createdAt);
@@ -71,8 +71,7 @@ const Budgets = () => {
       return false;
     }
   });
-
-  console.log(selectedMonth, selectedYear);
+  const allocatedCategories = filteredBudgets.map(bud => bud.category.name);
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -95,6 +94,7 @@ const Budgets = () => {
     amount: setAmount,
     category: setCategory,
     isCreate: setIsCreate,
+    budgetCreatedAt: setBudgetCreatedAt,
   };
 
   //clear state helper
@@ -147,6 +147,8 @@ const Budgets = () => {
     dispatch(_deleteBudget(bud));
   };
 
+  console.log(category);
+
   //Event handler for CREATE
   const handleCreateSubmit = evt => {
     evt.preventDefault();
@@ -164,8 +166,12 @@ const Budgets = () => {
   const handleCreate = evt => {
     evt.preventDefault();
 
+    const remainingCategories = allCategories.filter(
+      cat => !allocatedCategories.includes(cat.name)
+    );
+
     setIsCreate(true);
-    setCategory(allCategories[0].name);
+    setCategory(remainingCategories[0].name);
   };
 
   //Event handler for dropdown
@@ -241,6 +247,17 @@ const Budgets = () => {
                   onChange={handleChange}
                 />
               </div>
+              {/* <div>
+                <label htmlFor="budgetCreatedAt">
+                  <small>Amount</small>
+                </label>
+                <input
+                  name="budgetCreatedAt"
+                  type="date"
+                  value={budgetCreatedAt}
+                  onChange={handleChange}
+                />
+              </div> */}
               <div>
                 <button type="submit">Add Budget</button>
               </div>
