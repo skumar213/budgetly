@@ -77,6 +77,10 @@ const Budgets = () => {
     }
   });
 
+  Object.values(years).forEach(yearMonths => {
+    yearMonths.sort((a, b) => a - b);
+  });
+
   const currentTotalBudgetAmount = filteredBudgets.reduce(
     (accu, bud) => accu + parseFloat(bud.amount),
     0
@@ -214,7 +218,9 @@ const Budgets = () => {
   if (currentDate.year === selectedYear) {
     currentMonths = Array.from(Array(currentDate.num).keys());
   } else {
-    currentMonths = Array.from(Array(12).keys());
+    const idx = years[selectedYear] || 1;
+
+    currentMonths = Array.from(Array(12).keys()).slice(idx - 1);
   }
 
   return (
