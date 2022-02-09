@@ -14,11 +14,13 @@ import {
 } from "./store/monthlyIncomes";
 import { compareDates, sortSingle } from "./helpers";
 import { setDate } from "./store/date";
+import { _getBudgets, _createBudget } from "./store/budgets";
 
-const Routes = props => {
+const Routes = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => !!state.auth.id);
   const currentDate = useSelector(state => state.date);
+
   const monthlyIncomes = sortSingle(
     useSelector(state => state.monthlyIncomes),
     "createdAt"
@@ -39,6 +41,7 @@ const Routes = props => {
     dispatch(me());
     dispatch(_getMonthlyIncomes());
     dispatch(setDate());
+    dispatch(_getBudgets());
   }, []);
 
   return (
