@@ -209,8 +209,7 @@ const Budgets = () => {
     }
   };
 
-  const currentMonths = years[selectedYear] || [];
-  currentMonths.sort((a, b) => a - b);
+  const currentMonths = Array.from(Array(12).keys());
 
   return (
     <div>
@@ -274,7 +273,6 @@ const Budgets = () => {
               <div>
                 <button onClick={handleCancel}>Cancel</button>
               </div>
-              <hr></hr>
             </form>
           </div>
         ) : null}
@@ -290,8 +288,8 @@ const Budgets = () => {
           onChange={handleMonthChange}
         >
           {currentMonths.map((month, idx) => (
-            <option key={idx} value={month}>
-              {month}
+            <option key={idx} value={month + 1}>
+              {month + 1}
             </option>
           ))}
         </select>
@@ -311,6 +309,7 @@ const Budgets = () => {
           ))}
         </select>
       </div>
+      <hr></hr>
 
       {filteredBudgets.map(bud => {
         if (currentId !== bud.id) {
