@@ -31,7 +31,6 @@ export const months = [
   "December",
 ];
 
-//What i need is the created date and the current day
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {
   createdDate = new Date(createdDate);

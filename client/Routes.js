@@ -9,21 +9,31 @@ import Budgets from "./components/Budgets";
 import Investments from "./components/Investments";
 import { me } from "./store/auth";
 import { _getMonthlyIncomes } from "./store/monthlyIncomes";
-import { compareDates } from "./helpers";
+import { compareDates, sortSingle } from "./helpers";
 import { setDate } from "./store/date";
 
 const Routes = props => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => !!state.auth.id);
   const currentDate = useSelector(state => state.date);
-  const monthlyIncomes = useSelector(state => state.monthlyIncomes);
+  const monthlyIncomes = sortSingle(
+    useSelector(state => state.monthlyIncomes),
+    "createdAt"
+  );
   const thisMonthIncome = monthlyIncomes.filter(inc =>
     compareDates(inc.createdAt, currentDate.full)
   );
 
   useEffect(() => {
     if (monthlyIncomes.length && !thisMonthIncome.length) {
-      console.log(thisMonthIncome);
+      const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
+
+      console.log(lastMonthIncome);
+
+      //find last months income
+      //dispatch to create a
+
+      // console.log(thisMonthIncome);
     }
   }, [thisMonthIncome]);
 

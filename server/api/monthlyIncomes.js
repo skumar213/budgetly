@@ -48,29 +48,16 @@ router.put("/", requireToken, async (req, res, next) => {
   }
 });
 
-//this should be for a put request
-//GET /monthlyIncome/:date, gets a single monthly income for a specific time period
-// router.get('/:date', requireToken, async (req, res, next) => {
-//   try {
-//     const selectedDate = new Date(req.params.date)
-//     const selectedMonth = selectedDate.getMonth() + 1;
-//     const selectedYear = selectedDate.getFullYear();
+//POST, /monthlyIncomes, creates a single monthly income for a user
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    const newMonthlyIncome = await MonthlyIncome.create(req.body);
+    const userWithMonthlyIncome = await newMonthlyIncome.setUser(user);
 
-//     console.log("---------here", selectedMonth)
 
-//     const monthlyIncome = await MonthlyIncome.findOne({
-//       where: {
-//         createdAt : {
-//           [Op.gte]: `${selectedMonth}/1/${selectedYear}`
-//         }
-//       },
-//       include: {
-//         model: User
-//       }
-//     })
-
-//     res.send(monthlyIncome)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
+    res.send(userWithMonthlyIncome).status(201)
+  } catch (error) {
+    next(error)
+  }
+})
