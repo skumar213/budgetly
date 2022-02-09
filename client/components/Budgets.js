@@ -116,7 +116,6 @@ const Budgets = () => {
     amount: setAmount,
     category: setCategory,
     isCreate: setIsCreate,
-    budgetCreatedAt: setBudgetCreatedAt,
   };
 
   //clear state helper
