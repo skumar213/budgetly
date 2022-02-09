@@ -50,7 +50,7 @@ export const _createMonthlyIncome = newIncome => async dispatch => {
   try {
     const newMonthlyIncome = await authenticateRequest('post', '/api/monthlyIncomes', newIncome)
 
-    dispatch(createMonthlyIncome(newMonthlyIncome);)
+    dispatch(createMonthlyIncome(newMonthlyIncome))
   } catch (error) {
     console.log(error)
   }
