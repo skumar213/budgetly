@@ -50,7 +50,7 @@ export const _updateInvestment = newInvInfo => async dispatch => {
     dispatch(updateInvestment(updatedInvestment));
   } catch (error) {
     console.log(error);
-    return dispatch(setError({error: error.response.data}))
+    return dispatch(setError({ error: error.response.data }));
   }
 };
 
@@ -58,7 +58,6 @@ export const _createInvestment = newInv => async dispatch => {
   try {
     const stockSymbol = newInv.tickerSymbol.toUpperCase();
     const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
-
 
     const newInvestment = await authenticateRequest(
       "post",
@@ -69,7 +68,7 @@ export const _createInvestment = newInv => async dispatch => {
     dispatch(createInvestment(newInvestment));
   } catch (error) {
     console.log(error);
-    return dispatch(setError({error: error.response.data}))
+    return dispatch(setError({ error: error.response.data }));
   }
 };
 
@@ -101,8 +100,7 @@ export default function (state = [], action) {
       );
       return [...updatedInvestments, action.investment];
     case CREATE_INVESTMENT:
-      const newInvestments = [...state, action.investment];
-      return newInvestments;
+      return [...state, action.investment];
     case DELETE_INVESTMENT:
       const removedInvestments = state.filter(
         inv => inv.id !== action.investment.id

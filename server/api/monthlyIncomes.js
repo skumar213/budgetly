@@ -49,15 +49,14 @@ router.put("/", requireToken, async (req, res, next) => {
 });
 
 //POST, /monthlyIncomes, creates a single monthly income for a user
-router.post('/', requireToken, async (req, res, next) => {
+router.post("/", requireToken, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
     const newMonthlyIncome = await MonthlyIncome.create(req.body);
     const userWithMonthlyIncome = await newMonthlyIncome.setUser(user);
 
-
-    res.send(userWithMonthlyIncome).status(201)
+    res.send(userWithMonthlyIncome).status(201);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
