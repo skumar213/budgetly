@@ -8,7 +8,10 @@ import Expenses from "./components/Expenses";
 import Budgets from "./components/Budgets";
 import Investments from "./components/Investments";
 import { me } from "./store/auth";
-import { _getMonthlyIncomes, _createMonthlyIncome } from "./store/monthlyIncomes";
+import {
+  _getMonthlyIncomes,
+  _createMonthlyIncome,
+} from "./store/monthlyIncomes";
 import { compareDates, sortSingle } from "./helpers";
 import { setDate } from "./store/date";
 
@@ -28,9 +31,9 @@ const Routes = props => {
     if (monthlyIncomes.length && !thisMonthIncome.length) {
       const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
 
-      dispatch(_createMonthlyIncome({amount: lastMonthIncome.amount}))
+      dispatch(_createMonthlyIncome({ amount: lastMonthIncome.amount }));
     }
-  }, [thisMonthIncome]);
+  }, [monthlyIncomes]);
 
   useEffect(() => {
     dispatch(me());
