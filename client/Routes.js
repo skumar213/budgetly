@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
@@ -8,13 +8,29 @@ import Expenses from "./components/Expenses";
 import Budgets from "./components/Budgets";
 import Investments from "./components/Investments";
 import { me } from "./store/auth";
+import { _getMonthlyIncomes } from "./store/monthlyIncomes";
+import { compareDates } from "./helpers";
+import { setDate } from "./store/date";
 
-const Routes = () => {
+const Routes = props => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => !!state.auth.id);
+  const currentDate = useSelector(state => state.date);
+  const monthlyIncomes = useSelector(state => state.monthlyIncomes);
+  const thisMonthIncome = monthlyIncomes.filter(inc =>
+    compareDates(inc.createdAt, currentDate.full)
+  );
+
+  useEffect(() => {
+    if (monthlyIncomes.length && !thisMonthIncome.length) {
+      console.log(thisMonthIncome);
+    }
+  }, [thisMonthIncome]);
 
   useEffect(() => {
     dispatch(me());
+    dispatch(_getMonthlyIncomes());
+    dispatch(setDate());
   }, []);
 
   return (
