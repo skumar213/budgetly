@@ -209,7 +209,13 @@ const Budgets = () => {
     }
   };
 
-  const currentMonths = Array.from(Array(12).keys());
+  let currentMonths;
+
+  if (currentDate.year === selectedYear) {
+    currentMonths = Array.from(Array(currentDate.num).keys());
+  } else {
+    currentMonths = Array.from(Array(12).keys());
+  }
 
   return (
     <div>
