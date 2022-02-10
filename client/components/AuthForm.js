@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate } from "../store";
+import { authenticate } from "../store/auth";
+import { _createMonthlyIncome } from "../store/monthlyIncomes";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ export const Signup = () => {
     const lastName = evt.target.lastName.value;
     const email = evt.target.email.value.toLowerCase();
     const password = evt.target.password.value;
-    const monthlyIncome = evt.target.monthlyIncome.value;
+    const monthlyIncome = parseFloat(evt.target.monthlyIncome.value);
 
     dispatch(
       authenticate(

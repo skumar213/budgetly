@@ -53,7 +53,7 @@ const Budgets = () => {
     }
   });
 
-  const filteredBudgets = allBudgets.filter(bud => {
+  const filteredBudgets = allBudgets.filter((bud, idx) => {
     const tmpDate = new Date(bud.createdAt);
     const year = tmpDate.getFullYear();
     const month = tmpDate.getMonth() + 1;
@@ -71,6 +71,8 @@ const Budgets = () => {
       return false;
     }
   });
+
+  if (!filteredBudgets.length) years[currentDate.year] = [currentDate.num];
 
   Object.values(years).forEach(yearMonths => {
     yearMonths.sort((a, b) => a - b);

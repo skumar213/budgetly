@@ -16,7 +16,6 @@ async function seed() {
   // Creating Users
   const users = await Promise.all([
     User.create({
-      id: 1,
       email: "cody@gmail.com",
       password: "123",
       firstName: "cody",
@@ -25,7 +24,6 @@ async function seed() {
       isAdmin: true,
     }),
     User.create({
-      id: 2,
       email: "murphy@gmail.com",
       password: "123",
       firstName: "murphy",
@@ -83,7 +81,11 @@ async function seed() {
   ]);
 
   // Assigning user to expenses/investments and each expense to a category
-  const user = await User.findByPk(1);
+  const user = await User.findOne({
+    where: {
+      email: "cody@gmail.com"
+    }
+  });
 
   for (let i = 0; i < expenses.length; i++) {
     //setting category for expenses
@@ -91,12 +93,12 @@ async function seed() {
 
     //setting category for budgets
     await budgets[i].setCategory(categories[i]);
-    await budgets[i+3].setCategory(categories[i])
+    await budgets[i + 3].setCategory(categories[i]);
 
     //adding expenses, investments, monthly incomes, and budgets to user
     await user.addExpense(expenses[i]);
     await user.addBudget(budgets[i]);
-    await user.addBudget(budgets[i+3]);
+    await user.addBudget(budgets[i + 3]);
     await user.addInvestment(investments[i]);
     await user.addMonthlyIncome(monthlyIncomes[i]);
   }
