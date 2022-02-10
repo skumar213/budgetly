@@ -7,10 +7,16 @@ import {
   _deleteBudget,
 } from "../store/budgets";
 import { _getCategories } from "../store/categories";
-import { sortSingle, sortDouble, compareDates } from "../helpers";
+import {
+  sortSingle,
+  sortDouble,
+  compareDates,
+  dateFilter,
+  months,
+  getTotal,
+} from "../helpers";
 import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
-import { months } from "../helpers";
 
 const Budgets = () => {
   const dispatch = useDispatch();
@@ -43,17 +49,15 @@ const Budgets = () => {
   const [currentMonths, setCurrentMonths] = useState([]);
 
   //data from redux state organized as needed for page
-  const currentMonthlyIncome = allMonthlyIncomes.filter(inc => {
-    if (selectedYear && selectedMonth) {
-      const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
+  const currentMonthlyIncome = dateFilter(
+    allMonthlyIncomes,
+    selectedMonth,
+    selectedYear,
+    currentDate,
+    "createdAt"
+  );
 
-      return compareDates(inc.createdAt, tmpDate);
-    } else {
-      return compareDates(inc.createdAt, currentDate.full);
-    }
-  });
-
-  const filteredBudgets = allBudgets.filter((bud) => {
+  allBudgets.forEach(bud => {
     const tmpDate = new Date(bud.createdAt);
     const year = tmpDate.getFullYear();
     const month = tmpDate.getMonth() + 1;
@@ -64,13 +68,15 @@ const Budgets = () => {
     } else if (!years[`${year}`].includes(month)) {
       years[`${year}`].push(month);
     }
-
-    if (year === selectedYear && month === selectedMonth) {
-      return true;
-    } else {
-      return false;
-    }
   });
+
+  const filteredBudgets = dateFilter(
+    allBudgets,
+    selectedMonth,
+    selectedYear,
+    currentDate,
+    "createdAt"
+  );
 
   if (!filteredBudgets.length) years[currentDate.year] = [currentDate.num];
 
@@ -78,10 +84,7 @@ const Budgets = () => {
     yearMonths.sort((a, b) => a - b);
   });
 
-  const currentTotalBudgetAmount = filteredBudgets.reduce(
-    (accu, bud) => accu + parseFloat(bud.amount),
-    0
-  );
+  const currentTotalBudgetAmount = getTotal(filteredBudgets);
   const currentRemainingBudget = (
     monthlyIncome - currentTotalBudgetAmount
   ).toFixed(2);
