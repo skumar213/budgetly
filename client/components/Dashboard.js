@@ -47,19 +47,22 @@ const Dashboard = () => {
     allMonthlyIncomes,
     selectedMonth,
     selectedYear,
-    currentDate
+    currentDate,
+    "createdAt"
   )[0] || { amount: 0 };
   const selectedBudgets = dateFilter(
     allBudgets,
     selectedMonth,
     selectedYear,
-    currentDate
+    currentDate,
+    "createdAt"
   );
   const selectedExpenses = dateFilter(
     allExpenses,
     selectedMonth,
     selectedYear,
-    currentDate
+    currentDate,
+    'dueDate'
   );
   allMonthlyIncomes.forEach(inc => {
     const tmpDate = new Date(inc.createdAt);
@@ -73,10 +76,16 @@ const Dashboard = () => {
       years[`${year}`].push(month);
     }
   });
-  const selectedTotalBudget = allBudgets.reduce(
+  const selectedTotalBudget = selectedBudgets.reduce(
     (accu, bud) => accu + parseFloat(bud.amount),
     0
   );
+  const selectTotalExpenses = selectedExpenses.reduce(
+    (accu, exp) => accu + parseFloat(exp.amount),
+    0
+  );
+
+  console.log(selectTotalExpenses)
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -117,8 +126,6 @@ const Dashboard = () => {
       setSelectedMonth(years[evtYear][0]);
     }
   };
-
-  console.log(selectedMonthlyIncome);
 
   return (
     <div id="container-fluid">
@@ -192,12 +199,12 @@ const Dashboard = () => {
                         0 ? (
                           <span>
                             $
-                            {selectedMonthlyIncome.amount - selectedTotalBudget}
+                            {(selectedMonthlyIncome.amount - selectedTotalBudget).toFixed(2)}
                           </span>
                         ) : (
                           <span className="text-danger">
                             $
-                            {selectedMonthlyIncome.amount - selectedTotalBudget}
+                            {(selectedMonthlyIncome.amount - selectedTotalBudget).toFixed(2)}
                           </span>
                         )}
                       </span>
@@ -219,7 +226,7 @@ const Dashboard = () => {
                       <span>Expected Expenses (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0 me-3">
-                      <span>$40,000</span>
+                      <span>${selectTotalExpenses.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="col-auto">
