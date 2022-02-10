@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import history from "../history";
 import {
   _getExpenses,
   _updateExpense,
@@ -12,6 +11,19 @@ import { sortSingle } from "../helpers";
 
 const Expenses = () => {
   const dispatch = useDispatch();
+
+  //local states
+  const [currentId, setCurrentId] = useState("");
+  const [merchant, setMerchant] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [paidDate, setPaidDate] = useState("");
+  const [isRepeat, setIsRepeat] = useState("");
+  const [isCreate, setIsCreate] = useState("");
+  const [filterType, setFilterType] = useState("outstanding");
+
+  //redux states
   const allExpenses =
     sortSingle(
       useSelector(state => state.expenses),
@@ -24,21 +36,24 @@ const Expenses = () => {
       "name"
     ) || [];
 
+  //data from redux state organized as needed for page
+  const filteredExpenses = allExpenses.filter(exp => {
+    if (filterType === "paid") {
+      return exp.paidDate;
+    } else if (filterType === "outstanding") {
+      return !exp.paidDate;
+    } else {
+      return exp;
+    }
+  });
+
+  if (filterType === "paid") sortSingle(filteredExpenses, "paidDate");
+
+  //useEffect to fetch data
   useEffect(() => {
     dispatch(_getExpenses());
     dispatch(_getCategories());
   }, []);
-
-  //all states
-  const [currentId, setCurrentId] = useState("");
-  const [merchant, setMerchant] = useState("");
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [paidDate, setPaidDate] = useState("");
-  const [isRepeat, setIsRepeat] = useState("");
-  const [isCreate, setIsCreate] = useState("");
-  const [filterType, setFilterType] = useState("outstanding");
 
   //legend to help call the setstate functions
   const legend = {
@@ -79,7 +94,7 @@ const Expenses = () => {
     clearState();
   };
 
-  //event handlers for UPDATE
+  //UPDATE event handlers
   const handleEdit = exp => evt => {
     evt.preventDefault();
 
@@ -145,14 +160,14 @@ const Expenses = () => {
     clearState();
   };
 
-  //event handler for DELETE
+  //DELETE event handler
   const handleDelete = exp => evt => {
     evt.preventDefault();
 
     dispatch(_deleteExpense(exp));
   };
 
-  //Event handler for CREATE
+  //CREATE event handler
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
@@ -201,16 +216,6 @@ const Expenses = () => {
     setIsCreate(true);
     setCategory(allCategories[0].name);
   };
-
-  const filteredExpenses = allExpenses.filter(exp => {
-    if (filterType === "paid") {
-      return exp.paidDate;
-    } else if (filterType === "outstanding") {
-      return !exp.paidDate;
-    } else {
-      return exp;
-    }
-  });
 
   return (
     <div>

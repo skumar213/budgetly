@@ -93,7 +93,7 @@ const Budgets = () => {
     cat => !allocatedCategories.includes(cat.name)
   );
 
-  //useEffects to fetch data and set the inital income/month/year
+  //useEffects to fetch data and set the income/month/year/currentMonths
   useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getCategories());
