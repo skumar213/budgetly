@@ -47,9 +47,12 @@ const Routes = () => {
 
   useEffect(() => {
     dispatch(me());
-    dispatch(_getMonthlyIncomes());
     dispatch(setDate());
-    dispatch(_getBudgets());
+
+    if (isLoggedIn) {
+      dispatch(_getMonthlyIncomes());
+      dispatch(_getBudgets());
+    }
   }, []);
 
   return (

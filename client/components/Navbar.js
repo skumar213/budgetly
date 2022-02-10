@@ -16,23 +16,22 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-      {isLoggedIn ? (
-        <div className="container-fluid d-flex flex-column p-0">
-          <a
-            className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-            href="#"
-          >
-            <div className="sidebar-brand-icon rotate-n-15">
-              <i className="fas fa-laugh-wink"></i>
-            </div>
-            <div className="sidebar-brand-text mx-3">
-              <span>Budgetly</span>
-            </div>
-          </a>
-          <hr className="sidebar-divider my-0" />
+      <div className="container-fluid d-flex flex-column p-0">
+        <a
+          className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+          href="#"
+        >
+          <div className="sidebar-brand-icon rotate-n-15">
+            <i className="fas fa-laugh-wink"></i>
+          </div>
+          <div className="sidebar-brand-text mx-3">
+            <span>Budgetly</span>
+          </div>
+        </a>
+        <hr className="sidebar-divider my-0" />
 
+        {isLoggedIn ? (
           <ul id="accordionSidebar" className="navbar-nav text-light">
-            {/* The navbar will show these links after you log in */}
             <li className="nav-item">
               <Link className="nav-link active" to="/home">
                 <i className="fas fa-tachometer-alt"></i>
@@ -70,14 +69,23 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-        </div>
-      ) : (
-        <div className="container">
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
+        ) : (
+          <ul id="accordionSidebar" className="navbar-nav text-light">
+            <li className="nav-item">
+              <Link className="nav-link active" to="/login">
+                <i className="fas fa-user"></i>
+                <span>Login</span>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link active" to="/signup">
+                <i className="fas fa-user-circle"></i>
+                <span>Signup</span>
+              </Link>
+            </li>
+          </ul>
+        )}
+      </div>
     </nav>
   );
 };
