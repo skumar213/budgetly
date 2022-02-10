@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 
 const Navbar = () => {
-  const isLoggedIn = useSelector(state => !!state.auth.id);
   const dispatch = useDispatch();
 
+  //redux states
+  const isLoggedIn = useSelector(state => !!state.auth.id);
+
+  //Logout event handler
   const handleClick = () => {
     dispatch(logout());
   };
@@ -80,6 +83,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-

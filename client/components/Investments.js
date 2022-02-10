@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import history from "../history";
 import {
   _getInvestments,
   _updateInvestment,
@@ -12,22 +11,25 @@ import { clearError } from "../store/errorHandler";
 
 const Investments = () => {
   const dispatch = useDispatch();
+
+  //redux states
   const allInvestments = sortSingle(
     useSelector(state => state.investments),
     "tickerSymbol"
   );
   const error = useSelector(state => state.errorHandler);
 
-  useEffect(() => {
-    dispatch(_getInvestments());
-  }, []);
-
-  //all states
+  //local states
   const [currentId, setCurrentId] = useState("");
   const [tickerSymbol, setTickerSymbol] = useState("");
   const [buyPrice, setBuyPrice] = useState("");
   const [totalShares, setTotalShares] = useState("");
   const [isCreate, setIsCreate] = useState("");
+
+  //useEffect to fetch data
+  useEffect(() => {
+    dispatch(_getInvestments());
+  }, []);
 
   //legend to help call the setstate functions
   const legend = {
@@ -45,7 +47,7 @@ const Investments = () => {
     }
   };
 
-  //event handler for changing any form
+  //event handler for changing all forms
   const handleChange = evt => {
     const fn = legend[evt.target.name];
 
@@ -59,7 +61,7 @@ const Investments = () => {
     clearState();
   };
 
-  //event handlers for UPDATE
+  //UPDATE event handlers
   const handleEdit = inv => evt => {
     evt.preventDefault();
     dispatch(clearError());
@@ -85,7 +87,7 @@ const Investments = () => {
     clearState();
   };
 
-  //event handler for DELETE
+  //DELETE event handler
   const handleDelete = inv => evt => {
     evt.preventDefault();
 
@@ -93,7 +95,7 @@ const Investments = () => {
     dispatch(_deleteInvestment(inv));
   };
 
-  //Event handler for CREATE
+  //CREATE Event handler
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 

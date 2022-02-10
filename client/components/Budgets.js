@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import history from "../history";
 import {
   _getBudgets,
   _updateBudget,
@@ -17,16 +16,6 @@ const Budgets = () => {
   const dispatch = useDispatch();
   const years = {};
 
-  //local states
-  const [currentId, setCurrentId] = useState("");
-  const [category, setCategory] = useState("");
-  const [amount, setAmount] = useState("");
-  const [isCreate, setIsCreate] = useState("");
-  const [monthlyIncome, setMonthlyIncome] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [currentMonths, setCurrentMonths] = useState([]);
-
   //redux states
   const currentDate = useSelector(state => state.date);
   const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
@@ -42,6 +31,16 @@ const Budgets = () => {
       "category",
       "name"
     ) || [];
+
+  //local states
+  const [currentId, setCurrentId] = useState("");
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [isCreate, setIsCreate] = useState("");
+  const [monthlyIncome, setMonthlyIncome] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [currentMonths, setCurrentMonths] = useState([]);
 
   //data from redux state organized as needed for page
   const currentMonthlyIncome = allMonthlyIncomes.filter(inc => {
@@ -135,7 +134,7 @@ const Budgets = () => {
     }
   };
 
-  //event handler for changing any form
+  //event handler for changing all forms
   const handleChange = evt => {
     const fn = legend[evt.target.name];
     fn(evt.target.value);

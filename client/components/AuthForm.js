@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { authenticate } from "../store";
 
 export const Login = () => {
-  const error = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
 
+  //redux state
+  const error = useSelector(state => state.auth.error);
+
+  //log in event handler
   const handleSubmit = evt => {
     evt.preventDefault();
     const email = evt.target.email.value.toLowerCase();
@@ -38,9 +41,12 @@ export const Login = () => {
 };
 
 export const Signup = () => {
-  const error = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
 
+  //redux state
+  const error = useSelector(state => state.auth.error);
+
+  //sign up event handler
   const handleSubmit = evt => {
     evt.preventDefault();
     const firstName = evt.target.firstName.value;

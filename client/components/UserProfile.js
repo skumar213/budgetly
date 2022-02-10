@@ -11,14 +11,14 @@ import { compareDates, sortSingle } from "../helpers";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
+  const years = {};
+
+  //redux states
   const currentUser = useSelector(state => state.auth);
   const monthlyIncomes = useSelector(state => state.monthlyIncomes);
   const currentDate = useSelector(state => state.date);
-  const thisMonthIncome = monthlyIncomes.filter(inc =>
-    compareDates(inc.createdAt, currentDate.full)
-  );
-  const years = {};
 
+  //local states
   const [email, setEmail] = useState(currentUser.email);
   const [firstName, setFirstName] = useState(currentUser.firstName);
   const [lastName, setLastName] = useState(currentUser.lastName);
@@ -27,37 +27,34 @@ const UserProfile = () => {
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
 
-  let allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt").map(inc => {
-    const date = new Date(inc.createdAt);
-    return {
-      id: inc.id,
-      date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
-    };
-  });
+  //data from redux state organized as needed for page
+  const thisMonthIncome = monthlyIncomes.filter(inc =>
+    compareDates(inc.createdAt, currentDate.full)
+  );
+  const allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt")
+    .map(inc => {
+      const date = new Date(inc.createdAt);
+      return {
+        id: inc.id,
+        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
+      };
+    })
+    .filter(date => {
+      const year = new Date(date.date).getFullYear();
 
-  allDatesForIncomes = allDatesForIncomes.filter(date => {
-    const year = new Date(date.date).getFullYear();
+      //Puts the current year with the id of the earliest month in the years object. No duplicates
+      if (!years[`${year}`]) {
+        years[`${year}`] = date.id;
+      }
 
-    //Puts the current year with the id of the earliest month in the years object. No duplicates
-    if (!years[`${year}`]) {
-      years[`${year}`] = date.id;
-    }
+      if (year === selectedYear) {
+        return true;
+      } else {
+        return false;
+      }
+    });
 
-    if (year === selectedYear) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  const legend = {
-    email: setEmail,
-    firstName: setFirstName,
-    lastName: setLastName,
-    password: setPassword,
-    monthlyIncome: setMonthlyIncome,
-  };
-
+  //useEffects to fetch data and set the income/month/year
   useEffect(() => {
     dispatch(_getMonthlyIncomes());
     dispatch(setDate());
@@ -71,27 +68,23 @@ const UserProfile = () => {
     }
   }, [monthlyIncomes]);
 
-  //for user info
+  //legend to help call the setstate functions
+  const legend = {
+    email: setEmail,
+    firstName: setFirstName,
+    lastName: setLastName,
+    password: setPassword,
+    monthlyIncome: setMonthlyIncome,
+  };
+
+  //event handler for changing user info form
   const handleChange = evt => {
     const fn = legend[evt.target.name];
 
     fn(evt.target.value);
   };
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
-
-    const lowerCaseEmail = email.toLowerCase();
-
-    const newInfo = password
-      ? { email: lowerCaseEmail, firstName, lastName, password }
-      : { email: lowerCaseEmail, firstName, lastName };
-
-    dispatch(_updateUser(newInfo));
-    history.push("/home");
-  };
-
-  //for monthly income
+  //event handler for changing monthly income form
   const handeIncomeChange = evt => {
     const id = parseInt(evt.target.value);
     const amount = parseFloat(
@@ -102,7 +95,7 @@ const UserProfile = () => {
     setMonthlyIncome(amount);
   };
 
-  const handeIncomeYearChange = evt => {
+  const handeIncomeDateChange = evt => {
     const evtYear = parseInt(evt.target.value);
     const evtId = years[evt.target.value];
     const todayYear = new Date(thisMonthIncome[0].createdAt).getFullYear();
@@ -121,6 +114,21 @@ const UserProfile = () => {
     }
   };
 
+  //UPDATE user info event handlers
+  const handleSubmit = evt => {
+    evt.preventDefault();
+
+    const lowerCaseEmail = email.toLowerCase();
+
+    const newInfo = password
+      ? { email: lowerCaseEmail, firstName, lastName, password }
+      : { email: lowerCaseEmail, firstName, lastName };
+
+    dispatch(_updateUser(newInfo));
+    history.push("/home");
+  };
+
+  //UPDATE monthly income event handler
   const handleIncomeSubmit = evt => {
     evt.preventDefault();
 
@@ -211,7 +219,7 @@ const UserProfile = () => {
           <select
             name="incomeDropDownYear"
             value={selectedYear}
-            onChange={handeIncomeYearChange}
+            onChange={handeIncomeDateChange}
           >
             {Object.entries(years).map(year => (
               <option key={year[1]} value={year[0]}>

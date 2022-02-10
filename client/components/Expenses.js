@@ -12,17 +12,6 @@ import { sortSingle } from "../helpers";
 const Expenses = () => {
   const dispatch = useDispatch();
 
-  //local states
-  const [currentId, setCurrentId] = useState("");
-  const [merchant, setMerchant] = useState("");
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [paidDate, setPaidDate] = useState("");
-  const [isRepeat, setIsRepeat] = useState("");
-  const [isCreate, setIsCreate] = useState("");
-  const [filterType, setFilterType] = useState("outstanding");
-
   //redux states
   const allExpenses =
     sortSingle(
@@ -35,6 +24,17 @@ const Expenses = () => {
       useSelector(state => state.categories),
       "name"
     ) || [];
+
+  //local states
+  const [currentId, setCurrentId] = useState("");
+  const [merchant, setMerchant] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [paidDate, setPaidDate] = useState("");
+  const [isRepeat, setIsRepeat] = useState("");
+  const [isCreate, setIsCreate] = useState("");
+  const [filterType, setFilterType] = useState("outstanding");
 
   //data from redux state organized as needed for page
   const filteredExpenses = allExpenses.filter(exp => {
@@ -74,7 +74,7 @@ const Expenses = () => {
     }
   };
 
-  //event handler for changing any form
+  //event handler for changing all forms
   const handleChange = evt => {
     const fn = legend[evt.target.name];
 
