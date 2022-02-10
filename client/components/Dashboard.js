@@ -48,19 +48,19 @@ const Dashboard = () => {
     selectedMonth,
     selectedYear,
     currentDate
-  );
+  )[0] || {amount: 0};
   const selectedBudgets = dateFilter(
     allBudgets,
     selectedMonth,
     selectedYear,
     currentDate
-  )
+  );
   const selectedExpenses = dateFilter(
     allExpenses,
     selectedMonth,
     selectedYear,
     currentDate
-  )
+  );
   allMonthlyIncomes.forEach(inc => {
     const tmpDate = new Date(inc.createdAt);
     const year = tmpDate.getFullYear();
@@ -72,12 +72,7 @@ const Dashboard = () => {
     } else if (!years[`${year}`].includes(month)) {
       years[`${year}`].push(month);
     }
-  })
-
-  console.log(years)
-
-
-
+  });
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -90,8 +85,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     setSelectedMonth(currentDate.num);
-    setSelectedYear(currentDate.year)
-  },[currentDate])
+    setSelectedYear(currentDate.year);
+  }, [currentDate]);
 
   useEffect(() => {
     if (currentDate.year === selectedYear) {
@@ -101,8 +96,6 @@ const Dashboard = () => {
       setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
     }
   }, [selectedYear]);
-
-
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {
@@ -121,6 +114,8 @@ const Dashboard = () => {
     }
   };
 
+  console.log(selectedMonthlyIncome)
+
   return (
     <div id="container-fluid">
       <div className="container-fluid">
@@ -128,37 +123,37 @@ const Dashboard = () => {
           <h3 className="text-dark mb-0">Dashboard</h3>
         </div>
         <div>
-        <label htmlFor="DropDownMonth">
-          <small>Select Month </small>
-        </label>
-        <select
-          name="DropDownMonth"
-          value={selectedMonth}
-          onChange={handleMonthChange}
-        >
-          {currentMonths.map((month, idx) => (
-            <option key={idx} value={month + 1}>
-              {month + 1}
-            </option>
-          ))}
-        </select>
+          <label htmlFor="DropDownMonth">
+            <small>Select Month </small>
+          </label>
+          <select
+            name="DropDownMonth"
+            value={selectedMonth}
+            onChange={handleMonthChange}
+          >
+            {currentMonths.map((month, idx) => (
+              <option key={idx} value={month + 1}>
+                {month + 1}
+              </option>
+            ))}
+          </select>
 
-        <label htmlFor="DropDownYear">
-          <small>Select Year </small>
-        </label>
-        <select
-          name="DropDownYear"
-          value={selectedYear}
-          onChange={handleYearChange}
-        >
-          {Object.entries(years).map(year => (
-            <option key={year[1]} value={year[0]}>
-              {year[0]}
-            </option>
-          ))}
-        </select>
-      </div>
-      <hr></hr>
+          <label htmlFor="DropDownYear">
+            <small>Select Year </small>
+          </label>
+          <select
+            name="DropDownYear"
+            value={selectedYear}
+            onChange={handleYearChange}
+          >
+            {Object.entries(years).map(year => (
+              <option key={year[1]} value={year[0]}>
+                {year[0]}
+              </option>
+            ))}
+          </select>
+        </div>
+        <hr></hr>
         <div className="row">
           <div className="col-md-6 col-xl-3 mb-4">
             <div className="card shadow border-start-primary py-2">
@@ -169,7 +164,7 @@ const Dashboard = () => {
                       <span>Total Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      {/* <span>${monthlyIncome.toFixed(2)}</span> */}
+                      <span>${selectedMonthlyIncome.amount}</span>
                     </div>
                   </div>
                   <div className="col-auto">
