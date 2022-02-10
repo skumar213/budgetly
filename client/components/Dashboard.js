@@ -15,12 +15,6 @@ const Dashboard = () => {
   //redux states
   const currentDate = useSelector(state => state.date);
   const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
-  const allCategories =
-    sortSingle(
-      useSelector(state => state.categories),
-      "name"
-    ) || [];
-
   const allBudgets =
     sortDouble(
       useSelector(state => state.budgets),
@@ -37,10 +31,16 @@ const Dashboard = () => {
     useSelector(state => state.investments),
     "tickerSymbol"
   );
+  const allCategories =
+    sortSingle(
+      useSelector(state => state.categories),
+      "name"
+    ) || [];
 
   //local states
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [currentMonths, setCurrentMonths] = useState([]);
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -55,9 +55,28 @@ const Dashboard = () => {
     selectedYear,
     currentDate
   )
+  const selectedExpenses = dateFilter(
+    allExpenses,
+    selectedMonth,
+    selectedYear,
+    currentDate
+  )
+  allMonthlyIncomes.forEach(inc => {
+    const tmpDate = new Date(inc.createdAt);
+    const year = tmpDate.getFullYear();
+    const month = tmpDate.getMonth() + 1;
+
+    //Puts the current year with the an array of all the currentMonths for the year. No duplicates in the object or array.
+    if (!years[`${year}`]) {
+      years[`${year}`] = [month];
+    } else if (!years[`${year}`].includes(month)) {
+      years[`${year}`].push(month);
+    }
+  })
+
+  console.log(years)
 
 
-  console.log(allBudgets)
 
 
   useEffect(() => {
@@ -69,7 +88,38 @@ const Dashboard = () => {
     dispatch(_getCategories());
   }, []);
 
-  // console.log(currentDate)
+  useEffect(() => {
+    setSelectedMonth(currentDate.num);
+    setSelectedYear(currentDate.year)
+  },[currentDate])
+
+  useEffect(() => {
+    if (currentDate.year === selectedYear) {
+      setCurrentMonths(Array.from(Array(currentDate.num).keys()));
+    } else {
+      const idx = years[selectedYear] || 1;
+      setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
+    }
+  }, [selectedYear]);
+
+
+
+  //Event handlers for month & year dropdown
+  const handleMonthChange = evt => {
+    setSelectedMonth(parseInt(evt.target.value));
+  };
+
+  const handleYearChange = evt => {
+    const evtYear = parseInt(evt.target.value);
+
+    setSelectedYear(evtYear);
+
+    if (evtYear === currentDate.year) {
+      setSelectedMonth(currentDate.num);
+    } else {
+      setSelectedMonth(years[evtYear][0]);
+    }
+  };
 
   return (
     <div id="container-fluid">
@@ -77,6 +127,38 @@ const Dashboard = () => {
         <div className="d-sm-flex justify-content-between align-items-center mb-4">
           <h3 className="text-dark mb-0">Dashboard</h3>
         </div>
+        <div>
+        <label htmlFor="DropDownMonth">
+          <small>Select Month </small>
+        </label>
+        <select
+          name="DropDownMonth"
+          value={selectedMonth}
+          onChange={handleMonthChange}
+        >
+          {currentMonths.map((month, idx) => (
+            <option key={idx} value={month + 1}>
+              {month + 1}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="DropDownYear">
+          <small>Select Year </small>
+        </label>
+        <select
+          name="DropDownYear"
+          value={selectedYear}
+          onChange={handleYearChange}
+        >
+          {Object.entries(years).map(year => (
+            <option key={year[1]} value={year[0]}>
+              {year[0]}
+            </option>
+          ))}
+        </select>
+      </div>
+      <hr></hr>
         <div className="row">
           <div className="col-md-6 col-xl-3 mb-4">
             <div className="card shadow border-start-primary py-2">

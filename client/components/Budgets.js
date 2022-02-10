@@ -53,7 +53,7 @@ const Budgets = () => {
     }
   });
 
-  const filteredBudgets = allBudgets.filter((bud, idx) => {
+  const filteredBudgets = allBudgets.filter((bud) => {
     const tmpDate = new Date(bud.createdAt);
     const year = tmpDate.getFullYear();
     const month = tmpDate.getMonth() + 1;
