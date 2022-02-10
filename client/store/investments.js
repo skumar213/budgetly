@@ -1,6 +1,7 @@
 import { authenticateRequest } from "./gateKeepingMiddleware";
 import axios from "axios";
 import { setError } from "./errorHandler";
+import { sortSingle } from "../helpers";
 
 //ACTION TYPES
 const SET_INVESTMENTS = "SET_INVESTMENTS";
@@ -37,9 +38,40 @@ export const _getInvestments = () => async dispatch => {
   }
 };
 
+export const getInvestmentsPrice = async investments => {
+  try {
+    const tickerSymbols = investments.reduce((accu, inv, idx) => {
+      if (idx === 0) {
+        return accu + inv.tickerSymbol;
+      } else {
+        return accu + "," + inv.tickerSymbol;
+      }
+    }, "");
+
+    const { data: currentInvestmentPrices } = await axios.get(
+      `/api/yahoo/${tickerSymbols}`
+    );
+
+    const currentInvestmentPricesSorted = sortSingle(
+      currentInvestmentPrices,
+      "symbol"
+    );
+
+    investments.forEach((inv, idx) => {
+      inv.currentPrice = currentInvestmentPricesSorted[idx].currentPrice;
+    });
+
+    return investments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const _updateInvestment = newInvInfo => async dispatch => {
   try {
     const stockSymbol = newInvInfo.tickerSymbol.toUpperCase();
+
+    //Need this to catch error if stock is invalid
     const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
 
     const updatedInvestment = await authenticateRequest(
@@ -57,6 +89,8 @@ export const _updateInvestment = newInvInfo => async dispatch => {
 export const _createInvestment = newInv => async dispatch => {
   try {
     const stockSymbol = newInv.tickerSymbol.toUpperCase();
+
+    //Need this to catch error if stock is invalid
     const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
 
     const newInvestment = await authenticateRequest(

@@ -5,7 +5,7 @@ import { _getExpenses } from "../store/expenses";
 import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { _getCategories } from "../store/categories";
-import { _getInvestments } from "../store/investments";
+import { _getInvestments, getInvestmentsPrice } from "../store/investments";
 import { sortSingle, sortDouble, compareDates, dateFilter } from "../helpers";
 
 const Dashboard = () => {
@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
+  const [currentInvestmentPrices, setCurrentInvestmentPrices] = useState([]);
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -71,7 +72,6 @@ const Dashboard = () => {
     currentDate,
     "paidDate"
   );
-
   allMonthlyIncomes.forEach(inc => {
     const tmpDate = new Date(inc.createdAt);
     const year = tmpDate.getFullYear();
@@ -120,6 +120,17 @@ const Dashboard = () => {
       setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
     }
   }, [selectedYear]);
+
+  useEffect(() => {
+    const run = async () => {
+      if (allInvestments.length) {
+        setCurrentInvestmentPrices(await getInvestmentsPrice(allInvestments));
+      }
+    };
+    run();
+  }, [allInvestments]);
+
+  console.log(allInvestments ,currentInvestmentPrices);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {

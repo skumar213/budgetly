@@ -19,6 +19,7 @@ const yahooOptions = tickerSymbol => {
 };
 
 //GET /yahoo/:tickerSymbol, will get a single or multiple stocks
+//for multiple stocks separate with a comma
 router.get("/:tickerSymbol", async (req, res, next) => {
   try {
     const symbolsArr = req.params.tickerSymbol.split(",");
@@ -29,7 +30,7 @@ router.get("/:tickerSymbol", async (req, res, next) => {
     //Throw error if any of the stock names are wrong
     if (stock.length !== symbolsArr.length) {
       const wrongNameError = new Error("Invalid Stock Ticker");
-      next(wrongNameError)
+      next(wrongNameError);
     } else {
       const mappedStock = stock.map(s => {
         return {
