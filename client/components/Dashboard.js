@@ -48,7 +48,7 @@ const Dashboard = () => {
     selectedMonth,
     selectedYear,
     currentDate
-  )[0] || {amount: 0};
+  )[0] || { amount: 0 };
   const selectedBudgets = dateFilter(
     allBudgets,
     selectedMonth,
@@ -73,6 +73,10 @@ const Dashboard = () => {
       years[`${year}`].push(month);
     }
   });
+  const selectedTotalBudget = allBudgets.reduce(
+    (accu, bud) => accu + parseFloat(bud.amount),
+    0
+  );
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -114,7 +118,7 @@ const Dashboard = () => {
     }
   };
 
-  console.log(selectedMonthlyIncome)
+  console.log(selectedMonthlyIncome);
 
   return (
     <div id="container-fluid">
@@ -184,15 +188,18 @@ const Dashboard = () => {
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>
-                        {/* {monthlyIncome - totalBudget >= 0 ? (
+                        {selectedMonthlyIncome.amount - selectedTotalBudget >=
+                        0 ? (
                           <span>
-                            ${(monthlyIncome - totalBudget).toFixed(2)}
+                            $
+                            {selectedMonthlyIncome.amount - selectedTotalBudget}
                           </span>
                         ) : (
                           <span className="text-danger">
-                            ${(monthlyIncome - totalBudget).toFixed(2)}
+                            $
+                            {selectedMonthlyIncome.amount - selectedTotalBudget}
                           </span>
-                        )} */}
+                        )}
                       </span>
                     </div>
                   </div>
