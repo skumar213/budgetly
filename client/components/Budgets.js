@@ -13,18 +13,11 @@ import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { months } from "../helpers";
 
-/*
-Page notes
-1) can only create a budget for a category once
-2) need to delete/update if you want to change categoryes around
-3) created date will default to the selected month and year
-*/
-
 const Budgets = () => {
   const dispatch = useDispatch();
   const years = {};
 
-  //all states
+  //local states
   const [currentId, setCurrentId] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -32,7 +25,11 @@ const Budgets = () => {
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [currentMonths, setCurrentMonths] = useState([]);
 
+  //redux states
+  const currentDate = useSelector(state => state.date);
+  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
   const allCategories =
     sortSingle(
       useSelector(state => state.categories),
@@ -46,8 +43,7 @@ const Budgets = () => {
       "name"
     ) || [];
 
-  const currentDate = useSelector(state => state.date);
-  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
+  //data from redux state organized as needed for page
   const currentMonthlyIncome = allMonthlyIncomes.filter(inc => {
     if (selectedYear && selectedMonth) {
       const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
@@ -97,6 +93,7 @@ const Budgets = () => {
     cat => !allocatedCategories.includes(cat.name)
   );
 
+  //useEffects to fetch data and set the inital income/month/year
   useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getCategories());
@@ -113,6 +110,15 @@ const Budgets = () => {
       setMonthlyIncome(parseInt(currentMonthlyIncome[0].amount).toFixed(2));
     }
   }, [currentMonthlyIncome]);
+
+  useEffect(() => {
+    if (currentDate.year === selectedYear) {
+      setCurrentMonths(Array.from(Array(currentDate.num).keys()));
+    } else {
+      const idx = years[selectedYear] || 1;
+      setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
+    }
+  }, [selectedYear]);
 
   //legend to help call the setstate functions
   const legend = {
@@ -142,7 +148,7 @@ const Budgets = () => {
     clearState();
   };
 
-  //event handlers for UPDATE
+  //UPDATE event handlers
   const handleEdit = bud => evt => {
     evt.preventDefault();
 
@@ -165,14 +171,14 @@ const Budgets = () => {
     clearState();
   };
 
-  //event handler for DELETE
+  //DELETE event handler
   const handleDelete = bud => evt => {
     evt.preventDefault();
 
     dispatch(_deleteBudget(bud));
   };
 
-  //Event handler for CREATE
+  //CREATE Event handler
   const handleCreateSubmit = evt => {
     evt.preventDefault();
 
@@ -196,7 +202,7 @@ const Budgets = () => {
     setCategory(remainingCategories[0].name);
   };
 
-  //Event handler for dropdown
+  //Event handlers for month & year dropdown
   const handleMonthChange = evt => {
     setSelectedMonth(parseInt(evt.target.value));
   };
@@ -212,16 +218,6 @@ const Budgets = () => {
       setSelectedMonth(years[evtYear][0]);
     }
   };
-
-  let currentMonths;
-
-  if (currentDate.year === selectedYear) {
-    currentMonths = Array.from(Array(currentDate.num).keys());
-  } else {
-    const idx = years[selectedYear] || 1;
-
-    currentMonths = Array.from(Array(12).keys()).slice(idx - 1);
-  }
 
   return (
     <div>
