@@ -57,13 +57,21 @@ const Dashboard = () => {
     currentDate,
     "createdAt"
   );
-  const selectedExpenses = dateFilter(
+  const selectedExpensesDue = dateFilter(
     allExpenses,
     selectedMonth,
     selectedYear,
     currentDate,
-    'dueDate'
+    "dueDate"
   );
+  const selectedExpensesPaid = dateFilter(
+    allExpenses,
+    selectedMonth,
+    selectedYear,
+    currentDate,
+    "paidDate"
+  );
+
   allMonthlyIncomes.forEach(inc => {
     const tmpDate = new Date(inc.createdAt);
     const year = tmpDate.getFullYear();
@@ -80,12 +88,15 @@ const Dashboard = () => {
     (accu, bud) => accu + parseFloat(bud.amount),
     0
   );
-  const selectTotalExpenses = selectedExpenses.reduce(
+  const selectTotalExpensesDue = selectedExpensesDue.reduce(
     (accu, exp) => accu + parseFloat(exp.amount),
     0
   );
-
-  console.log(selectTotalExpenses)
+  const selectTotalExpensesPaid = selectedExpensesPaid.reduce(
+    (accu, exp) => accu + parseFloat(exp.amount),
+    0
+  );
+  const selectTotalExpenses = selectTotalExpensesDue + selectTotalExpensesPaid;
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -199,12 +210,16 @@ const Dashboard = () => {
                         0 ? (
                           <span>
                             $
-                            {(selectedMonthlyIncome.amount - selectedTotalBudget).toFixed(2)}
+                            {(
+                              selectedMonthlyIncome.amount - selectedTotalBudget
+                            ).toFixed(2)}
                           </span>
                         ) : (
                           <span className="text-danger">
                             $
-                            {(selectedMonthlyIncome.amount - selectedTotalBudget).toFixed(2)}
+                            {(
+                              selectedMonthlyIncome.amount - selectedTotalBudget
+                            ).toFixed(2)}
                           </span>
                         )}
                       </span>
