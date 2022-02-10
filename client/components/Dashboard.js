@@ -6,7 +6,13 @@ import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { _getCategories } from "../store/categories";
 import { _getInvestments, getInvestmentsPrice } from "../store/investments";
-import { sortSingle, sortDouble, compareDates, dateFilter } from "../helpers";
+import {
+  sortSingle,
+  sortDouble,
+  compareDates,
+  dateFilter,
+  getTotal,
+} from "../helpers";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -84,19 +90,13 @@ const Dashboard = () => {
       years[`${year}`].push(month);
     }
   });
-  const selectedTotalBudget = selectedBudgets.reduce(
-    (accu, bud) => accu + parseFloat(bud.amount),
-    0
-  );
-  const selectTotalExpensesDue = selectedExpensesDue.reduce(
-    (accu, exp) => accu + parseFloat(exp.amount),
-    0
-  );
-  const selectTotalExpensesPaid = selectedExpensesPaid.reduce(
-    (accu, exp) => accu + parseFloat(exp.amount),
-    0
-  );
+  const selectedTotalBudget = getTotal(selectedBudgets);
+  const selectTotalExpensesDue = getTotal(selectedExpensesDue);
+  const selectTotalExpensesPaid = getTotal(selectedExpensesPaid);
   const selectTotalExpenses = selectTotalExpensesDue + selectTotalExpensesPaid;
+  const currentPortfolioPrice = currentInvestmentPrices.reduce((accu, inv) => {
+    return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
+  }, 0);
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -129,8 +129,6 @@ const Dashboard = () => {
     };
     run();
   }, [allInvestments]);
-
-  console.log(allInvestments ,currentInvestmentPrices);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {
@@ -271,7 +269,7 @@ const Dashboard = () => {
                       <span>Total Portfolio Value</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>$40,000</span>
+                      <span>${currentPortfolioPrice}</span>
                     </div>
                   </div>
                   <div className="col-auto">

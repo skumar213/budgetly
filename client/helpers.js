@@ -51,7 +51,13 @@ export const compareDates = (createdDate, currentDate) => {
 };
 
 //Filter items so it only shows the current month
-export const dateFilter = (arr, selectedMonth, selectedYear, currentDate, name) => {
+export const dateFilter = (
+  arr,
+  selectedMonth,
+  selectedYear,
+  currentDate,
+  name
+) => {
   return arr.filter(item => {
     if (selectedYear && selectedMonth) {
       const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
@@ -61,4 +67,9 @@ export const dateFilter = (arr, selectedMonth, selectedYear, currentDate, name) 
       return compareDates(item[name], currentDate.full);
     }
   });
+};
+
+//Get the total of all the amount properties in an object
+export const getTotal = arr => {
+  return arr.reduce((accu, bud) => accu + parseFloat(bud.amount), 0);
 };
