@@ -1,26 +1,73 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _getBudgets } from "../store/budgets";
-import { _getInvestments } from "../store/investments";
 import { _getExpenses } from "../store/expenses";
 import { setDate } from "../store/date";
-
+import { _getMonthlyIncomes } from "../store/monthlyIncomes";
+import { _getCategories } from "../store/categories";
+import { _getInvestments } from "../store/investments";
+import { sortSingle, sortDouble, compareDates, dateFilter } from "../helpers";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const monthlyIncome = parseFloat(useSelector(state => state.auth.monthlyIncome));
-  const totalBudget = useSelector(state => state.budgets).reduce((accu, bud) => accu + parseFloat(bud.amount), 0)
-  const allInvestments = useSelector(state => state.investments)
-  const allExpenses = useSelector(state => state.expenses)
-  const currentDate = useSelector(state => state.date)
+  const years = {};
+
+  //redux states
+  const currentDate = useSelector(state => state.date);
+  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
+  const allCategories =
+    sortSingle(
+      useSelector(state => state.categories),
+      "name"
+    ) || [];
+
+  const allBudgets =
+    sortDouble(
+      useSelector(state => state.budgets),
+      "category",
+      "name"
+    ) || [];
+  const allExpenses =
+    sortSingle(
+      useSelector(state => state.expenses),
+      "dueDate"
+    ) || [];
+
+  const allInvestments = sortSingle(
+    useSelector(state => state.investments),
+    "tickerSymbol"
+  );
+
+  //local states
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  //data from redux state organized as needed for page
+  const selectedMonthlyIncome = dateFilter(
+    allMonthlyIncomes,
+    selectedMonth,
+    selectedYear,
+    currentDate
+  );
+  const selectedBudgets = dateFilter(
+    allBudgets,
+    selectedMonth,
+    selectedYear,
+    currentDate
+  )
+
+
+  console.log(allBudgets)
+
 
   useEffect(() => {
-    dispatch(_getBudgets())
-    dispatch(_getInvestments())
-    dispatch(_getExpenses())
-    dispatch(setDate())
-  },[])
-
+    dispatch(_getBudgets());
+    dispatch(_getInvestments());
+    dispatch(_getMonthlyIncomes());
+    dispatch(_getExpenses());
+    dispatch(setDate());
+    dispatch(_getCategories());
+  }, []);
 
   // console.log(currentDate)
 
@@ -40,7 +87,7 @@ const Dashboard = () => {
                       <span>Total Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>${monthlyIncome.toFixed(2)}</span>
+                      {/* <span>${monthlyIncome.toFixed(2)}</span> */}
                     </div>
                   </div>
                   <div className="col-auto">
@@ -59,7 +106,17 @@ const Dashboard = () => {
                       <span>Remaining Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>{(monthlyIncome - totalBudget) >= 0 ? <span>${(monthlyIncome - totalBudget).toFixed(2)}</span> : <span className='text-danger'>${(monthlyIncome - totalBudget).toFixed(2)}</span>}</span>
+                      <span>
+                        {/* {monthlyIncome - totalBudget >= 0 ? (
+                          <span>
+                            ${(monthlyIncome - totalBudget).toFixed(2)}
+                          </span>
+                        ) : (
+                          <span className="text-danger">
+                            ${(monthlyIncome - totalBudget).toFixed(2)}
+                          </span>
+                        )} */}
+                      </span>
                     </div>
                   </div>
                   <div className="col-auto">
@@ -114,4 +171,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

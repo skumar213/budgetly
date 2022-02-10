@@ -49,3 +49,16 @@ export const compareDates = (createdDate, currentDate) => {
     return false;
   }
 };
+
+//Filter items so it only shows the current month
+export const dateFilter = (arr, selectedMonth, selectedYear, currentDate) => {
+  return arr.filter(item => {
+    if (selectedYear && selectedMonth) {
+      const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
+
+      return compareDates(item.createdAt, tmpDate);
+    } else {
+      return compareDates(item.createdAt, currentDate.full);
+    }
+  });
+};
