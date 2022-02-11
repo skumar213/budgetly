@@ -7,7 +7,7 @@ import {
   _updateMonthlyIncome,
 } from "../store/monthlyIncomes";
 import { setDate } from "../store/date";
-import { compareDates, sortSingle } from "../helpers";
+import { compareDates, sortSingle, dateFilter } from "../helpers";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -15,8 +15,8 @@ const UserProfile = () => {
 
   //redux states
   const currentUser = useSelector(state => state.auth);
-  const monthlyIncomes = useSelector(state => state.monthlyIncomes);
   const currentDate = useSelector(state => state.date);
+  const allMonthlyIncomes = useSelector(state => state.monthlyIncomes);
 
   //local states
   const [email, setEmail] = useState(currentUser.email);
@@ -26,12 +26,16 @@ const UserProfile = () => {
   const [incomeId, setIncomeId] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("")
+  const [currentMonths, setCurrentMonths] = useState([]);
 
   //data from redux state organized as needed for page
-  const thisMonthIncome = monthlyIncomes.filter(inc =>
-    compareDates(inc.createdAt, currentDate.full)
-  );
-  const allDatesForIncomes = sortSingle(monthlyIncomes, "createdAt")
+  const selectedMonthIncome = dateFilter(allMonthlyIncomes, selectedMonth,selectedYear,currentDate, "createdAt")
+
+
+
+
+  const allDatesForIncomes = sortSingle(allMonthlyIncomes, "createdAt")
     .map(inc => {
       const date = new Date(inc.createdAt);
       return {
@@ -61,12 +65,12 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (monthlyIncomes.length && !monthlyIncome) {
-      setMonthlyIncome(thisMonthIncome[0].amount);
-      setIncomeId(thisMonthIncome[0].id);
+    if (allMonthlyIncomes.length && !monthlyIncome) {
+      setMonthlyIncome(selectedMonthIncome[0].amount);
+      setIncomeId(selectedMonthIncome[0].id);
       setSelectedYear(currentDate.year);
     }
-  }, [monthlyIncomes]);
+  }, [allMonthlyIncomes]);
 
   //legend to help call the setstate functions
   const legend = {
@@ -88,7 +92,7 @@ const UserProfile = () => {
   const handeIncomeChange = evt => {
     const id = parseInt(evt.target.value);
     const amount = parseFloat(
-      monthlyIncomes.filter(inc => inc.id === id)[0].amount
+      allMonthlyIncomes.filter(inc => inc.id === id)[0].amount
     ).toFixed(2);
 
     setIncomeId(id);
@@ -98,16 +102,16 @@ const UserProfile = () => {
   const handeIncomeDateChange = evt => {
     const evtYear = parseInt(evt.target.value);
     const evtId = years[evt.target.value];
-    const todayYear = new Date(thisMonthIncome[0].createdAt).getFullYear();
+    const todayYear = new Date(selectedMonthIncome[0].createdAt).getFullYear();
     const amount = parseFloat(
-      monthlyIncomes.filter(inc => inc.id === evtId)[0].amount
+      allMonthlyIncomes.filter(inc => inc.id === evtId)[0].amount
     ).toFixed(2);
 
     setSelectedYear(evtYear);
 
     if (evtYear === todayYear) {
-      setIncomeId(thisMonthIncome[0].id);
-      setMonthlyIncome(thisMonthIncome[0].amount);
+      setIncomeId(selectedMonthIncome[0].id);
+      setMonthlyIncome(selectedMonthIncome[0].amount);
     } else {
       setIncomeId(evtId);
       setMonthlyIncome(amount);
