@@ -77,12 +77,15 @@ export const getTotal = arr => {
 };
 
 //Function to create a new chart
-//Takes an object with the requrements
-export const pieChart = (graph, data) => {
+//graph is a string, labels and data are arrays
+export const pieChart = (graph, items) => {
+  const labels = items.map(item => item.category.name);
+  const data = items.map(item => item.amount);
+
   return new Chart(graph, {
     type: "doughnut",
     data: {
-      labels: ["Direct", "Social", "Referral"],
+      labels,
       datasets: [
         {
           label: "",

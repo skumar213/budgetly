@@ -94,17 +94,16 @@ const Dashboard = () => {
   const selectTotalExpensesDue = getTotal(selectedExpensesDue);
   const selectTotalExpensesPaid = getTotal(selectedExpensesPaid);
   const selectTotalExpenses = selectTotalExpensesDue + selectTotalExpensesPaid;
-
-  console.log(currentInvestmentPrices);
-
   const currentPortfolioPrice = currentInvestmentPrices.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
+  // console.log(selectedExpensesPaid)
+
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
-    pieChart(pieGraph, [50, 30, 15]);
-  }, []);
+    pieChart(pieGraph, selectedExpensesPaid);
+  }, [selectedExpensesPaid]);
 
   useEffect(() => {
     dispatch(_getBudgets());
