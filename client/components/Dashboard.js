@@ -120,9 +120,15 @@ const Dashboard = () => {
   });
   const formattedPieData = Object.values(uniquePieData);
 
+  console.log(selectedExpensesPaid)
+
   //useEffects to fetch data
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
+    // console.log(formattedPieData);
+    // if (!formattedPieData.length) {
+    //   formattedPieData = ["Utilities", 400, "#3C8DF5"];
+    // }
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
@@ -149,20 +155,20 @@ const Dashboard = () => {
     }
   }, [selectedYear]);
 
-  useEffect(() => {
-    try {
-      const run = async () => {
-        if (allInvestments.length) {
-          const prices = (await getInvestmentsPrice(allInvestments)) || [];
+  // useEffect(() => {
+  //   try {
+  //     const run = async () => {
+  //       if (allInvestments.length) {
+  //         const prices = (await getInvestmentsPrice(allInvestments)) || [];
 
-          setCurrentInvestmentPrices(prices);
-        }
-      };
-      run();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [allInvestments]);
+  //         setCurrentInvestmentPrices(prices);
+  //       }
+  //     };
+  //     run();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [allInvestments]);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {

@@ -69,7 +69,8 @@ export const dateFilter = (
   name
 ) => {
   return arr.filter(item => {
-    const tmpCreatedDate = new Date(`${item[name]}`.replace(/-/g, "/"));
+    const createdDate = item[name] ? item[name].split("T")[0] : [];
+    const tmpCreatedDate = new Date(`${createdDate}`.replace(/-/g, "/"));
 
     if (selectedYear && selectedMonth) {
       const tmpCurrentDate = new Date(`${selectedMonth}/1/${selectedYear}`);
