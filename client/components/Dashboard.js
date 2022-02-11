@@ -99,17 +99,31 @@ const Dashboard = () => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  // make an array of colors with categories = [category, amount, color]
-  const pieGraphData = selectedExpensesPaid.map((exp, idx) => {
-    return [exp.category.name, exp.amount, randomColor()];
+  // make an array of colors with categories for pie graph = [category, amount, color]
+  const pieGraphData = selectedExpensesPaid.map(exp => {
+    const color = randomColor();
+    return [exp.category.name, exp.amount, color];
   });
+  const uniquePieData = {};
+  pieGraphData.forEach((exp, idx) => {
+    let totalAmount = parseFloat(exp[1]);
 
-  // console.log(pieGraphData)
+    if (!uniquePieData[exp[0]]) {
+      for (let i = idx + 1; i < pieGraphData.length; i++) {
+        if (pieGraphData[i][0] === exp[0]) {
+          totalAmount += parseFloat(pieGraphData[i][1]);
+        }
+      }
+
+      uniquePieData[exp[0]] = [exp[0], totalAmount, exp[2]];
+    }
+  });
+  const formattedPieData = Object.values(uniquePieData);
 
   //useEffects to fetch data
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
-    pieChart(pieGraph, pieGraphData);
+    pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
   useEffect(() => {
@@ -359,10 +373,16 @@ const Dashboard = () => {
                   ></canvas>
                 </div>
                 <div className="text-center small mt-4">
-                  {pieGraphData.map((exp, idx) => {
-                    return <span key={idx} className="me-2">
-                    <i className="fas fa-circle" style={{color: `${exp[2]}`}}></i> {exp[0]}
-                  </span>
+                  {formattedPieData.map((exp, idx) => {
+                    return (
+                      <span key={idx} className="me-2">
+                        <i
+                          className="fas fa-circle"
+                          style={{ color: `${exp[2]}` }}
+                        ></i>
+                         {exp[0]}
+                      </span>
+                    );
                   })}
                 </div>
               </div>
