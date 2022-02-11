@@ -20,7 +20,6 @@ async function seed() {
       password: "123",
       firstName: "cody",
       lastName: "pug",
-      monthlyIncome: 4000.0,
       isAdmin: true,
     }),
     User.create({
@@ -28,7 +27,6 @@ async function seed() {
       password: "123",
       firstName: "murphy",
       lastName: "bulldog",
-      monthlyIncome: 2000.0,
     }),
   ]);
 
