@@ -73,3 +73,27 @@ export const dateFilter = (
 export const getTotal = arr => {
   return arr.reduce((accu, bud) => accu + parseFloat(bud.amount), 0);
 };
+
+//Function to create a new chart
+//Takes an object with the requrements
+export const pieChart = (graph, data) => {
+  return new Chart(graph, {
+    type: "doughnut",
+    data: {
+      labels: ["Direct", "Social", "Referral"],
+      datasets: [
+        {
+          label: "",
+          data,
+          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
+          borderColor: ["#ffffff", "#ffffff", "#ffffff"],
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      legend: { display: false, labels: { fontStyle: "normal" } },
+    },
+    title: { fontStyle: "normal" },
+  });
+};

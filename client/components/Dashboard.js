@@ -6,7 +6,7 @@ import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { _getCategories } from "../store/categories";
 import { _getInvestments, getInvestmentsPrice } from "../store/investments";
-import { sortSingle, sortDouble, dateFilter, getTotal } from "../helpers";
+import { sortSingle, sortDouble, dateFilter, getTotal, pieChart } from "../helpers";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -93,27 +93,10 @@ const Dashboard = () => {
   }, 0);
 
   useEffect(() => {
-    const ctx = document.getElementById("myChart");
+    const pieGraph = document.getElementById("myChart");
+    pieChart(pieGraph, [50,30,15])
 
-    const myChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Direct", "Social", "Referral"],
-        datasets: [
-          {
-            label: "",
-            data: [50, 30, 15],
-            backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
-            borderColor: ["#ffffff", "#ffffff", "#ffffff"],
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        legend: { display: false, labels: { fontStyle: "normal" } },
-      },
-      title: { fontStyle: "normal" },
-    });
+
   }, []);
 
   useEffect(() => {
