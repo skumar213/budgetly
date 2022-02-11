@@ -18,6 +18,7 @@ import {
 const Dashboard = () => {
   const dispatch = useDispatch();
   const years = {};
+  const selectedExpensesDueOrPaid = {};
 
   //redux states
   const currentDate = useSelector(state => state.date);
@@ -79,7 +80,6 @@ const Dashboard = () => {
     currentDate,
     "paidDate"
   );
-  const selectedExpensesDueOrPaid = {};
 
   selectedExpensesDue.forEach(dueExp => {
     if (!selectedExpensesDueOrPaid[dueExp.id]) {
@@ -168,6 +168,7 @@ const Dashboard = () => {
     }
   }, [selectedYear]);
 
+  //Need to comment out during development to avoid going over daily api call amount
   // useEffect(() => {
   //   try {
   //     const run = async () => {
