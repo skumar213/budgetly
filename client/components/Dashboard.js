@@ -145,6 +145,7 @@ const Dashboard = () => {
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
+
   useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getInvestments());
