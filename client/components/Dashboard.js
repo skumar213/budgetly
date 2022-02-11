@@ -6,12 +6,7 @@ import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { _getCategories } from "../store/categories";
 import { _getInvestments, getInvestmentsPrice } from "../store/investments";
-import {
-  sortSingle,
-  sortDouble,
-  dateFilter,
-  getTotal,
-} from "../helpers";
+import { sortSingle, sortDouble, dateFilter, getTotal } from "../helpers";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -98,6 +93,30 @@ const Dashboard = () => {
   }, 0);
 
   useEffect(() => {
+    const ctx = document.getElementById("myChart");
+
+    const myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Direct", "Social", "Referral"],
+        datasets: [
+          {
+            label: "",
+            data: [50, 30, 15],
+            backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
+            borderColor: ["#ffffff", "#ffffff", "#ffffff"],
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: { display: false, labels: { fontStyle: "normal" } },
+      },
+      title: { fontStyle: "normal" },
+    });
+  }, []);
+
+  useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getInvestments());
     dispatch(_getMonthlyIncomes());
@@ -147,133 +166,201 @@ const Dashboard = () => {
   };
 
   return (
-    <div id="container-fluid">
-      <div className="container-fluid">
-        <div className="d-sm-flex justify-content-between align-items-center mb-4">
-          <h3 className="text-dark mb-0">Dashboard</h3>
-        </div>
-        <div>
-          <label htmlFor="DropDownMonth">
-            <small>Select Month </small>
-          </label>
-          <select
-            name="DropDownMonth"
-            value={selectedMonth}
-            onChange={handleMonthChange}
-          >
-            {currentMonths.map((month, idx) => (
-              <option key={idx} value={month + 1}>
-                {month + 1}
-              </option>
-            ))}
-          </select>
+    <div className="content">
+      <div id="container-fluid">
+        <div className="container-fluid">
+          <div className="d-sm-flex justify-content-between align-items-center mb-4">
+            <h3 className="text-dark mb-0">Dashboard</h3>
+          </div>
+          <div>
+            <label htmlFor="DropDownMonth">
+              <small>Select Month </small>
+            </label>
+            <select
+              name="DropDownMonth"
+              value={selectedMonth}
+              onChange={handleMonthChange}
+            >
+              {currentMonths.map((month, idx) => (
+                <option key={idx} value={month + 1}>
+                  {month + 1}
+                </option>
+              ))}
+            </select>
 
-          <label htmlFor="DropDownYear">
-            <small>Select Year </small>
-          </label>
-          <select
-            name="DropDownYear"
-            value={selectedYear}
-            onChange={handleYearChange}
-          >
-            {Object.entries(years).map(year => (
-              <option key={year[1]} value={year[0]}>
-                {year[0]}
-              </option>
-            ))}
-          </select>
+            <label htmlFor="DropDownYear">
+              <small>Select Year </small>
+            </label>
+            <select
+              name="DropDownYear"
+              value={selectedYear}
+              onChange={handleYearChange}
+            >
+              {Object.entries(years).map(year => (
+                <option key={year[1]} value={year[0]}>
+                  {year[0]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <hr></hr>
+          <div className="row">
+            <div className="col-md-6 col-xl-3 mb-4">
+              <div className="card shadow border-start-primary py-2">
+                <div className="card-body">
+                  <div className="row align-items-center no-gutters">
+                    <div className="col me-2">
+                      <div className="text-uppercase text-primary fw-bold text-xs mb-1">
+                        <span>Total Budget (monthly)</span>
+                      </div>
+                      <div className="text-dark fw-bold h5 mb-0">
+                        <span>${selectedMonthlyIncome.amount}</span>
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 col-xl-3 mb-4">
+              <div className="card shadow border-start-success py-2">
+                <div className="card-body">
+                  <div className="row align-items-center no-gutters">
+                    <div className="col me-2">
+                      <div className="text-uppercase text-success fw-bold text-xs mb-1">
+                        <span>Remaining Budget (monthly)</span>
+                      </div>
+                      <div className="text-dark fw-bold h5 mb-0">
+                        <span>
+                          {selectedMonthlyIncome.amount - selectedTotalBudget >=
+                          0 ? (
+                            <span>
+                              $
+                              {(
+                                selectedMonthlyIncome.amount -
+                                selectedTotalBudget
+                              ).toFixed(2)}
+                            </span>
+                          ) : (
+                            <span className="text-danger">
+                              $
+                              {(
+                                selectedMonthlyIncome.amount -
+                                selectedTotalBudget
+                              ).toFixed(2)}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 col-xl-3 mb-4">
+              <div className="card shadow border-start-primary py-2">
+                <div className="card-body">
+                  <div className="row align-items-center no-gutters">
+                    <div className="col me-2">
+                      <div className="text-uppercase text-info fw-bold text-xs mb-1">
+                        <span>Expected Expenses (monthly)</span>
+                      </div>
+                      <div className="text-dark fw-bold h5 mb-0 me-3">
+                        <span>${selectTotalExpenses.toFixed(2)}</span>
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <i className="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 col-xl-3 mb-4">
+              <div className="card shadow border-start-primary py-2">
+                <div className="card-body">
+                  <div className="row align-items-center no-gutters">
+                    <div className="col me-2">
+                      <div className="text-uppercase text-warning fw-bold text-xs mb-1">
+                        <span>Total Portfolio Value</span>
+                      </div>
+                      <div className="text-dark fw-bold h5 mb-0">
+                        <span>${currentPortfolioPrice.toFixed(2)}</span>
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         <hr></hr>
+
         <div className="row">
-          <div className="col-md-6 col-xl-3 mb-4">
-            <div className="card shadow border-start-primary py-2">
-              <div className="card-body">
-                <div className="row align-items-center no-gutters">
-                  <div className="col me-2">
-                    <div className="text-uppercase text-primary fw-bold text-xs mb-1">
-                      <span>Total Budget (monthly)</span>
-                    </div>
-                    <div className="text-dark fw-bold h5 mb-0">
-                      <span>${selectedMonthlyIncome.amount}</span>
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-xl-3 mb-4">
-            <div className="card shadow border-start-success py-2">
-              <div className="card-body">
-                <div className="row align-items-center no-gutters">
-                  <div className="col me-2">
-                    <div className="text-uppercase text-success fw-bold text-xs mb-1">
-                      <span>Remaining Budget (monthly)</span>
-                    </div>
-                    <div className="text-dark fw-bold h5 mb-0">
-                      <span>
-                        {selectedMonthlyIncome.amount - selectedTotalBudget >=
-                        0 ? (
-                          <span>
-                            $
-                            {(
-                              selectedMonthlyIncome.amount - selectedTotalBudget
-                            ).toFixed(2)}
-                          </span>
-                        ) : (
-                          <span className="text-danger">
-                            $
-                            {(
-                              selectedMonthlyIncome.amount - selectedTotalBudget
-                            ).toFixed(2)}
-                          </span>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+          <div className="col-lg-5 col-xl-4">
+            <div className="card shadow mb-4">
+              <div className="card-header d-flex justify-content-between align-items-center">
+                <h6 className="text-primary fw-bold m-0">
+                  Expense by Category (Monthly)
+                </h6>
+                <div className="dropdown no-arrow">
+                  <button
+                    className="btn btn-link btn-sm dropdown-toggle"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    type="button"
+                  >
+                    <i className="fas fa-ellipsis-v text-gray-400"></i>
+                  </button>
+                  <div className="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                    <p className="text-center dropdown-header">
+                      dropdown header:
+                    </p>
+                    <a className="dropdown-item" href="#">
+                       Action
+                    </a>
+                    <a className="dropdown-item" href="#">
+                       Another action
+                    </a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" href="#">
+                       Something else here
+                    </a>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-xl-3 mb-4">
-            <div className="card shadow border-start-primary py-2">
               <div className="card-body">
-                <div className="row align-items-center no-gutters">
-                  <div className="col me-2">
-                    <div className="text-uppercase text-info fw-bold text-xs mb-1">
-                      <span>Expected Expenses (monthly)</span>
-                    </div>
-                    <div className="text-dark fw-bold h5 mb-0 me-3">
-                      <span>${selectTotalExpenses.toFixed(2)}</span>
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                  </div>
+                <div className="chart-area">
+                  <canvas
+                    id="myChart"
+                    height="320"
+                    style={{
+                      display: "block",
+                      width: "249px",
+                      height: "320px",
+                    }}
+                    width="249"
+                  ></canvas>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-xl-3 mb-4">
-            <div className="card shadow border-start-primary py-2">
-              <div className="card-body">
-                <div className="row align-items-center no-gutters">
-                  <div className="col me-2">
-                    <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                      <span>Total Portfolio Value</span>
-                    </div>
-                    <div className="text-dark fw-bold h5 mb-0">
-                      <span>${currentPortfolioPrice.toFixed(2)}</span>
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
-                  </div>
+                <div className="text-center small mt-4">
+                  <span className="me-2">
+                    <i className="fas fa-circle text-primary"></i> Direct
+                  </span>
+                  <span className="me-2">
+                    <i className="fas fa-circle text-success"></i> Social
+                  </span>
+                  <span className="me-2">
+                    <i className="fas fa-circle text-info"></i> Refferal
+                  </span>
                 </div>
               </div>
             </div>
