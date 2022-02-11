@@ -79,6 +79,19 @@ const Dashboard = () => {
     currentDate,
     "paidDate"
   );
+  const selectedExpensesDueOrPaid = {};
+
+  selectedExpensesDue.forEach(dueExp => {
+    if (!selectedExpensesDueOrPaid[dueExp.id]) {
+      selectedExpensesDueOrPaid[dueExp.id] = dueExp;
+    }
+  });
+  selectedExpensesPaid.forEach(paidExp => {
+    if (!selectedExpensesDueOrPaid[paidExp.id]) {
+      selectedExpensesDueOrPaid[paidExp.id] = paidExp;
+    }
+  });
+
   allMonthlyIncomes.forEach(inc => {
     const tmpDate = new Date(inc.createdAt);
     const year = tmpDate.getFullYear();
@@ -91,13 +104,17 @@ const Dashboard = () => {
       years[`${year}`].push(month);
     }
   });
+
   const selectedTotalBudget = getTotal(selectedBudgets);
-  const selectTotalExpensesDue = getTotal(selectedExpensesDue);
-  const selectTotalExpensesPaid = getTotal(selectedExpensesPaid);
-  const selectTotalExpenses = selectTotalExpensesDue + selectTotalExpensesPaid;
+  const selectTotalExpenses = getTotal(
+    Object.values(selectedExpensesDueOrPaid)
+  );
+
   const currentPortfolioPrice = currentInvestmentPrices.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
+
+  // console.log(selectedExpensesDue)
 
   // make an array of colors with categories for pie graph = [category, amount, color]
   const pieGraphData = selectedExpensesPaid.map(exp => {
@@ -286,7 +303,7 @@ const Dashboard = () => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-info fw-bold text-xs mb-1">
-                        <span>Expected Expenses (monthly)</span>
+                        <span>Expected Expenses (due or paid in month)</span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0 me-3">
                         <span>${selectTotalExpenses.toFixed(2)}</span>
@@ -333,7 +350,7 @@ const Dashboard = () => {
             <div className="card shadow mb-4">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h6 className="text-primary fw-bold m-0">
-                  Expense by Category (Monthly)
+                  Expense by Category (Paid in Month)
                 </h6>
                 <div className="dropdown no-arrow">
                   <button
