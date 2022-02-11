@@ -6,7 +6,13 @@ import { setDate } from "../store/date";
 import { _getMonthlyIncomes } from "../store/monthlyIncomes";
 import { _getCategories } from "../store/categories";
 import { _getInvestments, getInvestmentsPrice } from "../store/investments";
-import { sortSingle, sortDouble, dateFilter, getTotal, pieChart } from "../helpers";
+import {
+  sortSingle,
+  sortDouble,
+  dateFilter,
+  getTotal,
+  pieChart,
+} from "../helpers";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -88,18 +94,16 @@ const Dashboard = () => {
   const selectTotalExpensesDue = getTotal(selectedExpensesDue);
   const selectTotalExpensesPaid = getTotal(selectedExpensesPaid);
   const selectTotalExpenses = selectTotalExpensesDue + selectTotalExpensesPaid;
+
+  console.log(currentInvestmentPrices);
+
   const currentPortfolioPrice = currentInvestmentPrices.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  console.log(selectedExpensesPaid)
-
-
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
-    pieChart(pieGraph, [50,30,15])
-
-
+    pieChart(pieGraph, [50, 30, 15]);
   }, []);
 
   useEffect(() => {
@@ -125,14 +129,20 @@ const Dashboard = () => {
     }
   }, [selectedYear]);
 
-  // useEffect(() => {
-  //   const run = async () => {
-  //     if (allInvestments.length) {
-  //       setCurrentInvestmentPrices(await getInvestmentsPrice(allInvestments));
-  //     }
-  //   };
-  //   run();
-  // }, [allInvestments]);
+  useEffect(() => {
+    try {
+      const run = async () => {
+        if (allInvestments.length) {
+          const prices = (await getInvestmentsPrice(allInvestments)) || [];
+
+          setCurrentInvestmentPrices(prices);
+        }
+      };
+      run();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [allInvestments]);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {
@@ -273,7 +283,7 @@ const Dashboard = () => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                        <span>Total Portfolio Value</span>
+                        <span>Total Portfolio Value<strong style={{fontSize: "15px",}}>*</strong></span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
                         <span>${currentPortfolioPrice.toFixed(2)}</span>
@@ -288,7 +298,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
+        <div style={{fontSize: "10px", textAlign: "center"}}>* portfolio will show up as $0.00 if daily API calls are exceeded</div>
         <hr></hr>
 
         <div className="row">
