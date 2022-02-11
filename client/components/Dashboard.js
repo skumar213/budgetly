@@ -12,6 +12,7 @@ import {
   dateFilter,
   getTotal,
   pieChart,
+  randomColor,
 } from "../helpers";
 
 const Dashboard = () => {
@@ -98,11 +99,17 @@ const Dashboard = () => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  // console.log(selectedExpensesPaid)
+  // make an array of colors with categories = [category, amount, color]
+  const pieGraphData = selectedExpensesPaid.map((exp, idx) => {
+    return [exp.category.name, exp.amount, randomColor()];
+  });
 
+  // console.log(pieGraphData)
+
+  //useEffects to fetch data
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
-    pieChart(pieGraph, selectedExpensesPaid);
+    pieChart(pieGraph, pieGraphData);
   }, [selectedExpensesPaid]);
 
   useEffect(() => {
@@ -282,7 +289,10 @@ const Dashboard = () => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                        <span>Total Portfolio Value<strong style={{fontSize: "15px",}}>*</strong></span>
+                        <span>
+                          Total Portfolio Value
+                          <strong style={{ fontSize: "15px" }}>*</strong>
+                        </span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
                         <span>${currentPortfolioPrice.toFixed(2)}</span>
@@ -297,7 +307,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div style={{fontSize: "10px", textAlign: "center"}}>* portfolio will show up as $0.00 if daily API calls are exceeded</div>
+        <div style={{ fontSize: "10px", textAlign: "center" }}>
+          * portfolio will show up as $0.00 if daily API calls are exceeded
+        </div>
         <hr></hr>
 
         <div className="row">
@@ -347,15 +359,11 @@ const Dashboard = () => {
                   ></canvas>
                 </div>
                 <div className="text-center small mt-4">
-                  <span className="me-2">
-                    <i className="fas fa-circle text-primary"></i> Direct
+                  {pieGraphData.map((exp, idx) => {
+                    return <span key={idx} className="me-2">
+                    <i className="fas fa-circle" style={{color: `${exp[2]}`}}></i> {exp[0]}
                   </span>
-                  <span className="me-2">
-                    <i className="fas fa-circle text-success"></i> Social
-                  </span>
-                  <span className="me-2">
-                    <i className="fas fa-circle text-info"></i> Refferal
-                  </span>
+                  })}
                 </div>
               </div>
             </div>

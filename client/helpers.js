@@ -31,6 +31,16 @@ export const months = [
   "December",
 ];
 
+//Random color generator
+export const randomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {
   createdDate = new Date(createdDate);
@@ -79,8 +89,9 @@ export const getTotal = arr => {
 //Function to create a new chart
 //graph is a string, labels and data are arrays
 export const pieChart = (graph, items) => {
-  const labels = items.map(item => item.category.name);
-  const data = items.map(item => item.amount);
+  const labels = items.map(item => item[0]);
+  const data = items.map(item => item[1]);
+  const backgroundColor = items.map(item => item[2]);
 
   return new Chart(graph, {
     type: "doughnut",
@@ -90,7 +101,7 @@ export const pieChart = (graph, items) => {
         {
           label: "",
           data,
-          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
+          backgroundColor,
           borderColor: ["#ffffff", "#ffffff", "#ffffff"],
         },
       ],
