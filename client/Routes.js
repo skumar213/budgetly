@@ -34,16 +34,20 @@ const Routes = () => {
     if (monthlyIncomes.length && !thisMonthIncome.length) {
       const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
       const lastMonthDate = new Date(lastMonthIncome.createdAt);
-      lastMonthDate.setMonth(lastMonthDate.getMonth() + 1);
+      const thisMonthDate = new Date(currentDate.full)
 
-      dispatch(
-        _createMonthlyIncome({
-          amount: lastMonthIncome.amount,
-          createdAt: lastMonthDate,
-        })
-      );
+      if (lastMonthDate !== thisMonthDate) {
+        lastMonthDate.setMonth(lastMonthDate.getMonth() + 1);
+
+        dispatch(
+          _createMonthlyIncome({
+            amount: lastMonthIncome.amount,
+            createdAt: lastMonthDate,
+          })
+        );
+      }
     }
-  }, [monthlyIncomes, isLoggedIn]);
+  }, [monthlyIncomes]);
 
   useEffect(() => {
     dispatch(me());
