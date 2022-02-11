@@ -114,8 +114,6 @@ const Dashboard = () => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  // console.log(selectedExpensesDue)
-
   // make an array of colors with categories for pie graph = [category, amount, color]
   const pieGraphData = selectedExpensesPaid.map(exp => {
     const color = randomColor();

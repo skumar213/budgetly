@@ -29,21 +29,21 @@ const Routes = () => {
     compareDates(inc.createdAt, currentDate.full)
   );
 
-  useEffect(() => {
-    //will create a duplicate of last months income for the current month
-    if (monthlyIncomes.length && !thisMonthIncome.length) {
-      const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
-      const lastMonthDate = new Date(lastMonthIncome.createdAt);
-      lastMonthDate.setMonth(lastMonthDate.getMonth() + 1);
+  // useEffect(() => {
+  //   //will create a duplicate of last months income for the current month
+  //   if (monthlyIncomes.length && !thisMonthIncome.length) {
+  //     const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
+  //     const lastMonthDate = new Date(lastMonthIncome.createdAt);
+  //     lastMonthDate.setMonth(lastMonthDate.getMonth() + 1);
 
-      dispatch(
-        _createMonthlyIncome({
-          amount: lastMonthIncome.amount,
-          createdAt: lastMonthDate,
-        })
-      );
-    }
-  }, [monthlyIncomes]);
+  //     dispatch(
+  //       _createMonthlyIncome({
+  //         amount: lastMonthIncome.amount,
+  //         createdAt: lastMonthDate,
+  //       })
+  //     );
+  //   }
+  // }, [monthlyIncomes]);
 
   useEffect(() => {
     dispatch(me());
