@@ -32,6 +32,8 @@ const Routes = () => {
   useEffect(() => {
     //will create a duplicate of last months income for the current month
     if (monthlyIncomes.length && !thisMonthIncome.length) {
+      console.log(monthlyIncomes, thisMonthIncome)
+
       const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
       const lastMonthDate = new Date(lastMonthIncome.createdAt);
 
