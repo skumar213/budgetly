@@ -172,7 +172,10 @@ const Expenses = () => {
     evt.preventDefault();
 
     const currentDueDate = new Date(dueDate);
-    const newDueDate = currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+    let newDueDate;
+    if (isRepeat) {
+      newDueDate = currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+    }
 
     const newExp = {
       merchant,
