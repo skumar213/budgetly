@@ -118,17 +118,13 @@ const Dashboard = () => {
       uniquePieData[exp[0]] = [exp[0], totalAmount, exp[2]];
     }
   });
-  const formattedPieData = Object.values(uniquePieData);
-
-  console.log(selectedExpensesPaid)
+  const formattedPieData = Object.values(uniquePieData).length
+    ? Object.values(uniquePieData)
+    : [["No Expenses Paid This Month", 1, "#3c64cc"]];
 
   //useEffects to fetch data
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
-    // console.log(formattedPieData);
-    // if (!formattedPieData.length) {
-    //   formattedPieData = ["Utilities", 400, "#3C8DF5"];
-    // }
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
