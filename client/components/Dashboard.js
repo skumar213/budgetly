@@ -50,6 +50,7 @@ const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
   const [currentInvestmentPrices, setCurrentInvestmentPrices] = useState([]);
+  // const [formattedPieData, setFormattedPieData] = useState([]);
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -142,7 +143,6 @@ const Dashboard = () => {
     const pieGraph = document.getElementById("myChart");
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
-
 
   useEffect(() => {
     dispatch(_getBudgets());
