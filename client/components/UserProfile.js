@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _updateUser } from "../store/auth";
-import history from "../history";
 import {
   _getMonthlyIncomes,
   _updateMonthlyIncome,
 } from "../store/monthlyIncomes";
 import { setDate } from "../store/date";
-import { compareDates, sortSingle, dateFilter } from "../helpers";
+import { dateFilter } from "../helpers";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -96,17 +95,6 @@ const UserProfile = () => {
     fn(evt.target.value);
   };
 
-  //event handler for changing monthly income form
-  const handeIncomeChange = evt => {
-    const id = parseInt(evt.target.value);
-    const amount = parseFloat(
-      allMonthlyIncomes.filter(inc => inc.id === id)[0].amount
-    ).toFixed(2);
-
-    setIncomeId(id);
-    setMonthlyIncome(amount);
-  };
-
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {
     setSelectedMonth(parseInt(evt.target.value));
@@ -135,7 +123,6 @@ const UserProfile = () => {
       : { email: lowerCaseEmail, firstName, lastName };
 
     dispatch(_updateUser(newInfo));
-    history.push("/home");
   };
 
   //UPDATE monthly income event handler
