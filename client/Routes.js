@@ -12,7 +12,7 @@ import {
   _getMonthlyIncomes,
   _createMonthlyIncome,
 } from "./store/monthlyIncomes";
-import { compareDates, sortSingle, dateFilter } from "./helpers";
+import { sortSingle, dateFilter } from "./helpers";
 import { setDate } from "./store/date";
 import { _getBudgets, _createBudget } from "./store/budgets";
 
@@ -25,20 +25,20 @@ const Routes = () => {
     useSelector(state => state.monthlyIncomes),
     "createdAt"
   );
-  // const thisMonthIncome = monthlyIncomes.filter(inc =>
-  //   compareDates(inc.createdAt, currentDate.full)
-  // );
 
-  const thisMonthIncome = dateFilter(monthlyIncomes, null, null, currentDate, 'createdAt')
+  const thisMonthIncome = dateFilter(
+    monthlyIncomes,
+    null,
+    null,
+    currentDate,
+    "createdAt"
+  );
 
   useEffect(() => {
     //will create a duplicate of last months income for the current month
     if (monthlyIncomes.length && !thisMonthIncome.length) {
-      console.log(monthlyIncomes, thisMonthIncome)
-
       const lastMonthIncome = monthlyIncomes[monthlyIncomes.length - 1];
       const lastMonthDate = new Date(lastMonthIncome.createdAt);
-
       lastMonthDate.setMonth(lastMonthDate.getMonth() + 1);
 
       dispatch(
