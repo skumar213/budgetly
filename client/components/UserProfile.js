@@ -26,37 +26,30 @@ const UserProfile = () => {
   const [incomeId, setIncomeId] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("")
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
 
   //data from redux state organized as needed for page
-  const selectedMonthIncome = dateFilter(allMonthlyIncomes, selectedMonth,selectedYear,currentDate, "createdAt")
+  const selectedMonthlyIncome = dateFilter(
+    allMonthlyIncomes,
+    selectedMonth,
+    selectedYear,
+    currentDate,
+    "createdAt"
+  )[0] || { amount: 0 };
 
+  allMonthlyIncomes.forEach(inc => {
+    const tmpDate = new Date(inc.createdAt);
+    const year = tmpDate.getFullYear();
+    const month = tmpDate.getMonth() + 1;
 
-
-
-  const allDatesForIncomes = sortSingle(allMonthlyIncomes, "createdAt")
-    .map(inc => {
-      const date = new Date(inc.createdAt);
-      return {
-        id: inc.id,
-        date: `${date.getMonth() + 1}/1/${date.getFullYear()}`,
-      };
-    })
-    .filter(date => {
-      const year = new Date(date.date).getFullYear();
-
-      //Puts the current year with the id of the earliest month in the years object. No duplicates
-      if (!years[`${year}`]) {
-        years[`${year}`] = date.id;
-      }
-
-      if (year === selectedYear) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    //Puts the current year with the an array of all the currentMonths for the year. No duplicates in the object or array.
+    if (!years[`${year}`]) {
+      years[`${year}`] = [month];
+    } else if (!years[`${year}`].includes(month)) {
+      years[`${year}`].push(month);
+    }
+  });
 
   //useEffects to fetch data and set the income/month/year
   useEffect(() => {
@@ -65,12 +58,27 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (allMonthlyIncomes.length && !monthlyIncome) {
-      setMonthlyIncome(selectedMonthIncome[0].amount);
-      setIncomeId(selectedMonthIncome[0].id);
-      setSelectedYear(currentDate.year);
+    setMonthlyIncome(selectedMonthlyIncome.amount);
+    setIncomeId(selectedMonthlyIncome.id);
+  }, [selectedMonthlyIncome]);
+
+  useEffect(() => {
+    setSelectedMonth(currentDate.num);
+    setSelectedYear(currentDate.year);
+  }, [currentDate]);
+
+  useEffect(() => {
+    if (currentDate.year === selectedYear) {
+      setCurrentMonths(Array.from(Array(currentDate.num).keys()));
+    } else {
+      const idx = years[selectedYear] || 1;
+      setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
     }
-  }, [allMonthlyIncomes]);
+  }, [selectedYear]);
+
+  useEffect(() => {
+    setIncomeId(selectedMonthlyIncome.id);
+  }, [selectedMonth]);
 
   //legend to help call the setstate functions
   const legend = {
@@ -99,22 +107,20 @@ const UserProfile = () => {
     setMonthlyIncome(amount);
   };
 
-  const handeIncomeDateChange = evt => {
+  //Event handlers for month & year dropdown
+  const handleMonthChange = evt => {
+    setSelectedMonth(parseInt(evt.target.value));
+  };
+
+  const handleYearChange = evt => {
     const evtYear = parseInt(evt.target.value);
-    const evtId = years[evt.target.value];
-    const todayYear = new Date(selectedMonthIncome[0].createdAt).getFullYear();
-    const amount = parseFloat(
-      allMonthlyIncomes.filter(inc => inc.id === evtId)[0].amount
-    ).toFixed(2);
 
     setSelectedYear(evtYear);
 
-    if (evtYear === todayYear) {
-      setIncomeId(selectedMonthIncome[0].id);
-      setMonthlyIncome(selectedMonthIncome[0].amount);
+    if (evtYear === currentDate.year) {
+      setSelectedMonth(currentDate.num);
     } else {
-      setIncomeId(evtId);
-      setMonthlyIncome(amount);
+      setSelectedMonth(years[evtYear][0]);
     }
   };
 
@@ -203,18 +209,14 @@ const UserProfile = () => {
 
           <select
             name="incomeDropDownMonth"
-            value={incomeId}
-            onChange={handeIncomeChange}
+            value={selectedMonth}
+            onChange={handleMonthChange}
           >
-            {allDatesForIncomes.map(date => {
-              const month = date.date.split("/")[0];
-
-              return (
-                <option key={date.id} value={date.id}>
-                  {month}
-                </option>
-              );
-            })}
+            {currentMonths.map((month, idx) => (
+              <option key={idx} value={month + 1}>
+                {month + 1}
+              </option>
+            ))}
           </select>
 
           <label htmlFor="incomeDropDownYear">
@@ -223,7 +225,7 @@ const UserProfile = () => {
           <select
             name="incomeDropDownYear"
             value={selectedYear}
-            onChange={handeIncomeDateChange}
+            onChange={handleYearChange}
           >
             {Object.entries(years).map(year => (
               <option key={year[1]} value={year[0]}>

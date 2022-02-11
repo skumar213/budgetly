@@ -9,7 +9,6 @@ import { _getInvestments, getInvestmentsPrice } from "../store/investments";
 import {
   sortSingle,
   sortDouble,
-  compareDates,
   dateFilter,
   getTotal,
 } from "../helpers";
