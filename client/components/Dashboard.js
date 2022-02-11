@@ -268,7 +268,7 @@ const Dashboard = () => {
                       <span>Total Portfolio Value</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
-                      <span>${currentPortfolioPrice}</span>
+                      <span>${currentPortfolioPrice.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="col-auto">
