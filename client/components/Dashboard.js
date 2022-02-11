@@ -92,6 +92,9 @@ const Dashboard = () => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
+  console.log(selectedExpensesPaid)
+
+
   useEffect(() => {
     const pieGraph = document.getElementById("myChart");
     pieChart(pieGraph, [50,30,15])
@@ -122,14 +125,14 @@ const Dashboard = () => {
     }
   }, [selectedYear]);
 
-  useEffect(() => {
-    const run = async () => {
-      if (allInvestments.length) {
-        setCurrentInvestmentPrices(await getInvestmentsPrice(allInvestments));
-      }
-    };
-    run();
-  }, [allInvestments]);
+  // useEffect(() => {
+  //   const run = async () => {
+  //     if (allInvestments.length) {
+  //       setCurrentInvestmentPrices(await getInvestmentsPrice(allInvestments));
+  //     }
+  //   };
+  //   run();
+  // }, [allInvestments]);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {

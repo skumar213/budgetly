@@ -44,26 +44,26 @@ async function seed() {
     Expense.create({
       merchant: "apt rent",
       amount: 2000,
-      dueDate: "2022-03-25",
-      paidDate: "2022-03-20",
+      dueDate: new Date("3/25/2022"),
+      paidDate: new Date("3/20/2022"),
     }),
-    Expense.create({ merchant: "peco", amount: 200, dueDate: "2022-03-25" }),
+    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("3/25/2022") }),
     Expense.create({
       merchant: "whole Foods",
       amount: 100,
-      dueDate: "2022-03-25",
+      dueDate: new Date("3/25/2022"),
       isRepeat: true,
     }),
   ]);
 
   // Creating Budgets
   const budgets = await Promise.all([
-    Budget.create({ amount: 250, createdAt: "1/1/2022" }),
-    Budget.create({ amount: 2000, createdAt: "1/1/2022" }),
-    Budget.create({ amount: 750, createdAt: "1/1/2022" }),
-    Budget.create({ amount: 250, createdAt: "2/1/2022" }),
-    Budget.create({ amount: 2000, createdAt: "2/1/2022" }),
-    Budget.create({ amount: 750, createdAt: "2/1/2022" }),
+    Budget.create({ amount: 250, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 2000, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 750, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 250, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 2000, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 750, createdAt: new Date("2/1/2022") }),
   ]);
 
   // Creating Investments
@@ -75,9 +75,9 @@ async function seed() {
 
   // Creating Monthly Income
   const monthlyIncomes = await Promise.all([
-    MonthlyIncome.create({ amount: 3000, createdAt: "12/1/2021" }),
-    MonthlyIncome.create({ amount: 4000, createdAt: "1/1/2022" }),
-    MonthlyIncome.create({ amount: 5000, createdAt: "2/1/2022" }),
+    MonthlyIncome.create({ amount: 3000, createdAt: new Date("12/1/2021") }),
+    MonthlyIncome.create({ amount: 4000, createdAt: new Date("1/1/2022") }),
+    MonthlyIncome.create({ amount: 5000, createdAt: new Date("2/1/2022") }),
   ]);
 
   // Assigning user to expenses/investments and each expense to a category

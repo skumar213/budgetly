@@ -59,12 +59,14 @@ export const dateFilter = (
   name
 ) => {
   return arr.filter(item => {
-    if (selectedYear && selectedMonth) {
-      const tmpDate = new Date(`${selectedMonth}/1/${selectedYear}`);
+    const tmpCreatedDate = new Date(`${item[name]}`.replace(/-/g, "/"));
 
-      return compareDates(item[name], tmpDate);
+    if (selectedYear && selectedMonth) {
+      const tmpCurrentDate = new Date(`${selectedMonth}/1/${selectedYear}`);
+
+      return compareDates(tmpCreatedDate, tmpCurrentDate);
     } else {
-      return compareDates(item[name], currentDate.full);
+      return compareDates(tmpCreatedDate, currentDate.full);
     }
   });
 };
