@@ -178,7 +178,7 @@ const Expenses = () => {
       merchant,
       amount,
       category,
-      dueDate,
+      dueDate: currentDueDate,
       paidDate: paidDate ? paidDate : null,
       isRepeat: isRepeat ? true : false,
     };
@@ -187,7 +187,7 @@ const Expenses = () => {
       merchant,
       amount,
       category,
-      dueDate,
+      dueDate: currentDueDate,
       paidDate: paidDate ? paidDate : null,
     };
 
