@@ -59,6 +59,7 @@ export const getInvestmentsPrice = async investments => {
 
     investments.forEach((inv, idx) => {
       inv.currentPrice = currentInvestmentPricesSorted[idx].currentPrice;
+      //also updates db with currentPrice, use _updateInvestment
     });
 
     return investments;

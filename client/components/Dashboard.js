@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _getBudgets } from "../store/budgets";
 import { _getExpenses } from "../store/expenses";
@@ -15,7 +15,7 @@ import {
   colors,
 } from "../helpers";
 
-const Dashboard = () => {
+const Dashboard = props => {
   const dispatch = useDispatch();
   const years = {};
   const selectedExpensesDueOrPaid = {};
@@ -136,7 +136,35 @@ const Dashboard = () => {
 
   const formattedPieData = Object.values(uniquePieData).length
     ? Object.values(uniquePieData)
-    : [["No Expenses Paid This Month", 1, '#899499']];
+    : [["No Expenses Paid This Month", 1, "#899499"]];
+
+  //-----------------------------
+
+  useEffect(() => {
+    const prevStocks = window.localStorage.getItem("stocks");
+    const allStocks = allInvestments.map(inv => inv.tickerSymbol).join("");
+    const lastStockUpateDate = allInvestments[0]
+      ? new Date(allInvestments[0].updatedAt)
+      : new Date(currentDate.full);
+    const todayDate = new Date(currentDate.full);
+
+    if (!prevStocks) {
+      window.localStorage.setItem("stocks", allStocks);
+    }
+
+    //will only update stock price once a day or if a new stock was added/removed
+    if (
+      prevStocks !== allStocks ||
+      lastStockUpateDate.toDateString() !== todayDate.toDateString()
+    ) {
+      window.localStorage.setItem("stocks", allStocks);
+      //process here
+
+      console.log(allStocks);
+    }
+  }, [allInvestments]);
+
+  //-----------------------------
 
   //useEffects to fetch data
   useEffect(() => {
@@ -414,5 +442,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
