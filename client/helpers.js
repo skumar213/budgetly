@@ -31,15 +31,8 @@ export const months = [
   "December",
 ];
 
-//Random color generator
-export const randomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+//Colors for pie chart
+export const colors = ["#4e73df","#1cc88a","#36b9cc"]
 
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {

@@ -12,7 +12,7 @@ import {
   dateFilter,
   getTotal,
   pieChart,
-  randomColor,
+  colors,
 } from "../helpers";
 
 const Dashboard = () => {
@@ -116,9 +116,8 @@ const Dashboard = () => {
   }, 0);
 
   // make an array of colors with categories for pie graph = [category, amount, color]
-  const pieGraphData = selectedExpensesPaid.map(exp => {
-    const color = randomColor();
-    return [exp.category.name, exp.amount, color];
+  const pieGraphData = selectedExpensesPaid.map((exp, idx) => {
+    return [exp.category.name, exp.amount, colors[idx]];
   });
   const uniquePieData = {};
   pieGraphData.forEach((exp, idx) => {
@@ -134,13 +133,14 @@ const Dashboard = () => {
       uniquePieData[exp[0]] = [exp[0], totalAmount, exp[2]];
     }
   });
+
   const formattedPieData = Object.values(uniquePieData).length
     ? Object.values(uniquePieData)
-    : [["No Expenses Paid This Month", 1, "#3c64cc"]];
+    : [["No Expenses Paid This Month", 1, '#808080']];
 
   //useEffects to fetch data
   useEffect(() => {
-    const pieGraph = document.getElementById("myChart");
+    const pieGraph = document.getElementById("pieChart");
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
@@ -381,7 +381,7 @@ const Dashboard = () => {
               <div className="card-body">
                 <div className="chart-area">
                   <canvas
-                    id="myChart"
+                    id="pieChart"
                     height="320"
                     style={{
                       display: "block",
@@ -414,3 +414,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
