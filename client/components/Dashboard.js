@@ -136,7 +136,7 @@ const Dashboard = () => {
 
   const formattedPieData = Object.values(uniquePieData).length
     ? Object.values(uniquePieData)
-    : [["No Expenses Paid This Month", 1, '#808080']];
+    : [["No Expenses Paid This Month", 1, '#899499']];
 
   //useEffects to fetch data
   useEffect(() => {
