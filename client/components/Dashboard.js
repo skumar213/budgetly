@@ -182,8 +182,9 @@ const Dashboard = props => {
 
     //will only update stock price once a day or if a stock was added/removed to save on api calls
     if (
-      prevStocks !== allStocks ||
-      lastStockUpateDate.toDateString() !== todayDate.toDateString()
+      (prevStocks !== allStocks ||
+        lastStockUpateDate.toDateString() !== todayDate.toDateString()) &&
+      allStocks
     ) {
       window.localStorage.setItem("stocks", allStocks);
       try {
