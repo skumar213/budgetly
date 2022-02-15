@@ -53,6 +53,7 @@ const Dashboard = props => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
+  const [pie, setPie] = useState("");
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -140,15 +141,40 @@ const Dashboard = props => {
     ? Object.values(uniquePieData)
     : [["No Expenses Paid This Month", 1, "#899499"]];
 
+
   // console.log(selectedBudgets)
   // console.log(selectedExpensesPaid)
 
   //useEffects to fetch data
+
   useEffect(() => {
     const pieGraph = document.getElementById("pieChart");
 
-    pieChart(pieGraph, formattedPieData);
-  }, [selectedExpensesPaid]);
+    const pieGraphWithData = pieChart(pieGraph, formattedPieData);
+
+    setPie(pieGraphWithData)
+
+  }, [])
+
+
+  useEffect(() => {
+    if (pie) {
+      const labels = formattedPieData.map(item => item[0]);
+      const data = formattedPieData.map(item => item[1]);
+      const backgroundColor = formattedPieData.map(item => item[2]);
+
+
+
+      pie.data.datasets[0].data = data
+      pie.data.labels = labels
+      pie.data.datasets[0].backgroundColor = backgroundColor
+
+      pie.update();
+
+    }
+
+
+  }, [selectedExpensesPaid])
 
   useEffect(() => {
     dispatch(_getBudgets());
@@ -403,24 +429,10 @@ const Dashboard = props => {
                 </div>
               </div>
               <div className="card-body">
-                <div
-                  className="chart-area m-auto"
-                  style={{
-                    display: "relative",
-                    width: "887px",
-                    height: "320px",
-                  }}
-                >
+                <div className="chart-area">
                   <canvas id="pieChart"></canvas>
                 </div>
-                <div
-                  className="text-center small mt-4 m-auto"
-                  style={{
-                    display: "relative",
-                    width: "887px",
-                    height: "20px",
-                  }}
-                >
+                <div className="text-center small mt-4">
                   {formattedPieData.map((exp, idx) => {
                     return (
                       <span key={idx} className="me-2">
