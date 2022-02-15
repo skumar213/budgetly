@@ -32,7 +32,7 @@ export const months = [
 ];
 
 //Colors for pie chart
-export const colors = ["#4e73df","#1cc88a","#36b9cc"]
+export const colors = ["#4e73df", "#1cc88a", "#36b9cc"];
 
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {

@@ -43,11 +43,11 @@ const Dashboard = props => {
     useSelector(state => state.investments),
     "tickerSymbol"
   );
-  const allCategories =
-    sortSingle(
-      useSelector(state => state.categories),
-      "name"
-    ) || [];
+  // const allCategories =
+  //   sortSingle(
+  //     useSelector(state => state.categories),
+  //     "name"
+  //   ) || [];
 
   //local states
   const [selectedYear, setSelectedYear] = useState("");
@@ -140,9 +140,13 @@ const Dashboard = props => {
     ? Object.values(uniquePieData)
     : [["No Expenses Paid This Month", 1, "#899499"]];
 
+  // console.log(selectedBudgets)
+  // console.log(selectedExpensesPaid)
+
   //useEffects to fetch data
   useEffect(() => {
     const pieGraph = document.getElementById("pieChart");
+
     pieChart(pieGraph, formattedPieData);
   }, [selectedExpensesPaid]);
 
@@ -366,7 +370,7 @@ const Dashboard = props => {
         <hr></hr>
 
         <div className="row">
-          <div className="col-lg-5 col-xl-4">
+          <div className="col">
             <div className="card shadow mb-4">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h6 className="text-primary fw-bold m-0">
@@ -399,19 +403,24 @@ const Dashboard = props => {
                 </div>
               </div>
               <div className="card-body">
-                <div className="chart-area">
-                  <canvas
-                    id="pieChart"
-                    height="320"
-                    style={{
-                      display: "block",
-                      width: "249px",
-                      height: "320px",
-                    }}
-                    width="249"
-                  ></canvas>
+                <div
+                  className="chart-area m-auto"
+                  style={{
+                    display: "relative",
+                    width: "887px",
+                    height: "320px",
+                  }}
+                >
+                  <canvas id="pieChart"></canvas>
                 </div>
-                <div className="text-center small mt-4">
+                <div
+                  className="text-center small mt-4 m-auto"
+                  style={{
+                    display: "relative",
+                    width: "887px",
+                    height: "20px",
+                  }}
+                >
                   {formattedPieData.map((exp, idx) => {
                     return (
                       <span key={idx} className="me-2">

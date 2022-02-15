@@ -45,7 +45,7 @@ async function seed() {
       dueDate: new Date("2/25/2022"),
       paidDate: new Date("2/20/2022"),
     }),
-    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("2/25/2022") }),
+    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("2/25/2022"),paidDate: new Date("2/20/2022"), }),
     Expense.create({
       merchant: "whole Foods",
       amount: 100,
