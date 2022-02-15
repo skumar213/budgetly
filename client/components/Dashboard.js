@@ -14,6 +14,7 @@ import {
   pieChart,
   colors,
 } from "../helpers";
+import { STOCKS } from "../store/auth";
 
 //set it to false for development to save on api calls
 const triggerForYahoo = false;
@@ -169,7 +170,7 @@ const Dashboard = props => {
   }, [selectedYear]);
 
   useEffect(() => {
-    const prevStocks = window.localStorage.getItem("stocks");
+    const prevStocks = window.localStorage.getItem(STOCKS);
     const allStocks = allInvestments.map(inv => inv.tickerSymbol).join("");
     const lastStockUpateDate = allInvestments[0]
       ? new Date(allInvestments[0].updatedAt)
@@ -177,16 +178,16 @@ const Dashboard = props => {
     const todayDate = new Date(currentDate.full);
 
     if (!prevStocks) {
-      window.localStorage.setItem("stocks", allStocks);
+      window.localStorage.setItem(STOCKS, allStocks);
     }
 
-    //will only update stock price once a day or if a stock was added/removed to save on api calls
+    //will only update stock price once a day, if a stock was added/removed to save on api calls, or if they log in
     if (
       (prevStocks !== allStocks ||
         lastStockUpateDate.toDateString() !== todayDate.toDateString()) &&
       allStocks
     ) {
-      window.localStorage.setItem("stocks", allStocks);
+      window.localStorage.setItem(STOCKS, allStocks);
       try {
         const run = async () => {
           if (allInvestments.length) {

@@ -4,6 +4,7 @@ import { authenticateRequest } from "./gateKeepingMiddleware";
 import { _createMonthlyIncome } from "./monthlyIncomes";
 
 const TOKEN = "token";
+export const STOCKS = "stocks"
 
 //ACTION TYPES
 const SET_AUTH = "SET_AUTH";
@@ -53,6 +54,7 @@ export const authenticate =
 
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
+  window.localStorage.removeItem(STOCKS)
   history.push("/login");
   return {
     type: SET_AUTH,
