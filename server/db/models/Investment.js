@@ -1,8 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
-
-const Investment = db.define('investment', {
+const Investment = db.define("investment", {
   tickerSymbol: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -24,18 +23,20 @@ const Investment = db.define('investment', {
       notEmpty: true,
     },
   },
-})
-
+  currentPrice: {
+    type: Sequelize.DECIMAL(10, 2),
+    defaultValue: 0,
+  },
+});
 
 //hooks
 
 Investment.beforeCreate(inv => {
   inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
-})
+});
 
 Investment.beforeUpdate(inv => {
   inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
-})
+});
 
-
-module.exports = Investment
+module.exports = Investment;

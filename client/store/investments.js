@@ -38,7 +38,7 @@ export const _getInvestments = () => async dispatch => {
   }
 };
 
-export const getInvestmentsPrice = async investments => {
+export const getInvestmentsPrice = investments => async dispatch => {
   try {
     const tickerSymbols = investments.reduce((accu, inv, idx) => {
       if (idx === 0) {
@@ -57,12 +57,17 @@ export const getInvestmentsPrice = async investments => {
       "symbol"
     );
 
+    //updates db with currentPrice
     investments.forEach((inv, idx) => {
-      inv.currentPrice = currentInvestmentPricesSorted[idx].currentPrice;
-      //also updates db with currentPrice, use _updateInvestment
+      dispatch(
+        _updateInvestment({
+          id: inv.id,
+          tickerSymbol: inv.tickerSymbol,
+          buyPrice: inv.buyPrice,
+          currentPrice: currentInvestmentPricesSorted[idx].currentPrice,
+        })
+      );
     });
-
-    return investments;
   } catch (error) {
     console.log(error);
   }

@@ -15,6 +15,9 @@ import {
   colors,
 } from "../helpers";
 
+//set it to false for development to save on api calls
+const triggerForYahoo = false;
+
 const Dashboard = props => {
   const dispatch = useDispatch();
   const years = {};
@@ -49,8 +52,6 @@ const Dashboard = props => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
-  const [currentInvestmentPrices, setCurrentInvestmentPrices] = useState([]);
-  // const [formattedPieData, setFormattedPieData] = useState([]);
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -111,7 +112,7 @@ const Dashboard = props => {
     Object.values(selectedExpensesDueOrPaid)
   );
 
-  const currentPortfolioPrice = currentInvestmentPrices.reduce((accu, inv) => {
+  const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
@@ -137,34 +138,6 @@ const Dashboard = props => {
   const formattedPieData = Object.values(uniquePieData).length
     ? Object.values(uniquePieData)
     : [["No Expenses Paid This Month", 1, "#899499"]];
-
-  //-----------------------------
-
-  useEffect(() => {
-    const prevStocks = window.localStorage.getItem("stocks");
-    const allStocks = allInvestments.map(inv => inv.tickerSymbol).join("");
-    const lastStockUpateDate = allInvestments[0]
-      ? new Date(allInvestments[0].updatedAt)
-      : new Date(currentDate.full);
-    const todayDate = new Date(currentDate.full);
-
-    if (!prevStocks) {
-      window.localStorage.setItem("stocks", allStocks);
-    }
-
-    //will only update stock price once a day or if a new stock was added/removed
-    if (
-      prevStocks !== allStocks ||
-      lastStockUpateDate.toDateString() !== todayDate.toDateString()
-    ) {
-      window.localStorage.setItem("stocks", allStocks);
-      //process here
-
-      console.log(allStocks);
-    }
-  }, [allInvestments]);
-
-  //-----------------------------
 
   //useEffects to fetch data
   useEffect(() => {
@@ -195,21 +168,38 @@ const Dashboard = props => {
     }
   }, [selectedYear]);
 
-  //Need to comment out during development to avoid going over daily api call amount
-  // useEffect(() => {
-  //   try {
-  //     const run = async () => {
-  //       if (allInvestments.length) {
-  //         const prices = (await getInvestmentsPrice(allInvestments)) || [];
+  useEffect(() => {
+    const prevStocks = window.localStorage.getItem("stocks");
+    const allStocks = allInvestments.map(inv => inv.tickerSymbol).join("");
+    const lastStockUpateDate = allInvestments[0]
+      ? new Date(allInvestments[0].updatedAt)
+      : new Date(currentDate.full);
+    const todayDate = new Date(currentDate.full);
 
-  //         setCurrentInvestmentPrices(prices);
-  //       }
-  //     };
-  //     run();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [allInvestments]);
+    if (!prevStocks) {
+      window.localStorage.setItem("stocks", allStocks);
+    }
+
+    //will only update stock price once a day or if a stock was added/removed to save on api calls
+    if (
+      prevStocks !== allStocks ||
+      lastStockUpateDate.toDateString() !== todayDate.toDateString()
+    ) {
+      window.localStorage.setItem("stocks", allStocks);
+      try {
+        const run = async () => {
+          if (allInvestments.length) {
+            if (triggerForYahoo) {
+              dispatch(getInvestmentsPrice(allInvestments));
+            }
+          }
+        };
+        run();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [allInvestments]);
 
   //Event handlers for month & year dropdown
   const handleMonthChange = evt => {

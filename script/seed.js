@@ -42,14 +42,14 @@ async function seed() {
     Expense.create({
       merchant: "apt rent",
       amount: 2000,
-      dueDate: new Date("3/25/2022"),
-      paidDate: new Date("3/20/2022"),
+      dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
     }),
-    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("3/25/2022") }),
+    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("2/25/2022") }),
     Expense.create({
       merchant: "whole Foods",
       amount: 100,
-      dueDate: new Date("3/25/2022"),
+      dueDate: new Date("2/25/2022"),
       isRepeat: true,
     }),
   ]);
