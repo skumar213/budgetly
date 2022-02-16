@@ -147,6 +147,16 @@ const Dashboard = props => {
     return sum;
   });
 
+  //checks if any expenses were paid an not budgeted for and includes it in the bar graph
+  const barGraphLabelsCopy = [...barGraphLabels];
+  pieGraphLabels.forEach((pieLabel, idx) => {
+    if (!barGraphLabelsCopy.includes(pieLabel)) {
+      barGraphLabels.push(pieLabel);
+      barGraphBudgeted.push(0);
+      barGraphAcutal.push(pieGraphData[idx]);
+    }
+  });
+
   //useEffects to fetch data
   //creates charts
   useEffect(() => {
