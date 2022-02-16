@@ -15,7 +15,7 @@ import {
   pieChart,
   colors,
   barChart,
-  horizontalBarChart
+  horizontalBarChart,
 } from "../helpers";
 import { STOCKS } from "../store/auth";
 
@@ -159,6 +159,9 @@ const Dashboard = props => {
     }
   });
 
+  //HORIZONTAL GRAPH data
+
+
   //useEffects to fetch data
   //creates charts
   useEffect(() => {
@@ -168,11 +171,12 @@ const Dashboard = props => {
     const bar = document.getElementById("barGraph");
     const barWithData = barChart(bar);
 
+    const horizontalBar = document.getElementById("horizontalBarGraph");
+    const horizontalBarWithData = horizontalBarChart(horizontalBar)
+
     setPieGraph(pieWithData);
     setBarGraph(barWithData);
   }, []);
-
-
 
   //updates charts with data
   useEffect(() => {
@@ -393,9 +397,7 @@ const Dashboard = props => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                        <span>
-                          Total Portfolio Value
-                        </span>
+                        <span>Total Portfolio Value</span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
                         <span>${currentPortfolioPrice.toFixed(2)}</span>
@@ -464,7 +466,7 @@ const Dashboard = props => {
                       className="fas fa-circle"
                       style={{ color: `#F6C23E` }}
                     ></i>
-                    Actual
+                     Actual
                   </span>
                 </div>
               </div>
@@ -521,6 +523,65 @@ const Dashboard = props => {
                       </span>
                     );
                   })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          {/* Horizontal Bar Graph */}
+
+          <div className="col-lg-7 col-xl-8">
+            <div className="card shadow mb-4">
+              <div className="card-header d-flex justify-content-between align-items-center">
+                <h6 className="text-primary fw-bold m-0">
+                  Investements (Original vs Current Value)
+                </h6>
+                <div className="dropdown no-arrow">
+                  <button
+                    className="btn btn-link btn-sm dropdown-toggle"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    type="button"
+                  >
+                    <i className="fas fa-ellipsis-v text-gray-400"></i>
+                  </button>
+                  <div className="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                    <p className="text-center dropdown-header">
+                      dropdown header:
+                    </p>
+                    <a className="dropdown-item" href="#">
+                       Action
+                    </a>
+                    <a className="dropdown-item" href="#">
+                       Another action
+                    </a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" href="#">
+                       Something else here
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="card-body">
+                <div className="chart-area">
+                  <canvas id="horizontalBarGraph"></canvas>
+                </div>
+                <div className="text-center small mt-4">
+                  <span className="me-2">
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `blue` }}
+                    ></i>
+                     Original Value
+                  </span>
+                  <span className="me-2">
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `red` }}
+                    ></i>
+                     Current Value
+                  </span>
                 </div>
               </div>
             </div>

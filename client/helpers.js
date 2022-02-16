@@ -177,22 +177,17 @@ export const barChart = (graph, labels, budgeted, actual) => {
   });
 };
 
-
 export const horizontalBarChart = (graph, labels, budgeted, actual) => {
   return new Chart(graph, {
     type: "horizontalBar",
     data: {
-      labels,
+      labels: ["Original Value", "Current Value"],
       datasets: [
         {
-          label: "Budgeted",
-          backgroundColor: "#36b9cc",
-          data: budgeted,
-        },
-        {
-          label: "Acutal",
-          backgroundColor: "#F6C23E",
-          data: actual,
+          label: "",
+          backgroundColor: ["blue", "red"],
+          borderColor: "#ffffff",
+          data: [50, 30],
         },
       ],
     },
@@ -200,9 +195,10 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
       maintainAspectRatio: false,
       legend: { display: false, labels: { fontStyle: "normal" } },
       scales: {
-        yAxes: [
+        xAxes: [
           {
             ticks: {
+              fontStyle: "normal",
               beginAtZero: true,
               callback: function (value) {
                 return "$" + value;
@@ -210,6 +206,7 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
             },
           },
         ],
+        yAxes: [{ ticks: { fontStyle: "normal", beginAtZero: true } }],
       },
       tooltips: {
         mode: "label",
