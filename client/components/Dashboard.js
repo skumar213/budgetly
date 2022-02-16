@@ -170,6 +170,8 @@ const Dashboard = props => {
     setBarGraph(barWithData);
   }, []);
 
+
+
   //updates charts with data
   useEffect(() => {
     if (pieGraph) {
@@ -391,7 +393,6 @@ const Dashboard = props => {
                       <div className="text-uppercase text-warning fw-bold text-xs mb-1">
                         <span>
                           Total Portfolio Value
-                          <strong style={{ fontSize: "15px" }}>*</strong>
                         </span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
@@ -406,9 +407,6 @@ const Dashboard = props => {
               </div>
             </div>
           </div>
-        </div>
-        <div style={{ fontSize: "10px", textAlign: "center" }}>
-          * portfolio will show up as $0.00 if daily API calls are exceeded
         </div>
         <hr></hr>
 

@@ -36,7 +36,6 @@ export const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#F6C23E"];
 
 export const findUnique = (value, index, self) => self.indexOf(value) === index;
 
-
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {
   createdDate = new Date(createdDate);
@@ -108,6 +107,19 @@ export const pieChart = (graph, labels, data) => {
     options: {
       maintainAspectRatio: false,
       legend: { display: false, labels: { fontStyle: "normal" } },
+      tooltips: {
+        mode: "label",
+        label: "mylabel",
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return (
+              data.labels[tooltipItem.index] +
+              ": $" +
+              data.datasets[0].data[tooltipItem.index]
+            );
+          },
+        },
+      },
     },
     title: { fontStyle: "normal" },
   });
@@ -140,9 +152,25 @@ export const barChart = (graph, labels, budgeted, actual) => {
           {
             ticks: {
               beginAtZero: true,
+              callback: function (value) {
+                return "$" + value;
+              },
             },
           },
         ],
+      },
+      tooltips: {
+        mode: "label",
+        label: "mylabel",
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return (
+              data.datasets[tooltipItem.datasetIndex].label +
+              ": $" +
+              tooltipItem.value
+            );
+          },
+        },
       },
     },
     title: { fontStyle: "normal" },
