@@ -53,7 +53,7 @@ const Dashboard = props => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
-  const [pie, setPie] = useState("");
+  const [pieGraph, setPieGraph] = useState("");
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -118,10 +118,12 @@ const Dashboard = props => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  // make an array of colors with categories for pie graph = [category, amount, color]
+  // PIE GRAPH, make a 2d array of colors, categories, and amount for pie graph = [category, amount, color]
   const pieGraphData = selectedExpensesPaid.map((exp, idx) => {
     return [exp.category.name, exp.amount, colors[idx]];
   });
+
+  //Combines the same expense
   const uniquePieData = {};
   pieGraphData.forEach((exp, idx) => {
     let totalAmount = parseFloat(exp[1]);
@@ -141,40 +143,28 @@ const Dashboard = props => {
     ? Object.values(uniquePieData)
     : [["No Expenses Paid This Month", 1, "#899499"]];
 
-
-  // console.log(selectedBudgets)
-  // console.log(selectedExpensesPaid)
-
   //useEffects to fetch data
-
+  //creates charts
   useEffect(() => {
-    const pieGraph = document.getElementById("pieChart");
+    const pie = document.getElementById("pieChart");
+    const pieWithData = pieChart(pie, formattedPieData);
+    setPieGraph(pieWithData);
+  }, []);
 
-    const pieGraphWithData = pieChart(pieGraph, formattedPieData);
-
-    setPie(pieGraphWithData)
-
-  }, [])
-
-
+  //updates charts with data
   useEffect(() => {
-    if (pie) {
-      const labels = formattedPieData.map(item => item[0]);
-      const data = formattedPieData.map(item => item[1]);
-      const backgroundColor = formattedPieData.map(item => item[2]);
+    if (pieGraph) {
+      const labels = formattedPieData.map(label => label[0]);
+      const data = formattedPieData.map(data => data[1]);
+      const backgroundColor = formattedPieData.map(color => color[2]);
 
+      pieGraph.data.datasets[0].data = data;
+      pieGraph.data.labels = labels;
+      pieGraph.data.datasets[0].backgroundColor = backgroundColor;
 
-
-      pie.data.datasets[0].data = data
-      pie.data.labels = labels
-      pie.data.datasets[0].backgroundColor = backgroundColor
-
-      pie.update();
-
+      pieGraph.update();
     }
-
-
-  }, [selectedExpensesPaid])
+  }, [selectedExpensesPaid]);
 
   useEffect(() => {
     dispatch(_getBudgets());
