@@ -258,6 +258,7 @@ const Expenses = () => {
                   type="text"
                   value={merchant}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div>
@@ -269,6 +270,7 @@ const Expenses = () => {
                   type="number"
                   value={amount}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div>
@@ -295,9 +297,10 @@ const Expenses = () => {
                 </label>
                 <input
                   name="dueDate"
-                  type="text"
+                  type="date"
                   value={dueDate}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div>
@@ -306,7 +309,7 @@ const Expenses = () => {
                 </label>
                 <input
                   name="paidDate"
-                  type="paidDate"
+                  type="date"
                   value={paidDate ? paidDate : ""}
                   onChange={handleChange}
                 />
