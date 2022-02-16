@@ -32,7 +32,7 @@ export const months = [
 ];
 
 //Colors for pie chart
-export const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#F6C23E"];
+export const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#F6C23E", "#b336cc", "#cc364a"];
 
 export const findUnique = (value, index, self) => self.indexOf(value) === index;
 
@@ -185,7 +185,7 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
       datasets: [
         {
           label: "",
-          backgroundColor: ["blue", "red"],
+          backgroundColor: ["#b336cc", "#cc364a"],
           borderColor: "#ffffff",
           data: [50, 30],
         },

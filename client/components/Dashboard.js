@@ -603,11 +603,11 @@ const Dashboard = props => {
                 </div>
                 <div className="text-center small mt-4">
                   <span className="me-2">
-                    <i className="fas fa-circle" style={{ color: `blue` }}></i>
+                    <i className="fas fa-circle" style={{ color: `#b336cc` }}></i>
                      Original Value
                   </span>
                   <span className="me-2">
-                    <i className="fas fa-circle" style={{ color: `red` }}></i>
+                    <i className="fas fa-circle" style={{ color: `#cc364a` }}></i>
                      Current Value
                   </span>
                 </div>
