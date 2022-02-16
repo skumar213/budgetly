@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="container-fluid d-flex flex-column p-0">
         <a
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-          href="#"
+          href="/"
         >
           <div className="sidebar-brand-icon rotate-n-15">
             <i className="fas fa-laugh-wink"></i>
@@ -31,7 +31,7 @@ const Navbar = () => {
         <hr className="sidebar-divider my-0" />
 
         {isLoggedIn ? (
-          <ul id="accordionSidebar" className="navbar-nav text-light">
+          <ul className="navbar-nav text-light">
             <li className="nav-item">
               <Link className="nav-link active" to="/home">
                 <i className="fas fa-tachometer-alt"></i>

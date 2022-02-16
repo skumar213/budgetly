@@ -20,9 +20,9 @@ import {
 import { STOCKS } from "../store/auth";
 
 //set it to false for development to save on yahoo finance api calls
-const triggerForYahoo = true;
+const triggerForYahoo = false;
 
-const Dashboard = props => {
+const Dashboard = () => {
   const dispatch = useDispatch();
   const years = {};
   const selectedExpensesDueOrPaid = {};
