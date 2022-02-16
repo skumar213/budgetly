@@ -15,6 +15,7 @@ import {
   pieChart,
   colors,
   barChart,
+  horizontalBarChart
 } from "../helpers";
 import { STOCKS } from "../store/auth";
 
@@ -52,6 +53,7 @@ const Dashboard = props => {
   const [currentMonths, setCurrentMonths] = useState([]);
   const [pieGraph, setPieGraph] = useState("");
   const [barGraph, setBarGraph] = useState("");
+  const [horizontalBarGraph, setHorizontalBarGraph] = useState("");
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(

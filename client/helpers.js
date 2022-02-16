@@ -176,3 +176,55 @@ export const barChart = (graph, labels, budgeted, actual) => {
     title: { fontStyle: "normal" },
   });
 };
+
+
+export const horizontalBarChart = (graph, labels, budgeted, actual) => {
+  return new Chart(graph, {
+    type: "horizontalBar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Budgeted",
+          backgroundColor: "#36b9cc",
+          data: budgeted,
+        },
+        {
+          label: "Acutal",
+          backgroundColor: "#F6C23E",
+          data: actual,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      legend: { display: false, labels: { fontStyle: "normal" } },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              callback: function (value) {
+                return "$" + value;
+              },
+            },
+          },
+        ],
+      },
+      tooltips: {
+        mode: "label",
+        label: "mylabel",
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return (
+              data.datasets[tooltipItem.datasetIndex].label +
+              ": $" +
+              tooltipItem.value
+            );
+          },
+        },
+      },
+    },
+    title: { fontStyle: "normal" },
+  });
+};
