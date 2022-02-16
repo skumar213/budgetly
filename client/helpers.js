@@ -115,7 +115,7 @@ export const pieChart = (graph, labels, data) => {
             return (
               data.labels[tooltipItem.index] +
               ": $" +
-              data.datasets[0].data[tooltipItem.index]
+              parseFloat(data.datasets[0].data[tooltipItem.index]).toFixed(2)
             );
           },
         },
@@ -167,7 +167,7 @@ export const barChart = (graph, labels, budgeted, actual) => {
             return (
               data.datasets[tooltipItem.datasetIndex].label +
               ": $" +
-              tooltipItem.value
+              parseFloat(tooltipItem.value).toFixed(2)
             );
           },
         },
@@ -216,7 +216,7 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
             return (
               data.datasets[tooltipItem.datasetIndex].label +
               ": $" +
-              tooltipItem.value
+              parseFloat(tooltipItem.value).toFixed(2)
             );
           },
         },

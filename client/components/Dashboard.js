@@ -114,9 +114,9 @@ const Dashboard = props => {
     Object.values(selectedExpensesDueOrPaid)
   );
 
-  const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
-    return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
-  }, 0);
+  // const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
+  //   return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
+  // }, 0);
 
   //PIE GRAPH data
   let pieGraphLabels = selectedExpensesPaid
@@ -159,8 +159,18 @@ const Dashboard = props => {
     }
   });
 
-  //HORIZONTAL GRAPH data
+  console.log(allInvestments);
 
+  //HORIZONTAL GRAPH data
+  const originalPortfolioPrice = allInvestments.reduce((accu, inv) => {
+    return accu + parseFloat(inv.totalShares) * parseFloat(inv.buyPrice);
+  }, 0);
+
+  const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
+    return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
+  }, 0);
+
+  console.log(currentPortfolioPrice);
 
   //useEffects to fetch data
   //creates charts
@@ -172,10 +182,11 @@ const Dashboard = props => {
     const barWithData = barChart(bar);
 
     const horizontalBar = document.getElementById("horizontalBarGraph");
-    const horizontalBarWithData = horizontalBarChart(horizontalBar)
+    const horizontalBarWithData = horizontalBarChart(horizontalBar);
 
     setPieGraph(pieWithData);
     setBarGraph(barWithData);
+    setHorizontalBarGraph(horizontalBarWithData);
   }, []);
 
   //updates charts with data
@@ -192,6 +203,12 @@ const Dashboard = props => {
       barGraph.data.datasets[1].data = barGraphAcutal;
 
       barGraph.update();
+    }
+    if (horizontalBarGraph) {
+      horizontalBarGraph.data.datasets[0].data[0] = originalPortfolioPrice;
+      horizontalBarGraph.data.datasets[0].data[1] = currentPortfolioPrice;
+
+      horizontalBarGraph.update();
     }
   }, [selectedExpensesPaid]);
 
@@ -397,10 +414,27 @@ const Dashboard = props => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-warning fw-bold text-xs mb-1">
-                        <span>Total Portfolio Value</span>
+                        <span>Portfolio Profit & Loss</span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
-                        <span>${currentPortfolioPrice.toFixed(2)}</span>
+                        <span className="text-success">
+                          {currentPortfolioPrice - originalPortfolioPrice >=
+                          0 ? (
+                            <span>
+                              ${" "}
+                              {(
+                                currentPortfolioPrice - originalPortfolioPrice
+                              ).toFixed(2)}
+                            </span>
+                          ) : (
+                            <span className="text-danger">
+                              ${" "}
+                              {(
+                                currentPortfolioPrice - originalPortfolioPrice
+                              ).toFixed(2)}
+                            </span>
+                          )}
+                        </span>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -569,17 +603,11 @@ const Dashboard = props => {
                 </div>
                 <div className="text-center small mt-4">
                   <span className="me-2">
-                    <i
-                      className="fas fa-circle"
-                      style={{ color: `blue` }}
-                    ></i>
+                    <i className="fas fa-circle" style={{ color: `blue` }}></i>
                      Original Value
                   </span>
                   <span className="me-2">
-                    <i
-                      className="fas fa-circle"
-                      style={{ color: `red` }}
-                    ></i>
+                    <i className="fas fa-circle" style={{ color: `red` }}></i>
                      Current Value
                   </span>
                 </div>
