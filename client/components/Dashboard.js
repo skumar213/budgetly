@@ -18,7 +18,7 @@ import {
 } from "../helpers";
 import { STOCKS } from "../store/auth";
 
-//set it to false for development to save on api calls
+//set it to false for development to save on yahoo finance api calls
 const triggerForYahoo = false;
 
 const Dashboard = props => {
@@ -269,6 +269,8 @@ const Dashboard = props => {
     <div className="content">
       <div id="container-fluid">
         <div className="container-fluid">
+          {/* Title and Month/Year dropdown */}
+
           <div className="d-sm-flex justify-content-between align-items-center mb-4">
             <h3 className="text-dark mb-0">Dashboard</h3>
           </div>
@@ -411,7 +413,7 @@ const Dashboard = props => {
         <hr></hr>
 
         <div className="row">
-          {/* ------------ */}
+          {/* Expense vs Budget Bar Graph */}
 
           <div className="col-lg-7 col-xl-8">
             <div className="card shadow mb-4">
@@ -469,7 +471,7 @@ const Dashboard = props => {
             </div>
           </div>
 
-          {/* ---------- */}
+          {/* Expense Breakdown Pie Chart */}
 
           <div className="col-lg-5 col-xl-4">
             <div className="card shadow mb-4">
