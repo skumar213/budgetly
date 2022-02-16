@@ -117,7 +117,7 @@ const Dashboard = props => {
   }, 0);
 
   //PIE GRAPH data
-  const pieGraphLabels = selectedExpensesPaid
+  let pieGraphLabels = selectedExpensesPaid
     .map(exp => exp.category.name)
     .filter(findUnique);
   const pieGraphData = pieGraphLabels.map(label => {
@@ -260,6 +260,10 @@ const Dashboard = props => {
       setSelectedMonth(years[evtYear][0]);
     }
   };
+
+  if (!pieGraphLabels.length) {
+    pieGraphLabels = ["No Expenses Paid This Month"];
+  }
 
   return (
     <div className="content">
