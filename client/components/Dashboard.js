@@ -20,7 +20,7 @@ import {
 import { STOCKS } from "../store/auth";
 
 //set it to false for development to save on yahoo finance api calls
-const triggerForYahoo = false;
+const triggerForYahoo = true;
 
 const Dashboard = props => {
   const dispatch = useDispatch();
@@ -114,10 +114,6 @@ const Dashboard = props => {
     Object.values(selectedExpensesDueOrPaid)
   );
 
-  // const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
-  //   return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
-  // }, 0);
-
   //PIE GRAPH data
   let pieGraphLabels = selectedExpensesPaid
     .map(exp => exp.category.name)
@@ -159,8 +155,6 @@ const Dashboard = props => {
     }
   });
 
-  console.log(allInvestments);
-
   //HORIZONTAL GRAPH data
   const originalPortfolioPrice = allInvestments.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.buyPrice);
@@ -169,8 +163,6 @@ const Dashboard = props => {
   const currentPortfolioPrice = allInvestments.reduce((accu, inv) => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
-
-  console.log(currentPortfolioPrice);
 
   //useEffects to fetch data
   //creates charts
@@ -565,7 +557,7 @@ const Dashboard = props => {
         <div className="row">
           {/* Horizontal Bar Graph */}
 
-          <div className="col-lg-7 col-xl-8">
+          <div className="col">
             <div className="card shadow mb-4">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h6 className="text-primary fw-bold m-0">
@@ -603,11 +595,17 @@ const Dashboard = props => {
                 </div>
                 <div className="text-center small mt-4">
                   <span className="me-2">
-                    <i className="fas fa-circle" style={{ color: `#b336cc` }}></i>
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `#b336cc` }}
+                    ></i>
                      Original Value
                   </span>
                   <span className="me-2">
-                    <i className="fas fa-circle" style={{ color: `#cc364a` }}></i>
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `#cc364a` }}
+                    ></i>
                      Current Value
                   </span>
                 </div>
