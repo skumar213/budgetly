@@ -13,6 +13,7 @@ import {
   getTotal,
   pieChart,
   colors,
+  barChart
 } from "../helpers";
 import { STOCKS } from "../store/auth";
 
@@ -43,17 +44,13 @@ const Dashboard = props => {
     useSelector(state => state.investments),
     "tickerSymbol"
   );
-  // const allCategories =
-  //   sortSingle(
-  //     useSelector(state => state.categories),
-  //     "name"
-  //   ) || [];
 
   //local states
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [currentMonths, setCurrentMonths] = useState([]);
   const [pieGraph, setPieGraph] = useState("");
+  const [barGraph, setBarGraph] = useState("");
 
   //data from redux state organized as needed for page
   const selectedMonthlyIncome = dateFilter(
@@ -143,11 +140,23 @@ const Dashboard = props => {
     ? Object.values(uniquePieData)
     : [["No Expenses Paid This Month", 1, "#899499"]];
 
+
+  //BAR GRAPH
+  console.log(selectedBudgets)
+  console.log(selectedExpensesPaid)
+
+
+
   //useEffects to fetch data
   //creates charts
   useEffect(() => {
     const pie = document.getElementById("pieChart");
     const pieWithData = pieChart(pie, formattedPieData);
+
+    const bar = document.getElementById("barGraph");
+    barChart(bar)
+
+
     setPieGraph(pieWithData);
   }, []);
 
@@ -386,7 +395,70 @@ const Dashboard = props => {
         <hr></hr>
 
         <div className="row">
-          <div className="col">
+         {/* ------------ */}
+
+
+        <div className="col-lg-7 col-xl-8">
+            <div className="card shadow mb-4">
+              <div className="card-header d-flex justify-content-between align-items-center">
+                <h6 className="text-primary fw-bold m-0">
+                  Expense (Paid in Month) vs Budget (Monthly)
+                </h6>
+                <div className="dropdown no-arrow">
+                  <button
+                    className="btn btn-link btn-sm dropdown-toggle"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    type="button"
+                  >
+                    <i className="fas fa-ellipsis-v text-gray-400"></i>
+                  </button>
+                  <div className="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                    <p className="text-center dropdown-header">
+                      dropdown header:
+                    </p>
+                    <a className="dropdown-item" href="#">
+                       Action
+                    </a>
+                    <a className="dropdown-item" href="#">
+                       Another action
+                    </a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" href="#">
+                       Something else here
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="card-body">
+                <div className="chart-area">
+                  <canvas id="barGraph"></canvas>
+                </div>
+                <div className="text-center small mt-4">
+                  {formattedPieData.map((exp, idx) => {
+                    return (
+                      <span key={idx} className="me-2">
+                        <i
+                          className="fas fa-circle"
+                          style={{ color: `${exp[2]}` }}
+                        ></i>
+                         {exp[0]}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ---------- */}
+
+
+
+
+
+
+          <div className="col-lg-5 col-xl-4">
             <div className="card shadow mb-4">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h6 className="text-primary fw-bold m-0">

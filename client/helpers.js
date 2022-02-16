@@ -81,6 +81,8 @@ export const getTotal = arr => {
 };
 
 //Function to create a new chart
+
+//Pie Chart
 //graph is a string, labels and data are arrays
 export const pieChart = (graph, items) => {
   const labels = items.map(item => item[0]);
@@ -103,6 +105,69 @@ export const pieChart = (graph, items) => {
     options: {
       maintainAspectRatio: false,
       legend: { display: false, labels: { fontStyle: "normal" } },
+    },
+    title: { fontStyle: "normal" },
+  });
+};
+
+
+
+//Bar Graph
+//graph is a string, labels and data are arrays
+// export const barGraph = (graph, items) => {
+//   const labels = items.map(item => item[0]);
+//   const data = items.map(item => item[1]);
+//   const backgroundColor = items.map(item => item[2]);
+
+//   return new Chart(graph, {
+//     type: "doughnut",
+//     data: {
+//       labels,
+//       datasets: [
+//         {
+//           label: "",
+//           data,
+//           backgroundColor,
+//           borderColor: ["#ffffff", "#ffffff", "#ffffff"],
+//         },
+//       ],
+//     },
+//     options: {
+//       maintainAspectRatio: false,
+//       legend: { display: false, labels: { fontStyle: "normal" } },
+//     },
+//     title: { fontStyle: "normal" },
+//   });
+// };
+
+export const barChart = (graph) => {
+  return new Chart(graph, {
+    type: "bar",
+    data: {
+      labels: ["Rent", "Utilites", 'fish'],
+      datasets: [
+        {
+            label: "Actual",
+            backgroundColor: "blue",
+            data: [3,7, 3]
+        },
+        {
+            label: "Spent",
+            backgroundColor: "red",
+            data: [4,3,2]
+        },
+    ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      legend: { display: false, labels: { fontStyle: "normal" } },
+      scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
     },
     title: { fontStyle: "normal" },
   });
