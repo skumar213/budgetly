@@ -11,9 +11,10 @@ import {
   sortDouble,
   dateFilter,
   getTotal,
+  findUnique,
   pieChart,
   colors,
-  barChart
+  barChart,
 } from "../helpers";
 import { STOCKS } from "../store/auth";
 
@@ -115,63 +116,64 @@ const Dashboard = props => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  // PIE GRAPH, make a 2d array of colors, categories, and amount for pie graph = [category, amount, color]
-  const pieGraphData = selectedExpensesPaid.map((exp, idx) => {
-    return [exp.category.name, exp.amount, colors[idx]];
-  });
+  //PIE GRAPH data
+  const pieGraphLabels = selectedExpensesPaid
+    .map(exp => exp.category.name)
+    .filter(findUnique);
+  const pieGraphData = pieGraphLabels.map(label => {
+    let sum = 0;
 
-  //Combines the same expense
-  const uniquePieData = {};
-  pieGraphData.forEach((exp, idx) => {
-    let totalAmount = parseFloat(exp[1]);
-
-    if (!uniquePieData[exp[0]]) {
-      for (let i = idx + 1; i < pieGraphData.length; i++) {
-        if (pieGraphData[i][0] === exp[0]) {
-          totalAmount += parseFloat(pieGraphData[i][1]);
-        }
+    for (let exp of selectedExpensesPaid) {
+      if (exp.category.name === label) {
+        sum += parseFloat(exp.amount);
       }
-
-      uniquePieData[exp[0]] = [exp[0], totalAmount, exp[2]];
     }
+
+    return sum;
   });
 
-  const formattedPieData = Object.values(uniquePieData).length
-    ? Object.values(uniquePieData)
-    : [["No Expenses Paid This Month", 1, "#899499"]];
+  //BAR GRAPH data
+  const barGraphLabels = selectedBudgets.map(bud => bud.category.name);
+  const barGraphBudgeted = selectedBudgets.map(bud => bud.amount);
+  const barGraphAcutal = barGraphLabels.map(label => {
+    let sum = 0;
 
+    for (let exp of selectedExpensesPaid) {
+      if (exp.category.name === label) {
+        sum += parseFloat(exp.amount);
+      }
+    }
 
-  //BAR GRAPH
-  console.log(selectedBudgets)
-  console.log(selectedExpensesPaid)
-
-
+    return sum;
+  });
 
   //useEffects to fetch data
   //creates charts
   useEffect(() => {
     const pie = document.getElementById("pieChart");
-    const pieWithData = pieChart(pie, formattedPieData);
+    const pieWithData = pieChart(pie);
 
     const bar = document.getElementById("barGraph");
-    barChart(bar)
-
+    const barWithData = barChart(bar);
 
     setPieGraph(pieWithData);
+    setBarGraph(barWithData);
   }, []);
 
   //updates charts with data
   useEffect(() => {
     if (pieGraph) {
-      const labels = formattedPieData.map(label => label[0]);
-      const data = formattedPieData.map(data => data[1]);
-      const backgroundColor = formattedPieData.map(color => color[2]);
-
-      pieGraph.data.datasets[0].data = data;
-      pieGraph.data.labels = labels;
-      pieGraph.data.datasets[0].backgroundColor = backgroundColor;
+      pieGraph.data.datasets[0].data = pieGraphData;
+      pieGraph.data.labels = pieGraphLabels;
 
       pieGraph.update();
+    }
+    if (barGraph) {
+      barGraph.data.labels = barGraphLabels;
+      barGraph.data.datasets[0].data = barGraphBudgeted;
+      barGraph.data.datasets[1].data = barGraphAcutal;
+
+      barGraph.update();
     }
   }, [selectedExpensesPaid]);
 
@@ -395,10 +397,9 @@ const Dashboard = props => {
         <hr></hr>
 
         <div className="row">
-         {/* ------------ */}
+          {/* ------------ */}
 
-
-        <div className="col-lg-7 col-xl-8">
+          <div className="col-lg-7 col-xl-8">
             <div className="card shadow mb-4">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h6 className="text-primary fw-bold m-0">
@@ -435,28 +436,26 @@ const Dashboard = props => {
                   <canvas id="barGraph"></canvas>
                 </div>
                 <div className="text-center small mt-4">
-                  {formattedPieData.map((exp, idx) => {
-                    return (
-                      <span key={idx} className="me-2">
-                        <i
-                          className="fas fa-circle"
-                          style={{ color: `${exp[2]}` }}
-                        ></i>
-                         {exp[0]}
-                      </span>
-                    );
-                  })}
+                  <span className="me-2">
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `#36b9cc` }}
+                    ></i>
+                     Budgeted
+                  </span>
+                  <span className="me-2">
+                    <i
+                      className="fas fa-circle"
+                      style={{ color: `#F6C23E` }}
+                    ></i>
+                    Actual
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* ---------- */}
-
-
-
-
-
 
           <div className="col-lg-5 col-xl-4">
             <div className="card shadow mb-4">
@@ -495,14 +494,14 @@ const Dashboard = props => {
                   <canvas id="pieChart"></canvas>
                 </div>
                 <div className="text-center small mt-4">
-                  {formattedPieData.map((exp, idx) => {
+                  {pieGraphLabels.map((label, idx) => {
                     return (
                       <span key={idx} className="me-2">
                         <i
                           className="fas fa-circle"
-                          style={{ color: `${exp[2]}` }}
+                          style={{ color: `${colors[idx]}` }}
                         ></i>
-                         {exp[0]}
+                         {label}
                       </span>
                     );
                   })}

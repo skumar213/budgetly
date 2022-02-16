@@ -32,7 +32,10 @@ export const months = [
 ];
 
 //Colors for pie chart
-export const colors = ["#4e73df", "#1cc88a", "#36b9cc"];
+export const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#F6C23E"];
+
+export const findUnique = (value, index, self) => self.indexOf(value) === index;
+
 
 //Compare dates, will return true if date is within range
 export const compareDates = (createdDate, currentDate) => {
@@ -84,10 +87,10 @@ export const getTotal = arr => {
 
 //Pie Chart
 //graph is a string, labels and data are arrays
-export const pieChart = (graph, items) => {
-  const labels = items.map(item => item[0]);
-  const data = items.map(item => item[1]);
-  const backgroundColor = items.map(item => item[2]);
+export const pieChart = (graph, labels, data) => {
+  // const labels = items.map(item => item[0]);
+  // const data = items.map(item => item[1]);
+  // const backgroundColor = items.map(item => item[2]);
 
   return new Chart(graph, {
     type: "doughnut",
@@ -97,7 +100,7 @@ export const pieChart = (graph, items) => {
         {
           label: "",
           data,
-          backgroundColor,
+          backgroundColor: colors,
           borderColor: ["#ffffff", "#ffffff", "#ffffff"],
         },
       ],
@@ -110,64 +113,37 @@ export const pieChart = (graph, items) => {
   });
 };
 
-
-
 //Bar Graph
-//graph is a string, labels and data are arrays
-// export const barGraph = (graph, items) => {
-//   const labels = items.map(item => item[0]);
-//   const data = items.map(item => item[1]);
-//   const backgroundColor = items.map(item => item[2]);
-
-//   return new Chart(graph, {
-//     type: "doughnut",
-//     data: {
-//       labels,
-//       datasets: [
-//         {
-//           label: "",
-//           data,
-//           backgroundColor,
-//           borderColor: ["#ffffff", "#ffffff", "#ffffff"],
-//         },
-//       ],
-//     },
-//     options: {
-//       maintainAspectRatio: false,
-//       legend: { display: false, labels: { fontStyle: "normal" } },
-//     },
-//     title: { fontStyle: "normal" },
-//   });
-// };
-
-export const barChart = (graph) => {
+export const barChart = (graph, labels, budgeted, actual) => {
   return new Chart(graph, {
     type: "bar",
     data: {
-      labels: ["Rent", "Utilites", 'fish'],
+      labels,
       datasets: [
         {
-            label: "Actual",
-            backgroundColor: "blue",
-            data: [3,7, 3]
+          label: "Budgeted",
+          backgroundColor: "#36b9cc",
+          data: budgeted,
         },
         {
-            label: "Spent",
-            backgroundColor: "red",
-            data: [4,3,2]
+          label: "Acutal",
+          backgroundColor: "#F6C23E",
+          data: actual,
         },
-    ],
+      ],
     },
     options: {
       maintainAspectRatio: false,
       legend: { display: false, labels: { fontStyle: "normal" } },
       scales: {
-        yAxes: [{
+        yAxes: [
+          {
             ticks: {
-                beginAtZero: true
-            }
-        }]
-    }
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
     },
     title: { fontStyle: "normal" },
   });
