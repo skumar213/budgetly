@@ -31,7 +31,14 @@ async function seed() {
   const categories = await Promise.all([
     Category.create({ name: "Rent" }),
     Category.create({ name: "Utilites" }),
-    Category.create({ name: "Groceries" }),
+    Category.create({ name: "Food" }),
+    Category.create({ name: "Travel" }),
+    Category.create({ name: "Insurance" }),
+    Category.create({ name: "Cell Phone" }),
+    Category.create({ name: "Entertainment" }),
+    Category.create({ name: "Savings" }),
+    Category.create({ name: "Misc" }),
+    Category.create({ name: "Subscriptions" }),
   ]);
 
   // Creating Expenses
