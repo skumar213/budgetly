@@ -97,7 +97,9 @@ export const _createInvestment = newInv => async dispatch => {
     const stockSymbol = newInv.tickerSymbol.toUpperCase();
 
     //Need this to catch error if stock is invalid
-    const actualStockSymbol = await axios.get(`/api/yahoo/${stockSymbol}`);
+    const {data: actualStockData} = await axios.get(`/api/yahoo/${stockSymbol}`);
+
+    newInv.currentPrice = actualStockData[0].currentPrice
 
     const newInvestment = await authenticateRequest(
       "post",
