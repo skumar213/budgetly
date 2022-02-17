@@ -56,7 +56,6 @@ async function seed() {
       amount: 600,
       dueDate: new Date("2/25/2022"),
       paidDate: new Date("2/20/2022"),
-      isRepeat: true,
     }),
     Expense.create({
       merchant: "Watching a movie with friends",
@@ -78,7 +77,21 @@ async function seed() {
     }),
   ]);
 
-  //Creating previous months expenses
+  const outstandingExpenses = await Promise.all([
+    Expense.create({
+      merchant: "Cell phone",
+      amount: 100,
+      dueDate: new Date("2/25/2022"),
+      repeat: true,
+    }),
+    Expense.create({
+      merchant: "Costco",
+      amount: 80,
+      dueDate: new Date("2/25/2022"),
+    }),
+  ]);
+
+  //Creating previous months paid expenses
   const prevExpenses = await Promise.all([
     Expense.create({
       merchant: "apt rent",
@@ -97,7 +110,6 @@ async function seed() {
       amount: 430,
       dueDate: new Date("1/25/2022"),
       paidDate: new Date("1/20/2022"),
-      isRepeat: true,
     }),
     Expense.create({
       merchant: "Concert",
@@ -119,6 +131,19 @@ async function seed() {
     }),
   ]);
 
+  const prevOutstandingExpenses = await Promise.all([
+    Expense.create({
+      merchant: "Cell phone",
+      amount: 100,
+      dueDate: new Date("1/25/2022"),
+      repeat: true,
+    }),
+    Expense.create({
+      merchant: "Costco",
+      amount: 80,
+      dueDate: new Date("1/25/2022"),
+    }),
+  ]);
 
   // Creating current months budgets
   const budgets = await Promise.all([
@@ -142,9 +167,24 @@ async function seed() {
 
   // Creating Investments
   const investments = await Promise.all([
-    Investment.create({ tickerSymbol: "aapl", buyPrice: 160, totalShares: 2, currentPrice: 169.20 }),
-    Investment.create({ tickerSymbol: "tsla", buyPrice: 930, totalShares: 5, currentPrice: 887.15 }),
-    Investment.create({ tickerSymbol: "msft", buyPrice: 297, totalShares: 1, currentPrice: 291.81 }),
+    Investment.create({
+      tickerSymbol: "aapl",
+      buyPrice: 160,
+      totalShares: 2,
+      currentPrice: 169.2,
+    }),
+    Investment.create({
+      tickerSymbol: "tsla",
+      buyPrice: 930,
+      totalShares: 5,
+      currentPrice: 887.15,
+    }),
+    Investment.create({
+      tickerSymbol: "msft",
+      buyPrice: 297,
+      totalShares: 1,
+      currentPrice: 291.81,
+    }),
   ]);
 
   // Creating Monthly Incomes
@@ -161,7 +201,7 @@ async function seed() {
     },
   });
 
-  //adding expenses for current month to user
+  //adding paid expenses for current month to user
   for (let i = 0; i < expenses.length; i++) {
     //setting category for expenses
     await expenses[i].setCategory(categories[i]);
@@ -172,6 +212,12 @@ async function seed() {
     //adding expenses and budgets to user
     await user.addExpense(expenses[i]);
     await user.addBudget(budgets[i]);
+  }
+
+  //adding unpaid expesnes for current month to user
+  for (let i = 0; i < outstandingExpenses.length; i++) {
+    await outstandingExpenses[i].setCategory(categories[i + 1]);
+    await user.addExpense(outstandingExpenses[i]);
   }
 
   //adding expenses for previous month to user
@@ -187,11 +233,11 @@ async function seed() {
     await user.addBudget(prevBudgets[i]);
   }
 
-
-
-
-
-
+  //adding unpaid expesnes for previous month to user
+  for (let i = 0; i < prevOutstandingExpenses.length; i++) {
+    await prevOutstandingExpenses[i].setCategory(categories[i + 1]);
+    await user.addExpense(prevOutstandingExpenses[i]);
+  }
 
   //adding investements and monthly incomes to user
   for (let j = 0; j < investments.length; j++) {
