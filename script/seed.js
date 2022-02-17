@@ -159,10 +159,10 @@ async function seed() {
   const prevBudgets = await Promise.all([
     Budget.create({ amount: 1500, createdAt: new Date("1/1/2022") }),
     Budget.create({ amount: 110, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 700, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 150, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 1000, createdAt: new Date("1/1/2022") }),
     Budget.create({ amount: 500, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 100, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 600, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 300, createdAt: new Date("1/1/2022") }),
   ]);
 
   // Creating Investments
@@ -179,17 +179,10 @@ async function seed() {
       totalShares: 5,
       currentPrice: 887.15,
     }),
-    Investment.create({
-      tickerSymbol: "msft",
-      buyPrice: 297,
-      totalShares: 1,
-      currentPrice: 291.81,
-    }),
   ]);
 
   // Creating Monthly Incomes
   const monthlyIncomes = await Promise.all([
-    MonthlyIncome.create({ amount: 3000, createdAt: new Date("12/1/2021") }),
     MonthlyIncome.create({ amount: 4000, createdAt: new Date("1/1/2022") }),
     MonthlyIncome.create({ amount: 5000, createdAt: new Date("2/1/2022") }),
   ]);

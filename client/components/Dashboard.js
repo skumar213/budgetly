@@ -85,6 +85,8 @@ const Dashboard = () => {
     "paidDate"
   );
 
+  const selectedExpensesPaidTotal = getTotal(selectedExpensesPaid);
+
   selectedExpensesDue.forEach(dueExp => {
     if (!selectedExpensesDueOrPaid[dueExp.id]) {
       selectedExpensesDueOrPaid[dueExp.id] = dueExp;
@@ -333,10 +335,27 @@ const Dashboard = () => {
                   <div className="row align-items-center no-gutters">
                     <div className="col me-2">
                       <div className="text-uppercase text-primary fw-bold text-xs mb-1">
-                        <span>Total Budget (monthly)</span>
+                        <span>Budget vs Paid Expenses (monthly)</span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
-                        <span>${selectedMonthlyIncome.amount}</span>
+                        <span>
+                        {selectedMonthlyIncome.amount - selectedExpensesPaidTotal >=
+                          0 ? (
+                            <span className="text-success">
+                              ${" "}
+                              {(
+                                selectedMonthlyIncome.amount - selectedExpensesPaidTotal
+                              ).toFixed(2)}
+                            </span>
+                          ) : (
+                            <span className="text-danger">
+                              ${" "}
+                              {(
+                                selectedMonthlyIncome.amount - selectedExpensesPaidTotal
+                              ).toFixed(2)}
+                            </span>
+                          )}
+                        </span>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -412,10 +431,10 @@ const Dashboard = () => {
                         <span>Portfolio Profit & Loss</span>
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
-                        <span className="text-success">
+                        <span>
                           {currentPortfolioPrice - originalPortfolioPrice >=
                           0 ? (
-                            <span>
+                            <span className="text-success">
                               ${" "}
                               {(
                                 currentPortfolioPrice - originalPortfolioPrice

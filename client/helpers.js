@@ -86,7 +86,7 @@ export const dateFilter = (
 
 //Get the total of all the amount properties in an object
 export const getTotal = arr => {
-  return arr.reduce((accu, bud) => accu + parseFloat(bud.amount), 0);
+  return arr.reduce((accu, item) => accu + parseFloat(item.amount), 0);
 };
 
 //Functions to create new charts
