@@ -5,6 +5,9 @@ const {
   models: { User, Category, Expense, Budget, Investment, MonthlyIncome },
 } = require("../server/db");
 
+// sets enviroment variables
+require("dotenv").config();
+
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
@@ -16,17 +19,11 @@ async function seed() {
   // Creating Users
   const users = await Promise.all([
     User.create({
-      email: "cody@gmail.com",
-      password: "123",
-      firstName: "cody",
-      lastName: "pug",
+      email: "mike@gmail.com",
+      password: process.env.SEED_USER_PASS,
+      firstName: "Mike",
+      lastName: "Bolten",
       isAdmin: true,
-    }),
-    User.create({
-      email: "murphy@gmail.com",
-      password: "123",
-      firstName: "murphy",
-      lastName: "bulldog",
     }),
   ]);
 
@@ -45,7 +42,12 @@ async function seed() {
       dueDate: new Date("2/25/2022"),
       paidDate: new Date("2/20/2022"),
     }),
-    Expense.create({ merchant: "peco", amount: 200, dueDate: new Date("2/25/2022"),paidDate: new Date("2/20/2022"), }),
+    Expense.create({
+      merchant: "peco",
+      amount: 200,
+      dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
+    }),
     Expense.create({
       merchant: "whole Foods",
       amount: 100,
@@ -81,8 +83,8 @@ async function seed() {
   // Assigning user to expenses/investments and each expense to a category
   const user = await User.findOne({
     where: {
-      email: "cody@gmail.com"
-    }
+      email: "mike@gmail.com",
+    },
   });
 
   for (let i = 0; i < expenses.length; i++) {
@@ -106,12 +108,6 @@ async function seed() {
   console.log(`seeded ${expenses.length} expenses`);
 
   console.log(`seeded successfully`);
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1],
-    },
-  };
 }
 
 /*
@@ -141,6 +137,3 @@ async function runSeed() {
 if (module === require.main) {
   runSeed();
 }
-
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed;
