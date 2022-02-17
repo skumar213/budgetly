@@ -1,9 +1,5 @@
 const router = require("express").Router();
-const {
-  models: { User },
-} = require("../db");
 const axios = require("axios").default;
-const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router;
 
 //Yahoo finance api settings

@@ -31,7 +31,7 @@ export const months = [
   "December",
 ];
 
-//Colors for pie chart
+//Colors for pie chart (the number matches the amount of categories)
 export const colors = [
   "#4e73df",
   "#1cc88a",
@@ -62,7 +62,7 @@ export const compareDates = (createdDate, currentDate) => {
   }
 };
 
-//Filter items so it only shows the current month
+//Filters items so it only shows the current month
 export const dateFilter = (
   arr,
   selectedMonth,
@@ -90,7 +90,6 @@ export const getTotal = arr => {
 };
 
 //Functions to create new charts
-
 //Pie Chart
 export const pieChart = (graph, labels, data) => {
   return new Chart(graph, {
@@ -179,6 +178,7 @@ export const barChart = (graph, labels, budgeted, actual) => {
   });
 };
 
+//Horizontal Bar Graph
 export const horizontalBarChart = (graph, labels, budgeted, actual) => {
   return new Chart(graph, {
     type: "horizontalBar",

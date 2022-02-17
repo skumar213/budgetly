@@ -166,7 +166,7 @@ const Dashboard = () => {
     return accu + parseFloat(inv.totalShares) * parseFloat(inv.currentPrice);
   }, 0);
 
-  //useEffects to fetch data
+  //useEffects
   //creates charts
   useEffect(() => {
     const pie = document.getElementById("pieChart");
@@ -183,7 +183,7 @@ const Dashboard = () => {
     setHorizontalBarGraph(horizontalBarWithData);
   }, []);
 
-  //updates charts with data
+  //updates respective charts with data
   useEffect(() => {
     if (pieGraph) {
       pieGraph.data.datasets[0].data = pieGraphData;
@@ -209,6 +209,7 @@ const Dashboard = () => {
     }
   }, [allInvestments]);
 
+  //fetches data
   useEffect(() => {
     dispatch(_getBudgets());
     dispatch(_getInvestments());
@@ -218,11 +219,13 @@ const Dashboard = () => {
     dispatch(_getCategories());
   }, []);
 
+  //sets dropdown to current date on initial load
   useEffect(() => {
     setSelectedMonth(currentDate.num);
     setSelectedYear(currentDate.year);
   }, [currentDate]);
 
+  //sets the number of months for the month dropdown
   useEffect(() => {
     if (currentDate.year === selectedYear) {
       setCurrentMonths(Array.from(Array(currentDate.num).keys()));
@@ -232,6 +235,7 @@ const Dashboard = () => {
     }
   }, [selectedYear]);
 
+  //makes api call to update stocks with current price
   useEffect(() => {
     const prevStocks = window.localStorage.getItem(STOCKS);
     const allStocks = allInvestments.map(inv => inv.tickerSymbol).join("");
@@ -339,19 +343,22 @@ const Dashboard = () => {
                       </div>
                       <div className="text-dark fw-bold h5 mb-0">
                         <span>
-                        {selectedMonthlyIncome.amount - selectedExpensesPaidTotal >=
+                          {selectedMonthlyIncome.amount -
+                            selectedExpensesPaidTotal >=
                           0 ? (
                             <span className="text-success">
                               ${" "}
                               {(
-                                selectedMonthlyIncome.amount - selectedExpensesPaidTotal
+                                selectedMonthlyIncome.amount -
+                                selectedExpensesPaidTotal
                               ).toFixed(2)}
                             </span>
                           ) : (
                             <span className="text-danger">
                               ${" "}
                               {(
-                                selectedMonthlyIncome.amount - selectedExpensesPaidTotal
+                                selectedMonthlyIncome.amount -
+                                selectedExpensesPaidTotal
                               ).toFixed(2)}
                             </span>
                           )}

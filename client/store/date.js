@@ -1,8 +1,7 @@
 import { months } from "../helpers";
 
-
 //ACTION TYPES
-const SET_DATE = 'SET_DATE'
+const SET_DATE = "SET_DATE";
 
 //ACTION CREATORS
 export const setDate = () => {
@@ -14,17 +13,16 @@ export const setDate = () => {
       name: months[currentDate.getMonth()],
       num: currentDate.getMonth() + 1,
       year: currentDate.getFullYear(),
-      full: currentDate
-    }
-  }
-}
-
+      full: currentDate,
+    },
+  };
+};
 
 //REDUCER
 export default function (state = {}, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_DATE:
-      return action.date
+      return action.date;
     default:
       return state;
   }

@@ -1,10 +1,6 @@
 const router = require("express").Router();
-const {
-  models: { User },
-} = require("../db");
 const { requireToken } = require("./gateKeepingMiddleware");
 module.exports = router;
-
 
 //PUT /users
 router.put("/", requireToken, async (req, res, next) => {

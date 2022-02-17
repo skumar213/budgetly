@@ -9,6 +9,6 @@ const MonthlyIncome = db.define("monthlyIncome", {
       notEmpty: true,
     },
   },
-})
+});
 
-module.exports = MonthlyIncome
+module.exports = MonthlyIncome;

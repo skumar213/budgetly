@@ -15,9 +15,15 @@ async function seed() {
 
   const todayDate = new Date();
 
-  const dueDate = new Date(`${todayDate.getMonth() + 1}/25/${todayDate.getFullYear()}`);
-  const paidDate = new Date(`${todayDate.getMonth() + 1}/20/${todayDate.getFullYear()}`);
-  const createdAt = new Date(`${todayDate.getMonth() + 1}/1/${todayDate.getFullYear()}`);
+  const dueDate = new Date(
+    `${todayDate.getMonth() + 1}/25/${todayDate.getFullYear()}`
+  );
+  const paidDate = new Date(
+    `${todayDate.getMonth() + 1}/20/${todayDate.getFullYear()}`
+  );
+  const createdAt = new Date(
+    `${todayDate.getMonth() + 1}/1/${todayDate.getFullYear()}`
+  );
 
   // Creating current month Expenses
   const expenses = await Promise.all([
@@ -85,8 +91,6 @@ async function seed() {
 
   const categories = await Category.findAll({});
 
-
-
   // Assigning user to expenses/investments and each expense to a category
   const user = await User.findOne({
     where: {
@@ -113,8 +117,6 @@ async function seed() {
     await user.addExpense(outstandingExpenses[i]);
   }
 }
-
-
 
 /*
  We've separated the `seed` function from the `runSeed` function.

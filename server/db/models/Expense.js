@@ -36,8 +36,8 @@ const Expense = db.define("expense", {
   },
 });
 
-//hooks
-
+//Hooks
+//Makes the first letter of each work for the merchant name uppercase and the rest lowercase
 Expense.beforeCreate(exp => {
   exp.merchant = exp.merchant
     .split(" ")

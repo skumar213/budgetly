@@ -29,8 +29,8 @@ const Investment = db.define("investment", {
   },
 });
 
-//hooks
-
+//Hooks
+//Makes the first letter of each work for the merchant name uppercase
 Investment.beforeCreate(inv => {
   inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
 });

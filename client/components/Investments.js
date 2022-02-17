@@ -131,7 +131,11 @@ const Investments = () => {
       </>
 
       <>
-        {error.error ? <div>{error.error} - Try Again</div> : null}
+        {error.error ? (
+          <div className="text-danger">
+            <strong>{error.error} - Try Again</strong>
+          </div>
+        ) : null}
         {isCreate ? (
           <div>
             <form onSubmit={handleCreateSubmit}>

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
-const Budget = db.define('budget', {
+const Budget = db.define("budget", {
   amount: {
     type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
@@ -9,6 +9,6 @@ const Budget = db.define('budget', {
       notEmpty: true,
     },
   },
-})
+});
 
 module.exports = Budget;

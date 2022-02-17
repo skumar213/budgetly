@@ -12,7 +12,6 @@ const updateBudget = budget => ({ type: UPDATE_BUDGET, budget });
 const createBudget = budget => ({ type: CREATE_BUDGET, budget });
 const deleteBudget = budget => ({ type: DELETE_BUDGET, budget });
 
-
 //THUNK CREATORS
 export const _getBudgets = () => async dispatch => {
   try {
@@ -40,12 +39,7 @@ export const _updateBudget = newBudInfo => async dispatch => {
 
 export const _createBudget = newBud => async dispatch => {
   try {
-    const newBudget = await authenticateRequest(
-      "post",
-      "/api/budgets",
-      newBud
-    );
-
+    const newBudget = await authenticateRequest("post", "/api/budgets", newBud);
 
     dispatch(createBudget(newBudget));
   } catch (error) {
@@ -69,7 +63,6 @@ export const _deleteBudget = bud => async dispatch => {
     console.log(error);
   }
 };
-
 
 //REDUCER
 export default function (state = [], action) {

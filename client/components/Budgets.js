@@ -10,7 +10,6 @@ import { _getCategories } from "../store/categories";
 import {
   sortSingle,
   sortDouble,
-  compareDates,
   dateFilter,
   months,
   getTotal,
