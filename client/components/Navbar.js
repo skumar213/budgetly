@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../store";
+import { logout, authenticate } from "../store";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -12,6 +12,11 @@ const Navbar = () => {
   //Logout event handler
   const handleClick = () => {
     dispatch(logout());
+  };
+
+  //Logs user into seeded demo
+  const handleSeededDemo = () => {
+    dispatch(authenticate("mike@gmail.com", "", "login"));
   };
 
   return (
@@ -70,7 +75,7 @@ const Navbar = () => {
             </li>
           </ul>
         ) : (
-          <ul id="accordionSidebar" className="navbar-nav text-light">
+          <ul className="navbar-nav text-light">
             <li className="nav-item">
               <Link className="nav-link active" to="/login">
                 <i className="fas fa-user"></i>
@@ -81,6 +86,16 @@ const Navbar = () => {
               <Link className="nav-link active" to="/signup">
                 <i className="fas fa-user-circle"></i>
                 <span>Signup</span>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to=""
+                className="nav-link active"
+                onClick={handleSeededDemo}
+              >
+                <i className="fa fa-star"></i>
+                <span>View Seeded Demo</span>
               </Link>
             </li>
           </ul>

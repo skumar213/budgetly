@@ -6,6 +6,11 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
+    //to allow seeded demo to work without exposing password
+    if (req.body.email === "mike@gmail.com") {
+      req.body.password = process.env.SEED_USER_PASS;
+    }
+
     res.send({ token: await User.authenticate(req.body) });
   } catch (err) {
     next(err);
