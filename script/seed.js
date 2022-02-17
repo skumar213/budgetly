@@ -32,20 +32,16 @@ async function seed() {
     Category.create({ name: "Rent" }),
     Category.create({ name: "Utilites" }),
     Category.create({ name: "Food" }),
-    // Category.create({ name: "Travel" }),
-    // Category.create({ name: "Insurance" }),
-    // Category.create({ name: "Cell Phone" }),
-    // Category.create({ name: "Entertainment" }),
-    // Category.create({ name: "Savings" }),
-    // Category.create({ name: "Misc" }),
-    // Category.create({ name: "Subscriptions" }),
+    Category.create({ name: "Entertainment" }),
+    Category.create({ name: "Savings" }),
+    Category.create({ name: "Misc" }),
   ]);
 
-  // Creating Expenses
+  // Creating current month Expenses
   const expenses = await Promise.all([
     Expense.create({
       merchant: "apt rent",
-      amount: 2000,
+      amount: 1500,
       dueDate: new Date("2/25/2022"),
       paidDate: new Date("2/20/2022"),
     }),
@@ -57,30 +53,101 @@ async function seed() {
     }),
     Expense.create({
       merchant: "whole Foods",
-      amount: 100,
+      amount: 600,
       dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
       isRepeat: true,
+    }),
+    Expense.create({
+      merchant: "Watching a movie with friends",
+      amount: 50,
+      dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
+    }),
+    Expense.create({
+      merchant: "Savings for the month",
+      amount: 500,
+      dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
+    }),
+    Expense.create({
+      merchant: "Gym Membership",
+      amount: 30,
+      dueDate: new Date("2/25/2022"),
+      paidDate: new Date("2/20/2022"),
     }),
   ]);
 
-  // Creating Budgets
+  //Creating previous months expenses
+  const prevExpenses = await Promise.all([
+    Expense.create({
+      merchant: "apt rent",
+      amount: 1500,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+    }),
+    Expense.create({
+      merchant: "peco",
+      amount: 185,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+    }),
+    Expense.create({
+      merchant: "whole Foods",
+      amount: 430,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+      isRepeat: true,
+    }),
+    Expense.create({
+      merchant: "Concert",
+      amount: 95,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+    }),
+    Expense.create({
+      merchant: "Savings for the month",
+      amount: 400,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+    }),
+    Expense.create({
+      merchant: "Gym Membership",
+      amount: 30,
+      dueDate: new Date("1/25/2022"),
+      paidDate: new Date("1/20/2022"),
+    }),
+  ]);
+
+
+  // Creating current months budgets
   const budgets = await Promise.all([
-    Budget.create({ amount: 250, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 2000, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 750, createdAt: new Date("1/1/2022") }),
-    Budget.create({ amount: 250, createdAt: new Date("2/1/2022") }),
-    Budget.create({ amount: 2000, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 1500, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 110, createdAt: new Date("2/1/2022") }),
     Budget.create({ amount: 750, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 150, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 500, createdAt: new Date("2/1/2022") }),
+    Budget.create({ amount: 100, createdAt: new Date("2/1/2022") }),
+  ]);
+
+  // Creating previous months budgets
+  const prevBudgets = await Promise.all([
+    Budget.create({ amount: 1500, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 110, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 700, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 150, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 500, createdAt: new Date("1/1/2022") }),
+    Budget.create({ amount: 100, createdAt: new Date("1/1/2022") }),
   ]);
 
   // Creating Investments
   const investments = await Promise.all([
-    Investment.create({ tickerSymbol: "aapl", buyPrice: 160, totalShares: 2 }),
-    Investment.create({ tickerSymbol: "tsla", buyPrice: 930, totalShares: 5 }),
-    Investment.create({ tickerSymbol: "msft", buyPrice: 297, totalShares: 1 }),
+    Investment.create({ tickerSymbol: "aapl", buyPrice: 160, totalShares: 2, currentPrice: 169.20 }),
+    Investment.create({ tickerSymbol: "tsla", buyPrice: 930, totalShares: 5, currentPrice: 887.15 }),
+    Investment.create({ tickerSymbol: "msft", buyPrice: 297, totalShares: 1, currentPrice: 291.81 }),
   ]);
 
-  // Creating Monthly Income
+  // Creating Monthly Incomes
   const monthlyIncomes = await Promise.all([
     MonthlyIncome.create({ amount: 3000, createdAt: new Date("12/1/2021") }),
     MonthlyIncome.create({ amount: 4000, createdAt: new Date("1/1/2022") }),
@@ -94,20 +161,42 @@ async function seed() {
     },
   });
 
+  //adding expenses for current month to user
   for (let i = 0; i < expenses.length; i++) {
     //setting category for expenses
     await expenses[i].setCategory(categories[i]);
 
     //setting category for budgets
     await budgets[i].setCategory(categories[i]);
-    await budgets[i + 3].setCategory(categories[i]);
 
-    //adding expenses, investments, monthly incomes, and budgets to user
+    //adding expenses and budgets to user
     await user.addExpense(expenses[i]);
     await user.addBudget(budgets[i]);
-    await user.addBudget(budgets[i + 3]);
-    await user.addInvestment(investments[i]);
-    await user.addMonthlyIncome(monthlyIncomes[i]);
+  }
+
+  //adding expenses for previous month to user
+  for (let i = 0; i < prevExpenses.length; i++) {
+    //setting category for expenses
+    await prevExpenses[i].setCategory(categories[i]);
+
+    //setting category for budgets
+    await prevBudgets[i].setCategory(categories[i]);
+
+    //adding expenses and budgets to user
+    await user.addExpense(prevExpenses[i]);
+    await user.addBudget(prevBudgets[i]);
+  }
+
+
+
+
+
+
+
+  //adding investements and monthly incomes to user
+  for (let j = 0; j < investments.length; j++) {
+    await user.addInvestment(investments[j]);
+    await user.addMonthlyIncome(monthlyIncomes[j]);
   }
 
   console.log(`seeded ${users.length} users`);

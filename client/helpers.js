@@ -32,7 +32,14 @@ export const months = [
 ];
 
 //Colors for pie chart
-export const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#F6C23E", "#b336cc", "#cc364a"];
+export const colors = [
+  "#4e73df",
+  "#1cc88a",
+  "#36b9cc",
+  "#F6C23E",
+  "#e7493b",
+  "#b336cc",
+];
 
 export const findUnique = (value, index, self) => self.indexOf(value) === index;
 
@@ -82,15 +89,10 @@ export const getTotal = arr => {
   return arr.reduce((accu, bud) => accu + parseFloat(bud.amount), 0);
 };
 
-//Function to create a new chart
+//Functions to create new charts
 
 //Pie Chart
-//graph is a string, labels and data are arrays
 export const pieChart = (graph, labels, data) => {
-  // const labels = items.map(item => item[0]);
-  // const data = items.map(item => item[1]);
-  // const backgroundColor = items.map(item => item[2]);
-
   return new Chart(graph, {
     type: "doughnut",
     data: {
@@ -185,7 +187,7 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
       datasets: [
         {
           label: "",
-          backgroundColor: ["#b336cc", "#cc364a"],
+          backgroundColor: ["#36b9cc", "#F6C23E"],
           borderColor: "#ffffff",
           data: [50, 30],
         },
