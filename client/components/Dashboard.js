@@ -196,13 +196,16 @@ const Dashboard = () => {
 
       barGraph.update();
     }
+  }, [selectedExpensesPaid]);
+
+  useEffect(() => {
     if (horizontalBarGraph) {
       horizontalBarGraph.data.datasets[0].data[0] = originalPortfolioPrice;
       horizontalBarGraph.data.datasets[0].data[1] = currentPortfolioPrice;
 
       horizontalBarGraph.update();
     }
-  }, [selectedExpensesPaid]);
+  }, [allInvestments]);
 
   useEffect(() => {
     dispatch(_getBudgets());
