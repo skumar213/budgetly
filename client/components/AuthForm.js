@@ -88,7 +88,7 @@ export const Login = () => {
                     </div>
                     <div className="text-center">
                       <Link to="" onClick={handleSeededDemo}>
-                        View seeded demo without an account
+                        In a rush? View seeded demo without an account!
                       </Link>
                     </div>
 
@@ -239,7 +239,7 @@ export const Signup = () => {
                     </div>
                     <div className="text-center">
                       <Link to="" onClick={handleSeededDemo}>
-                        View seeded demo without an account
+                      In a rush? View seeded demo without an account!
                       </Link>
                     </div>
 
