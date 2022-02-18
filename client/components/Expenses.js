@@ -337,178 +337,191 @@ const Expenses = () => {
         ) : null}
       </>
 
-      {filteredExpenses.map(exp => {
-        if (currentId !== exp.id) {
-          return (
-            <div key={exp.id}>
-              <form>
-                <div>
-                  <label htmlFor="merchant">
-                    <small>Merchant</small>
-                  </label>
-                  <input
-                    name="merchant"
-                    type="text"
-                    value={exp.merchant}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="amount">
-                    <small>Amount</small>
-                  </label>
-                  <input
-                    name="amount"
-                    type="number"
-                    value={exp.amount}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="category">
-                    <small>Category</small>
-                  </label>
-                  <input
-                    name="category"
-                    type="text"
-                    value={exp.category.name}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="dueDate">
-                    <small>dueDate</small>
-                  </label>
-                  <input
-                    name="dueDate"
-                    type="text"
-                    value={exp.dueDate}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="paidDate">
-                    <small>paidDate</small>
-                  </label>
-                  <input
-                    name="paidDate"
-                    type="paidDate"
-                    value={exp.paidDate ? exp.paidDate : ""}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="isRepeat">
-                    <small>Repeat</small>
-                  </label>
-                  <input
-                    name="isRepeat"
-                    type="checkbox"
-                    checked={exp.isRepeat}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  {!currentId && !isCreate ? (
-                    <button onClick={handleEdit(exp)}>Select to Edit</button>
-                  ) : null}
-                </div>
-                <div>
-                  {!currentId && !isCreate ? (
-                    <button onClick={handleDelete(exp)}>Delete</button>
-                  ) : null}
-                </div>
-              </form>
-            </div>
-          );
-        } else {
-          return (
-            <div key={exp.id}>
-              <form onSubmit={handleUpdateSubmit}>
-                <div>
-                  <label htmlFor="merchant">
-                    <small>Merchant</small>
-                  </label>
-                  <input
-                    name="merchant"
-                    type="text"
-                    value={merchant}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="amount">
-                    <small>Amount</small>
-                  </label>
-                  <input
-                    name="amount"
-                    type="number"
-                    value={amount}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="category">
-                    <small>Category</small>
-                  </label>
-                  <select
-                    name="category"
-                    value={category}
-                    onChange={handleChange}
-                  >
-                    {allCategories.map(cat => {
+      <div  id="content">
+        <div className="container-fluid">
+          <div className="card-body">
+            <div
+              id="dataTable"
+              className="table-responsive table mt-2"
+              role="grid"
+              aria-describedby="dataTable_info"
+            >
+              <form id="dataTable" className="table my-0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Merchant</th>
+                      <th>Amount</th>
+                      <th>Category</th>
+                      <th>Due Date</th>
+                      <th>Paid Date</th>
+                      <th>Repeat</th>
+                    </tr>
+                  </thead>
+                  {filteredExpenses.map(exp => {
+                    if (currentId !== exp.id) {
                       return (
-                        <option value={cat.name} key={cat.id}>
-                          {cat.name}
-                        </option>
+                        <tbody key={exp.id}>
+                          <tr>
+                            <td>
+                              <input
+                                name="merchant"
+                                type="text"
+                                value={exp.merchant}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="amount"
+                                type="number"
+                                value={exp.amount}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="category"
+                                type="text"
+                                value={exp.category.name}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="dueDate"
+                                type="text"
+                                value={exp.dueDate}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="paidDate"
+                                type="paidDate"
+                                value={exp.paidDate ? exp.paidDate : ""}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="isRepeat"
+                                type="checkbox"
+                                checked={exp.isRepeat}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              {!currentId && !isCreate ? (
+                                <button onClick={handleEdit(exp)}>
+                                  Select to Edit
+                                </button>
+                              ) : null}
+                            </td>
+                            <td>
+                              {!currentId && !isCreate ? (
+                                <button onClick={handleDelete(exp)}>
+                                  Delete
+                                </button>
+                              ) : null}
+                            </td>
+                          </tr>
+                        </tbody>
                       );
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="dueDate">
-                    <small>dueDate</small>
-                  </label>
-                  <input
-                    name="dueDate"
-                    type="text"
-                    value={dueDate}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="paidDate">
-                    <small>paidDate</small>
-                  </label>
-                  <input
-                    name="paidDate"
-                    type="paidDate"
-                    value={paidDate ? paidDate : ""}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="isRepeat">
-                    <small>Repeat</small>
-                  </label>
-                  <input
-                    name="isRepeat"
-                    type="checkbox"
-                    checked={isRepeat}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <button type="submit">Update</button>
-                </div>
-                <div>
-                  <button onClick={handleCancel}>Cancel</button>
-                </div>
+                    } else {
+                      return (
+                        <div key={exp.id}>
+                          <form onSubmit={handleUpdateSubmit}>
+                            <div>
+                              <label htmlFor="merchant">
+                                <small>Merchant</small>
+                              </label>
+                              <input
+                                name="merchant"
+                                type="text"
+                                value={merchant}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="amount">
+                                <small>Amount</small>
+                              </label>
+                              <input
+                                name="amount"
+                                type="number"
+                                value={amount}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="category">
+                                <small>Category</small>
+                              </label>
+                              <select
+                                name="category"
+                                value={category}
+                                onChange={handleChange}
+                              >
+                                {allCategories.map(cat => {
+                                  return (
+                                    <option value={cat.name} key={cat.id}>
+                                      {cat.name}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                            <div>
+                              <label htmlFor="dueDate">
+                                <small>dueDate</small>
+                              </label>
+                              <input
+                                name="dueDate"
+                                type="text"
+                                value={dueDate}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="paidDate">
+                                <small>paidDate</small>
+                              </label>
+                              <input
+                                name="paidDate"
+                                type="paidDate"
+                                value={paidDate ? paidDate : ""}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="isRepeat">
+                                <small>Repeat</small>
+                              </label>
+                              <input
+                                name="isRepeat"
+                                type="checkbox"
+                                checked={isRepeat}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div>
+                              <button type="submit">Update</button>
+                            </div>
+                            <div>
+                              <button onClick={handleCancel}>Cancel</button>
+                            </div>
+                          </form>
+                        </div>
+                      );
+                    }
+                  })}
+                </table>
               </form>
             </div>
-          );
-        }
-      })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

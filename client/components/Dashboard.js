@@ -292,8 +292,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="content">
-      <div id="container-fluid">
+    <div id="content">
         <div className="container-fluid">
           {/* Title and Month/Year dropdown */}
 
@@ -568,7 +567,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
