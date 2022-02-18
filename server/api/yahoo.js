@@ -22,18 +22,22 @@ router.get("/:tickerSymbol", async (req, res, next) => {
     const params = yahooOptions(req.params.tickerSymbol);
     const { data } = await axios.request(params);
     const stock = data.quoteResponse.result;
+    const wrongNameError = new Error("Invalid Ticker Symbol");
 
     //Throw error if any of the stock names are wrong
     if (stock.length !== symbolsArr.length) {
-      const wrongNameError = new Error("Invalid Ticker Symbol");
       next(wrongNameError);
     } else {
       const mappedStock = stock.map(s => {
-        return {
-          symbol: s.symbol,
-          name: s.displayName,
-          currentPrice: s.regularMarketPrice,
-        };
+        if (!s.symbol || !s.displayName || !s.regularMarketPrice) {
+          throw wrongNameError;
+        } else {
+          return {
+            symbol: s.symbol,
+            name: s.displayName,
+            currentPrice: s.regularMarketPrice,
+          };
+        }
       });
 
       res.send(mappedStock);
