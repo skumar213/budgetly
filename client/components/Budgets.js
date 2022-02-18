@@ -239,7 +239,8 @@ const Budgets = () => {
             </p>
           </div>
           <p className="text-center m-0" style={{ fontSize: 12 }}>
-            *Note: A budget category can only be added once and budget will be added to the selected date/year
+            *Note: A budget category can only be added once and budget will be
+            added to the selected date/year
           </p>
 
           <div className="card-body">
