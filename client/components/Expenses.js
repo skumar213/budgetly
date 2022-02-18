@@ -222,288 +222,296 @@ const Expenses = () => {
 
   return (
     <div>
-      <>
-        {!currentId && !isCreate ? (
-          <div>
-            <div>
-              <button onClick={handleCreate}>Add New Expense</button>
-            </div>
-            <br></br>
-
-            <form>
-              <label htmlFor="sort">
-                <strong>Sort</strong>
-              </label>
-              <select name="sort" value={filterType} onChange={handleChange}>
-                <option value="all">All</option>
-                <option value="outstanding">Outstanding</option>
-                <option value="paid">Paid</option>
-              </select>
-            </form>
-            <hr></hr>
-          </div>
-        ) : null}
-      </>
-
-      <>
-        {isCreate ? (
-          <div>
-            <form onSubmit={handleCreateSubmit}>
-              <div>
-                <label htmlFor="merchant">
-                  <small>Merchant</small>
-                </label>
-                <input
-                  name="merchant"
-                  type="text"
-                  value={merchant}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="amount">
-                  <small>Amount</small>
-                </label>
-                <input
-                  name="amount"
-                  type="number"
-                  value={amount}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="category">
-                  <small>Category</small>
-                </label>
-                <select
-                  name="category"
-                  value={category}
-                  onChange={handleChange}
-                >
-                  {allCategories.map(cat => {
-                    return (
-                      <option value={cat.name} key={cat.id}>
-                        {cat.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="dueDate">
-                  <small>dueDate</small>
-                </label>
-                <input
-                  name="dueDate"
-                  type="date"
-                  value={dueDate}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="paidDate">
-                  <small>paidDate</small>
-                </label>
-                <input
-                  name="paidDate"
-                  type="date"
-                  value={paidDate ? paidDate : ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label htmlFor="isRepeat">
-                  <small>Repeat</small>
-                </label>
-                <input
-                  name="isRepeat"
-                  type="checkbox"
-                  value={isRepeat}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button type="submit">Add Expense</button>
-              </div>
-              <div>
-                <button onClick={handleCancel}>Cancel</button>
-              </div>
-              <hr></hr>
-            </form>
-          </div>
-        ) : null}
-      </>
-
       <div id="content">
         <div className="container-fluid">
-          <div className="card-body">
-            <div
-              id="dataTable"
-              className="table-responsive table mt-2"
-              role="grid"
-              aria-describedby="dataTable_info"
-            >
-              <form
-                id="dataTable"
-                className="table my-0"
-                onSubmit={handleUpdateSubmit}
-              >
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Merchant</th>
-                      <th>Amount</th>
-                      <th>Category</th>
-                      <th>Due Date</th>
-                      <th>Paid Date</th>
-                      <th>Repeat</th>
-                    </tr>
-                  </thead>
-                  {filteredExpenses.map(exp => {
-                    if (currentId !== exp.id) {
-                      return (
-                        <tbody key={exp.id}>
-                          <tr>
-                            <td>
-                              <input
-                                name="merchant"
-                                type="text"
-                                value={exp.merchant}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="amount"
-                                type="number"
-                                value={exp.amount}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="category"
-                                type="text"
-                                value={exp.category.name}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="dueDate"
-                                type="text"
-                                value={exp.dueDate}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="paidDate"
-                                type="paidDate"
-                                value={exp.paidDate ? exp.paidDate : ""}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="isRepeat"
-                                type="checkbox"
-                                checked={exp.isRepeat}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              {!currentId && !isCreate ? (
-                                <button onClick={handleEdit(exp)}>
-                                  Select to Edit
-                                </button>
-                              ) : null}
-                            </td>
-                            <td>
-                              {!currentId && !isCreate ? (
-                                <button onClick={handleDelete(exp)}>
-                                  Delete
-                                </button>
-                              ) : null}
-                            </td>
-                          </tr>
-                        </tbody>
-                      );
-                    } else {
-                      return (
-                        <tbody key={exp.id}>
-                          <tr>
-                            <td>
-                              <input
-                                name="merchant"
-                                type="text"
-                                value={merchant}
-                                onChange={handleChange}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="amount"
-                                type="number"
-                                value={amount}
-                                onChange={handleChange}
-                              />
-                            </td>
-                            <td>
-                              <select
-                                name="category"
-                                value={category}
-                                onChange={handleChange}
-                              >
-                                {allCategories.map(cat => {
-                                  return (
-                                    <option value={cat.name} key={cat.id}>
-                                      {cat.name}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                            </td>
-                            <td>
-                              <input
-                                name="dueDate"
-                                type="text"
-                                value={dueDate}
-                                onChange={handleChange}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="paidDate"
-                                type="paidDate"
-                                value={paidDate ? paidDate : ""}
-                                onChange={handleChange}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="isRepeat"
-                                type="checkbox"
-                                checked={isRepeat}
-                                onChange={handleChange}
-                              />
-                            </td>
-                            <td>
-                              <button type="submit">Update</button>
-                            </td>
-                            <td>
-                              <button onClick={handleCancel}>Cancel</button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      );
+          <h3 className="text-dark mb-4 m-3">Expenses</h3>
+          <div className="card shadow">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-6 text-nowrap">
+                  <div
+                    id="dataTable_length"
+                    className="dataTables_length"
+                    aria-controls="dataTable"
+                  >
+                    <label htmlFor="sort" className="form-label">
+                      <strong>Sort </strong>
+
+                      <select
+                        className="d-inline-block form-select form-select-sm"
+                        name="sort"
+                        value={filterType}
+                        onChange={handleChange}
+                      >
+                        <option value="all">All</option>
+                        <option value="outstanding">Outstanding</option>
+                        <option value="paid">Paid</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div
+                    id="dataTable_filter"
+                    className="text-md-end dataTables_filter"
+                  >
+                    {!currentId && !isCreate ? (
+                      <div>
+                        <div>
+                          <button onClick={handleCreate}>
+                            Add New Expense
+                          </button>
+                        </div>
+                        <br></br>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div
+                  id="dataTable"
+                  className="table-responsive table mt-2"
+                  role="grid"
+                  aria-describedby="dataTable_info"
+                >
+                  <form
+                    onSubmit={
+                      isCreate ? handleCreateSubmit : handleUpdateSubmit
                     }
-                  })}
-                </table>
-              </form>
+                  >
+                    <table id="dataTable" className="table my-0">
+                      <thead>
+                        <tr>
+                          <th>Merchant</th>
+                          <th>Amount</th>
+                          <th>Category</th>
+                          <th>Due Date</th>
+                          <th>Paid Date</th>
+                          <th>Repeat</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <>
+                          {isCreate ? (
+                            <tr>
+                              <td>
+                                <input
+                                  name="merchant"
+                                  type="text"
+                                  value={merchant}
+                                  onChange={handleChange}
+                                  required
+                                />
+                              </td>
+                              <td>
+                                <input
+
+                                  name="amount"
+                                  type="number"
+                                  value={amount}
+                                  onChange={handleChange}
+                                  required
+                                />
+                              </td>
+                              <td>
+                                <select
+                                  name="category"
+                                  value={category}
+                                  onChange={handleChange}
+                                >
+                                  {allCategories.map(cat => {
+                                    return (
+                                      <option value={cat.name} key={cat.id}>
+                                        {cat.name}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </td>
+                              <td>
+                                <input
+                                  name="dueDate"
+                                  type="date"
+                                  value={dueDate}
+                                  onChange={handleChange}
+                                  required
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  name="paidDate"
+                                  type="date"
+                                  value={paidDate ? paidDate : ""}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  name="isRepeat"
+                                  type="checkbox"
+                                  value={isRepeat}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <button type="submit">Add Expense</button>
+                              </td>
+                              <td>
+                                <button onClick={handleCancel}>Cancel</button>
+                              </td>
+                            </tr>
+                          ) : null}
+                        </>
+
+                        {filteredExpenses.map(exp => {
+                          if (currentId !== exp.id) {
+                            return (
+                              <tr key={exp.id}>
+                                <td>
+                                  <input
+                                    className="border-0"
+                                    name="merchant"
+                                    type="text"
+                                    value={exp.merchant}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                  className="border-0"
+                                    name="amount"
+                                    type="number"
+                                    value={exp.amount}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                  className="border-0"
+                                    name="category"
+                                    type="text"
+                                    value={exp.category.name}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                  className="border-0"
+                                    name="dueDate"
+                                    type="text"
+                                    value={exp.dueDate}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                  className="border-0"
+                                    name="paidDate"
+                                    type="paidDate"
+                                    value={exp.paidDate ? exp.paidDate : ""}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                  className="border-0"
+                                    name="isRepeat"
+                                    type="checkbox"
+                                    checked={exp.isRepeat}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  {!currentId && !isCreate ? (
+                                    <button onClick={handleEdit(exp)}>
+                                      Edit
+                                    </button>
+                                  ) : null}
+                                </td>
+                                <td>
+                                  {!currentId && !isCreate ? (
+                                    <button onClick={handleDelete(exp)}>
+                                      Delete
+                                    </button>
+                                  ) : null}
+                                </td>
+                              </tr>
+                            );
+                          } else {
+                            return (
+                              <tr key={exp.id}>
+                                <td>
+                                  <input
+                                    name="merchant"
+                                    type="text"
+                                    value={merchant}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    name="amount"
+                                    type="number"
+                                    value={amount}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td>
+                                  <select
+                                    name="category"
+                                    value={category}
+                                    onChange={handleChange}
+                                  >
+                                    {allCategories.map(cat => {
+                                      return (
+                                        <option value={cat.name} key={cat.id}>
+                                          {cat.name}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                </td>
+                                <td>
+                                  <input
+                                    name="dueDate"
+                                    type="text"
+                                    value={dueDate}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    name="paidDate"
+                                    type="paidDate"
+                                    value={paidDate ? paidDate : ""}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    name="isRepeat"
+                                    type="checkbox"
+                                    checked={isRepeat}
+                                    onChange={handleChange}
+                                  />
+                                </td>
+                                <td>
+                                  <button type="submit">Update</button>
+                                </td>
+                                <td>
+                                  <button onClick={handleCancel}>Cancel</button>
+                                </td>
+                              </tr>
+                            );
+                          }
+                        })}
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>
