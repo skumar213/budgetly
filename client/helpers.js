@@ -187,7 +187,7 @@ export const horizontalBarChart = (graph, labels, budgeted, actual) => {
       datasets: [
         {
           label: "",
-          backgroundColor: ["#36b9cc", "#F6C23E"],
+          backgroundColor: ["#4e73df", "#1cc88a"],
           borderColor: "#ffffff",
           data: [50, 30],
         },
