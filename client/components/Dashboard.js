@@ -317,7 +317,7 @@ const Dashboard = () => {
           </select>
               
           <label htmlFor="DropDownYear" className="form-label">
-            <small>Select Year </small>
+            <small>Select Year </small>
           </label>
           <select
             className="d-inline-block form-select form-select-sm w-25"
