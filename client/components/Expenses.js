@@ -258,7 +258,10 @@ const Expenses = () => {
                     {!currentId && !isCreate ? (
                       <div>
                         <div>
-                          <button onClick={handleCreate} className='btn btn-primary py-0'>
+                          <button
+                            onClick={handleCreate}
+                            className="btn btn-primary py-0"
+                          >
                             Add New Expense
                           </button>
                         </div>
@@ -307,7 +310,6 @@ const Expenses = () => {
                               </td>
                               <td>
                                 <input
-
                                   name="amount"
                                   type="number"
                                   value={amount}
@@ -356,10 +358,20 @@ const Expenses = () => {
                                 />
                               </td>
                               <td>
-                                <button type="submit" className='btn btn-success py-0'>Add Expense</button>
+                                <button
+                                  type="submit"
+                                  className="btn btn-success py-0"
+                                >
+                                  Add Expense
+                                </button>
                               </td>
                               <td>
-                                <button onClick={handleCancel} className='btn btn-primary py-0'>Cancel</button>
+                                <button
+                                  onClick={handleCancel}
+                                  className="btn btn-primary py-0"
+                                >
+                                  Cancel
+                                </button>
                               </td>
                             </tr>
                           ) : null}
@@ -380,7 +392,7 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   <input
-                                  className="border-0"
+                                    className="border-0"
                                     name="amount"
                                     type="number"
                                     value={exp.amount}
@@ -389,7 +401,7 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   <input
-                                  className="border-0"
+                                    className="border-0"
                                     name="category"
                                     type="text"
                                     value={exp.category.name}
@@ -398,7 +410,7 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   <input
-                                  className="border-0"
+                                    className="border-0"
                                     name="dueDate"
                                     type="text"
                                     value={exp.dueDate}
@@ -407,7 +419,7 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   <input
-                                  className="border-0"
+                                    className="border-0"
                                     name="paidDate"
                                     type="paidDate"
                                     value={exp.paidDate ? exp.paidDate : ""}
@@ -416,7 +428,7 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   <input
-                                  className="border-0"
+                                    className="border-0"
                                     name="isRepeat"
                                     type="checkbox"
                                     checked={exp.isRepeat}
@@ -425,14 +437,20 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   {!currentId && !isCreate ? (
-                                    <button onClick={handleEdit(exp)} className='btn btn-success py-0'>
+                                    <button
+                                      onClick={handleEdit(exp)}
+                                      className="btn btn-success py-0"
+                                    >
                                       Edit
                                     </button>
                                   ) : null}
                                 </td>
                                 <td>
                                   {!currentId && !isCreate ? (
-                                    <button onClick={handleDelete(exp)} className='btn btn-danger py-0'>
+                                    <button
+                                      onClick={handleDelete(exp)}
+                                      className="btn btn-danger py-0"
+                                    >
                                       Delete
                                     </button>
                                   ) : null}
@@ -498,10 +516,20 @@ const Expenses = () => {
                                   />
                                 </td>
                                 <td>
-                                  <button type="submit" className='btn btn-success py-0'>Update</button>
+                                  <button
+                                    type="submit"
+                                    className="btn btn-success py-0"
+                                  >
+                                    Update
+                                  </button>
                                 </td>
                                 <td>
-                                  <button onClick={handleCancel} className='btn btn-primary py-0'>Cancel</button>
+                                  <button
+                                    onClick={handleCancel}
+                                    className="btn btn-primary py-0"
+                                  >
+                                    Cancel
+                                  </button>
                                 </td>
                               </tr>
                             );
