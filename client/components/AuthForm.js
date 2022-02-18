@@ -58,6 +58,7 @@ export const Login = () => {
                           aria-describedby="emailHelp"
                           name="email"
                           type="text"
+                          required
                         />
                       </div>
                       <div className="mb-3">
@@ -66,6 +67,7 @@ export const Login = () => {
                           placeholder="Enter Password"
                           name="password"
                           type="password"
+                          required
                         />
                       </div>
                       <div>
@@ -159,7 +161,10 @@ export const Signup = () => {
                       <div className="text-center">
                         <h4 className="text-dark mb-4">Create an Account!</h4>
                         {error && error.response && (
-                          <div> {error.response.data} </div>
+                          <div className="text-danger">
+                            {" "}
+                            {error.response.data}{" "}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -175,6 +180,7 @@ export const Signup = () => {
                             name="firstName"
                             type="text"
                             placeholder="First Name"
+                            required
                           />
                         </div>
                         <div className="col-sm-6">
@@ -183,6 +189,7 @@ export const Signup = () => {
                             name="lastName"
                             type="text"
                             placeholder="Last Name"
+                            required
                           />
                         </div>
                       </div>
@@ -192,6 +199,7 @@ export const Signup = () => {
                           placeholder="Email Address"
                           name="email"
                           type="text"
+                          required
                         />
                       </div>
 
@@ -202,6 +210,7 @@ export const Signup = () => {
                             placeholder="Password"
                             name="password"
                             type="password"
+                            required
                           />
                         </div>
                         <div className="col-sm-6">
@@ -210,6 +219,7 @@ export const Signup = () => {
                             placeholder="Monthly Income"
                             name="monthlyIncome"
                             type="number"
+                            required
                           />
                         </div>
                       </div>

@@ -174,6 +174,7 @@ const Investments = () => {
                               type="text"
                               value={tickerSymbol}
                               onChange={handleChange}
+                              required
                             />
                           </td>
                           <td>
@@ -185,6 +186,7 @@ const Investments = () => {
                               type="number"
                               value={buyPrice}
                               onChange={handleChange}
+                              required
                             />
                           </td>
                           <td>
@@ -196,6 +198,7 @@ const Investments = () => {
                               type="number"
                               value={totalShares}
                               onChange={handleChange}
+                              required
                             />
                           </td>
                           <td>

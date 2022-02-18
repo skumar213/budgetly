@@ -331,6 +331,7 @@ const Budgets = () => {
                             name="category"
                             value={category}
                             onChange={handleChange}
+                            required
                           >
                             {allCategories
                               .filter(
@@ -351,6 +352,7 @@ const Budgets = () => {
                             type="number"
                             value={amount}
                             onChange={handleChange}
+                            required
                           />
                         </td>
                         <td>

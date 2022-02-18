@@ -149,6 +149,7 @@ const UserProfile = () => {
             type="text"
             value={firstName}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -160,6 +161,7 @@ const UserProfile = () => {
             type="text"
             value={lastName}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -171,6 +173,7 @@ const UserProfile = () => {
             type="text"
             value={email}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -230,6 +233,7 @@ const UserProfile = () => {
               type="number"
               value={monthlyIncome}
               onChange={handleChange}
+              required
             />
           </div>
         </div>
