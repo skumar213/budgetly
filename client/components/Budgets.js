@@ -243,52 +243,6 @@ const Budgets = () => {
         ) : null}
       </>
 
-      <>
-        {isCreate ? (
-          <div>
-            <form onSubmit={handleCreateSubmit}>
-              <div>
-                <label htmlFor="category">
-                  <small>Category</small>
-                </label>
-                <select
-                  name="category"
-                  value={category}
-                  onChange={handleChange}
-                >
-                  {allCategories
-                    .filter(cat => !allocatedCategories.includes(cat.name))
-                    .map(cat => {
-                      return (
-                        <option value={cat.name} key={cat.id}>
-                          {cat.name}
-                        </option>
-                      );
-                    })}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="amount">
-                  <small>Amount</small>
-                </label>
-                <input
-                  name="amount"
-                  type="number"
-                  value={amount}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button type="submit">Add Budget</button>
-              </div>
-              <div>
-                <button onClick={handleCancel}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        ) : null}
-      </>
-
       <div>
         <label htmlFor="DropDownMonth">
           <small>Select Month </small>
@@ -322,90 +276,173 @@ const Budgets = () => {
       </div>
       <hr></hr>
 
-      {filteredBudgets.map(bud => {
-        if (currentId !== bud.id) {
-          return (
-            <div key={bud.id}>
-              <form>
-                <div>
-                  <label htmlFor="category">
-                    <small>Category</small>
-                  </label>
-                  <input
-                    name="category"
-                    type="text"
-                    value={bud.category.name}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="amount">
-                    <small>Amount</small>
-                  </label>
-                  <input
-                    name="amount"
-                    type="number"
-                    value={bud.amount}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  {!currentId && !isCreate ? (
-                    <button onClick={handleEdit(bud)}>Select to Edit</button>
-                  ) : null}
-                </div>
-                <div>
-                  {!currentId && !isCreate ? (
-                    <button onClick={handleDelete(bud)}>Delete</button>
-                  ) : null}
-                </div>
-              </form>
-            </div>
-          );
-        } else {
-          return (
-            <div key={bud.id}>
-              <form onSubmit={handleUpdateSubmit}>
-                <div>
-                  <label htmlFor="category">
-                    <small>Category</small>
-                  </label>
-                  <select
-                    name="category"
-                    value={category}
-                    onChange={handleChange}
-                  >
-                    {remainingCategoriesWithCurrent.map(cat => {
-                      return (
-                        <option value={cat.name} key={cat.id}>
-                          {cat.name}
-                        </option>
-                      );
+      <div id="content">
+        <div className="container-fluid">
+          <h3 className="text-dark mb-4 m-3">Expenses</h3>
+          <div className="card shadow">
+            <div className="card-body">
+              <form
+                onSubmit={isCreate ? handleCreateSubmit : handleUpdateSubmit}
+              >
+                <table id="dataTable" className="table my-0">
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Amount</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <>
+                      {isCreate ? (
+                        <tr>
+                          <td>
+                            <select
+                              name="category"
+                              value={category}
+                              onChange={handleChange}
+                            >
+                              {allCategories
+                                .filter(
+                                  cat => !allocatedCategories.includes(cat.name)
+                                )
+                                .map(cat => {
+                                  return (
+                                    <option value={cat.name} key={cat.id}>
+                                      {cat.name}
+                                    </option>
+                                  );
+                                })}
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              name="amount"
+                              type="number"
+                              value={amount}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="submit"
+                              className="btn btn-success py-0"
+                            >
+                              Add Budget
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              onClick={handleCancel}
+                              className="btn btn-primary py-0"
+                            >
+                              Cancel
+                            </button>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </>
+
+                    {filteredBudgets.map(bud => {
+                      if (currentId !== bud.id) {
+                        return (
+                          <tr key={bud.id}>
+                            <td>
+                              <input
+                                className="border-0"
+                                name="category"
+                                type="text"
+                                value={bud.category.name}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              <input
+                                className="border-0"
+                                name="amount"
+                                type="number"
+                                value={bud.amount}
+                                readOnly
+                              />
+                            </td>
+                            <td>
+                              {!currentId && !isCreate ? (
+                                <button
+                                  onClick={handleEdit(bud)}
+                                  className="btn btn-success py-0"
+                                >
+                                  Edit
+                                </button>
+                              ) : null}
+                            </td>
+                            <td>
+                              {!currentId && !isCreate ? (
+                                <button
+                                  onClick={handleDelete(bud)}
+                                  className="btn btn-danger py-0"
+                                >
+                                  Delete
+                                </button>
+                              ) : null}
+                            </td>
+                          </tr>
+                        );
+                      } else {
+                        return (
+                          <tr key={bud.id}>
+                            <td>
+                              <div>
+                                <select
+                                  name="category"
+                                  value={category}
+                                  onChange={handleChange}
+                                >
+                                  {remainingCategoriesWithCurrent.map(cat => {
+                                    return (
+                                      <option value={cat.name} key={cat.id}>
+                                        {cat.name}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+                            </td>
+                            <td>
+                              <input
+                                name="amount"
+                                type="number"
+                                value={amount}
+                                onChange={handleChange}
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="submit"
+                                className="btn btn-success py-0"
+                              >
+                                Update
+                              </button>
+                            </td>
+                            <td>
+                              <button
+                                onClick={handleCancel}
+                                className="btn btn-primary py-0"
+                              >
+                                Cancel
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      }
                     })}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="amount">
-                    <small>Amount</small>
-                  </label>
-                  <input
-                    name="amount"
-                    type="number"
-                    value={amount}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <button type="submit">Update</button>
-                </div>
-                <div>
-                  <button onClick={handleCancel}>Cancel</button>
-                </div>
+                  </tbody>
+                </table>
               </form>
             </div>
-          );
-        }
-      })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
