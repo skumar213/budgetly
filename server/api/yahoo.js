@@ -29,6 +29,7 @@ router.get("/:tickerSymbol", async (req, res, next) => {
       next(wrongNameError);
     } else {
       const mappedStock = stock.map(s => {
+        //Throws error if any of the required items are missing
         if (!s.symbol || !s.displayName || !s.regularMarketPrice) {
           throw wrongNameError;
         } else {

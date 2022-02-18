@@ -116,6 +116,12 @@ async function seed() {
     await outstandingExpenses[i].setCategory(categories[i + 1]);
     await user.addExpense(outstandingExpenses[i]);
   }
+
+  //removes one budget and expense for current and previous month
+  budgets[1].destroy();
+  expenses[1].destroy();
+
+  console.log(`seed updated successfully`);
 }
 
 /*

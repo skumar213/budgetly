@@ -238,6 +238,12 @@ async function seed() {
     await user.addMonthlyIncome(monthlyIncomes[j]);
   }
 
+  //removes one budget and expense for current and previous month
+  budgets[1].destroy();
+  prevBudgets[1].destroy();
+  expenses[1].destroy();
+  prevExpenses[1].destroy();
+
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${categories.length} categories`);
   console.log(`seeded ${expenses.length} expenses`);
