@@ -138,109 +138,167 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input
-            name="firstName"
-            type="text"
-            value={firstName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input
-            name="lastName"
-            type="text"
-            value={lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input
-            name="email"
-            type="text"
-            value={email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input
-            name="password"
-            type="password"
-            value={password}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit">Update Profile</button>
-        </div>
-      </form>
-      <form onSubmit={handleIncomeSubmit}>
-        <div>
-          <label htmlFor="incomeDropDownMonth">
-            <small>Select Month </small>
-          </label>
+    <div id="content">
+      <div className="container-fluid">
+        <h3 className="text-dark mb-4 m-3">Profile</h3>
 
-          <select
-            name="incomeDropDownMonth"
-            value={selectedMonth}
-            onChange={handleMonthChange}
-          >
-            {currentMonths.map((month, idx) => (
-              <option key={idx} value={month + 1}>
-                {month + 1}
-              </option>
-            ))}
-          </select>
+        <div className="row mb-3">
+          <div className="row">
+            <div className="col">
+              <div className="card shadow mb-3">
+                <div className="card-header py-3">
+                  <p className="text-primary m-0 fw-bold">User Settings</p>
+                </div>
+                <div className="card-body">
+                  <form onSubmit={handleSubmit}>
+                    <div className="row">
+                      <div className="col">
+                        <div className="mb-3">
+                          <label htmlFor="firstName" className="form-label">
+                            <strong>First Name</strong>
+                          </label>
+                          <input
+                            className="form-control"
+                            name="firstName"
+                            type="text"
+                            value={firstName}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="mb-3">
+                          <label htmlFor="lastName" className="form-label">
+                            <strong>Last Name</strong>
+                          </label>
+                          <input
+                            className="form-control"
+                            name="lastName"
+                            type="text"
+                            value={lastName}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-          <label htmlFor="incomeDropDownYear">
-            <small>Select Year </small>
-          </label>
-          <select
-            name="incomeDropDownYear"
-            value={selectedYear}
-            onChange={handleYearChange}
-          >
-            {Object.entries(years).map(year => (
-              <option key={year[1]} value={year[0]}>
-                {year[0]}
-              </option>
-            ))}
-          </select>
+                    <div className="row">
+                      <div className="col">
+                        <div className="mb-3">
+                          <label htmlFor="email" className="form-label">
+                            <strong>Email</strong>
+                          </label>
+                          <input
+                            className="form-control"
+                            name="email"
+                            type="text"
+                            value={email}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
 
-          <div>
-            <label htmlFor="monthlyIncome">
-              <small>Monthly Income $</small>
-            </label>
-            <input
-              name="monthlyIncome"
-              type="number"
-              value={monthlyIncome}
-              onChange={handleChange}
-              required
-            />
+                      <div className="col">
+                        <div className="mb-3">
+                          <label htmlFor="password" className="form-label">
+                            <strong>Password</strong>
+                          </label>
+                          <input
+                            className="form-control"
+                            name="password"
+                            type="password"
+                            value={password}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <button className="btn btn-primary btn-sm" type="submit">
+                        Save Settings
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div className="card shadow">
+                <div className="card-header py-3">
+                  <p className="text-primary m-0 fw-bold">Monthly Income</p>
+                </div>
+
+                <div className="card-body">
+                  <form onSubmit={handleIncomeSubmit}>
+                    <div className="row">
+                      <div className="col-md-6 text-nowrap">
+                        <label
+                          htmlFor="incomeDropDownMonth"
+                          className="form-label"
+                        >
+                          <small>Select Month </small>
+                        </label>
+                        <select
+                          className="d-inline-block form-select form-select-sm w-25"
+                          name="incomeDropDownMonth"
+                          value={selectedMonth}
+                          onChange={handleMonthChange}
+                        >
+                          {currentMonths.map((month, idx) => (
+                            <option key={idx} value={month + 1}>
+                              {month + 1}
+                            </option>
+                          ))}
+                        </select>
+                            
+                        <label
+                          htmlFor="incomeDropDownYear"
+                          className="form-label"
+                        >
+                          <small>Select Year </small>
+                        </label>
+                        <select
+                          className="d-inline-block form-select form-select-sm w-50"
+                          name="incomeDropDownYear"
+                          value={selectedYear}
+                          onChange={handleYearChange}
+                        >
+                          {Object.entries(years).map(year => (
+                            <option key={year[1]} value={year[0]}>
+                              {year[0]}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <br></br>
+                    <div className="mb-3">
+                      <label htmlFor="monthlyIncome" className="form-label">
+                        <strong>Monthly Income ($)</strong>
+                      </label>
+                      <input
+                        className="form-control"
+                        name="monthlyIncome"
+                        type="number"
+                        value={monthlyIncome}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <button className="btn btn-primary btn-sm" type="submit">
+                        Update Income
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div>
-          <button type="submit">Update Income</button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
