@@ -25,7 +25,7 @@ router.get("/:tickerSymbol", async (req, res, next) => {
 
     //Throw error if any of the stock names are wrong
     if (stock.length !== symbolsArr.length) {
-      const wrongNameError = new Error("Invalid Stock Ticker");
+      const wrongNameError = new Error("Invalid Ticker Symbol");
       next(wrongNameError);
     } else {
       const mappedStock = stock.map(s => {

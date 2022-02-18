@@ -119,170 +119,221 @@ const Investments = () => {
 
   return (
     <div>
-      <>
-        {!currentId && !isCreate ? (
-          <div>
-            <div>
-              <button onClick={handleCreate}>Add New Investment</button>
-            </div>
-            <hr></hr>
-          </div>
-        ) : null}
-      </>
-
-      <>
-        {error.error ? (
-          <div className="text-danger">
-            <strong>{error.error} - Try Again</strong>
-          </div>
-        ) : null}
-        {isCreate ? (
-          <div>
-            <form onSubmit={handleCreateSubmit}>
-              <div>
-                <label htmlFor="tickerSymbol">
-                  <small>Ticker Symbol</small>
-                </label>
-                <input
-                  name="tickerSymbol"
-                  type="text"
-                  value={tickerSymbol}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label htmlFor="buyPrice">
-                  <small>Buy Price</small>
-                </label>
-                <input
-                  name="buyPrice"
-                  type="number"
-                  value={buyPrice}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label htmlFor="totalShares">
-                  <small>Total Shares</small>
-                </label>
-                <input
-                  name="totalShares"
-                  type="number"
-                  value={totalShares}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button type="submit">Add Investment</button>
-              </div>
-              <div>
-                <button onClick={handleCancel}>Cancel</button>
-              </div>
-              <hr></hr>
-            </form>
-          </div>
-        ) : null}
-      </>
-
-      {allInvestments.map(inv => {
-        if (currentId !== inv.id) {
-          return (
-            <div key={inv.id}>
-              <form>
-                <div>
-                  <label htmlFor="tickerSymbol">
-                    <small>Ticker Symbol</small>
-                  </label>
-                  <input
-                    name="tickerSymbol"
-                    type="text"
-                    value={inv.tickerSymbol}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="buyPrice">
-                    <small>Buy Price</small>
-                  </label>
-                  <input
-                    name="buyPrice"
-                    type="number"
-                    value={inv.buyPrice}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="totalShares">
-                    <small>Total Shares</small>
-                  </label>
-                  <input
-                    name="totalShares"
-                    type="number"
-                    value={inv.totalShares}
-                    readOnly
-                  />
-                </div>
-                <div>
+      <div id="content">
+        <div className="container-fluid">
+          <h3 className="text-dark mb-4 m-3">Investments</h3>
+          <div className="card shadow">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-6 text-nowrap">
                   {!currentId && !isCreate ? (
-                    <button onClick={handleEdit(inv)}>Select to Edit</button>
+                    <button
+                      className="btn btn-primary py-0"
+                      onClick={handleCreate}
+                    >
+                      Add New Investment
+                    </button>
                   ) : null}
                 </div>
-                <div>
-                  {!currentId && !isCreate ? (
-                    <button onClick={handleDelete(inv)}>Delete</button>
-                  ) : null}
-                </div>
-              </form>
+              </div>
+              <div
+                id="dataTable"
+                className="table-responsive table mt-2"
+                role="grid"
+                aria-describedby="dataTable_info"
+              >
+                <form
+                  onSubmit={isCreate ? handleCreateSubmit : handleUpdateSubmit}
+                >
+                  <table id="dataTable" className="table my-0">
+                    <thead>
+                      <tr>
+                        <th>Ticker Symbol</th>
+                        <th>Buy Price</th>
+                        <th>Total Shares</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {error.error ? (
+                        <tr>
+                          <td className="text-danger">
+                            <strong>{error.error}</strong>
+                          </td>
+                        </tr>
+                      ) : null}
+                      {isCreate ? (
+                        <tr>
+                          <td>
+                            <label htmlFor="tickerSymbol">
+                              <small>Ticker Symbol</small>
+                            </label>
+                            <input
+                              name="tickerSymbol"
+                              type="text"
+                              value={tickerSymbol}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <label htmlFor="buyPrice">
+                              <small>Buy Price</small>
+                            </label>
+                            <input
+                              name="buyPrice"
+                              type="number"
+                              value={buyPrice}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <label htmlFor="totalShares">
+                              <small>Total Shares</small>
+                            </label>
+                            <input
+                              name="totalShares"
+                              type="number"
+                              value={totalShares}
+                              onChange={handleChange}
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="submit"
+                              className="btn btn-success py-0"
+                            >
+                              Add Investment
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              onClick={handleCancel}
+                              className="btn btn-primary py-0"
+                            >
+                              Cancel
+                            </button>
+                          </td>
+                        </tr>
+                      ) : null}
+
+                      {allInvestments.map(inv => {
+                        if (currentId !== inv.id) {
+                          return (
+                            <tr key={inv.id}>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="tickerSymbol"
+                                  type="text"
+                                  value={inv.tickerSymbol}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="buyPrice"
+                                  type="number"
+                                  value={inv.buyPrice}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="totalShares"
+                                  type="number"
+                                  value={inv.totalShares}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleEdit(inv)}
+                                    className="btn btn-success py-0"
+                                  >
+                                    Edit
+                                  </button>
+                                ) : null}
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleDelete(inv)}
+                                    className="btn btn-danger py-0"
+                                  >
+                                    Delete
+                                  </button>
+                                ) : null}
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return (
+                            <tr key={inv.id}>
+                              <td>
+                                <label htmlFor="tickerSymbol">
+                                  <small>Ticker Symbol</small>
+                                </label>
+                                <input
+                                  name="tickerSymbol"
+                                  type="text"
+                                  value={tickerSymbol}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <label htmlFor="buyPrice">
+                                  <small>Buy Price</small>
+                                </label>
+                                <input
+                                  name="buyPrice"
+                                  type="number"
+                                  value={buyPrice}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <label htmlFor="totalShares">
+                                  <small>Total Shares</small>
+                                </label>
+                                <input
+                                  name="totalShares"
+                                  type="number"
+                                  value={totalShares}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <button
+                                  type="submit"
+                                  className="btn btn-success py-0"
+                                >
+                                  Update
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  onClick={handleCancel}
+                                  className="btn btn-primary py-0"
+                                >
+                                  Cancel
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      })}
+                    </tbody>
+                  </table>
+                </form>
+              </div>
             </div>
-          );
-        } else {
-          return (
-            <div key={inv.id}>
-              <form onSubmit={handleUpdateSubmit}>
-                <div>
-                  <label htmlFor="tickerSymbol">
-                    <small>Ticker Symbol</small>
-                  </label>
-                  <input
-                    name="tickerSymbol"
-                    type="text"
-                    value={tickerSymbol}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="buyPrice">
-                    <small>Buy Price</small>
-                  </label>
-                  <input
-                    name="buyPrice"
-                    type="number"
-                    value={buyPrice}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="totalShares">
-                    <small>Total Shares</small>
-                  </label>
-                  <input
-                    name="totalShares"
-                    type="number"
-                    value={totalShares}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <button type="submit">Update</button>
-                </div>
-                <div>
-                  <button onClick={handleCancel}>Cancel</button>
-                </div>
-              </form>
-            </div>
-          );
-        }
-      })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

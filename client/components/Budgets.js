@@ -324,55 +324,53 @@ const Budgets = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <>
-                      {isCreate ? (
-                        <tr>
-                          <td>
-                            <select
-                              name="category"
-                              value={category}
-                              onChange={handleChange}
-                            >
-                              {allCategories
-                                .filter(
-                                  cat => !allocatedCategories.includes(cat.name)
-                                )
-                                .map(cat => {
-                                  return (
-                                    <option value={cat.name} key={cat.id}>
-                                      {cat.name}
-                                    </option>
-                                  );
-                                })}
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              name="amount"
-                              type="number"
-                              value={amount}
-                              onChange={handleChange}
-                            />
-                          </td>
-                          <td>
-                            <button
-                              type="submit"
-                              className="btn btn-success py-0"
-                            >
-                              Add Budget
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={handleCancel}
-                              className="btn btn-primary py-0"
-                            >
-                              Cancel
-                            </button>
-                          </td>
-                        </tr>
-                      ) : null}
-                    </>
+                    {isCreate ? (
+                      <tr>
+                        <td>
+                          <select
+                            name="category"
+                            value={category}
+                            onChange={handleChange}
+                          >
+                            {allCategories
+                              .filter(
+                                cat => !allocatedCategories.includes(cat.name)
+                              )
+                              .map(cat => {
+                                return (
+                                  <option value={cat.name} key={cat.id}>
+                                    {cat.name}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                        </td>
+                        <td>
+                          <input
+                            name="amount"
+                            type="number"
+                            value={amount}
+                            onChange={handleChange}
+                          />
+                        </td>
+                        <td>
+                          <button
+                            type="submit"
+                            className="btn btn-success py-0"
+                          >
+                            Add Budget
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            onClick={handleCancel}
+                            className="btn btn-primary py-0"
+                          >
+                            Cancel
+                          </button>
+                        </td>
+                      </tr>
+                    ) : null}
 
                     {filteredBudgets.map(bud => {
                       if (currentId !== bud.id) {
