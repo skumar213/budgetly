@@ -78,7 +78,7 @@ export const Login = () => {
                           <div> {error.response.data} </div>
                         )}
                       </form>
-                      <div className="text-center">
+                      <div className="text-center m-2">
                         <Link to="/signup">Create an Account!</Link>
                       </div>
                       <div className="text-center">
@@ -226,7 +226,7 @@ export const Signup = () => {
                           <hr></hr>
                         </div>
                       </form>
-                      <div className="text-center">
+                      <div className="text-center mb-2">
                         <Link to="/login">Already have an account? Login!</Link>
                       </div>
                       <div className="text-center">
