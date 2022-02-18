@@ -36,7 +36,7 @@ export const Login = () => {
                       className="flex-grow-1 bg-login-image"
                       style={{
                         backgroundImage:
-                          'url("/bootstrap/assets/img/dogs/image3.jpeg")',
+                          'url("/bootstrap/assets/img/dogs/loginPug.jpeg")',
                       }}
                     ></div>
                   </div>
@@ -52,22 +52,18 @@ export const Login = () => {
                       onSubmit={handleSubmit}
                     >
                       <div className="mb-3">
-                        <label htmlFor="email">
-                          <small>Email</small>
-                        </label>
                         <input
                           className="form-control form-control-user"
+                          placeholder="Enter Email Address"
                           aria-describedby="emailHelp"
                           name="email"
                           type="text"
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="password">
-                          <small>Password</small>
-                        </label>
                         <input
                           className="form-control form-control-user"
+                          placeholder="Enter Password"
                           name="password"
                           type="password"
                         />
@@ -86,7 +82,7 @@ export const Login = () => {
                       )}
                     </form>
                     <div className="text-center">
-                      <Link to="/signup">Create an Account</Link>
+                      <Link to="/signup">Create an Account!</Link>
                     </div>
                     <div className="text-center">
                       <Link to="" onClick={handleSeededDemo}>
@@ -136,44 +132,118 @@ export const Signup = () => {
     );
   };
 
+  //Logs user into seeded demo
+  const handleSeededDemo = () => {
+    dispatch(authenticate("mike@gmail.com", "", "login"));
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-9 col-lg-12 col-xl-10">
+            <div className="card shadow-lg o-hidden border-0 my-5">
+              <div className="card-body p-0">
+                <div className="row">
+                  <div className="col-lg-6 d-none d-lg-flex">
+                    <div
+                      className="flex-grow-1 bg-login-image"
+                      style={{
+                        backgroundImage:
+                          'url("/bootstrap/assets/img/dogs/signupPug.jpeg")',
+                      }}
+                    ></div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="p-5">
+                      <div className="text-center">
+                        <h4 className="text-dark mb-4">Create an Account!</h4>
+                        {error && error.response && (
+                          <div> {error.response.data} </div>
+                        )}
+                      </div>
+                    </div>
+                    <form
+                      className="user"
+                      onSubmit={handleSubmit}
+                      style={{ marginRight: "3%" }}
+                    >
+                      <div className="row mb-3">
+                        <div className="col-sm-6 mb-3 mb-sm-0">
+                          <input
+                            className="form-control form-control-user"
+                            name="firstName"
+                            type="text"
+                            placeholder="First Name"
+                          />
+                        </div>
+                        <div className="col-sm-6">
+                          <input
+                            className="form-control form-control-user"
+                            name="lastName"
+                            type="text"
+                            placeholder="Last Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <input
+                          className="form-control form-control-user"
+                          placeholder="Email Address"
+                          name="email"
+                          type="text"
+                        />
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-sm-6 mb-3-sm-0">
+                          <input
+                            className="form-control form-control-user"
+                            placeholder="Password"
+                            name="password"
+                            type="password"
+                          />
+                        </div>
+                        <div className="col-sm-6">
+                          <input
+                            className="form-control form-control-user"
+                            placeholder="Monthly Income"
+                            name="monthlyIncome"
+                            type="number"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <button
+                          className="btn btn-primary d-block btn-user w-100"
+                          type="submit"
+                        >
+                          Login
+                        </button>
+                        <hr></hr>
+                      </div>
+                    </form>
+                    <div className="text-center">
+                      <Link to="/login">Already have an account? Login!</Link>
+                    </div>
+                    <div className="text-center">
+                      <Link to="" onClick={handleSeededDemo}>
+                        View seeded demo without an account
+                      </Link>
+                    </div>
+
+                    {/* Needed to show full image */}
+                    <div className="btn w-100"> </div>
+                    <div className="btn w-100"> </div>
+                    <div className="btn w-100"> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <label htmlFor="monthlyIncome">
-            <small>Monthly Income</small>
-          </label>
-          <input name="monthlyIncome" type="number" />
-        </div>
-        <div>
-          <button type="submit">Login</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      </div>
     </div>
   );
 };
