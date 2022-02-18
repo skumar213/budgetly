@@ -258,7 +258,7 @@ const Expenses = () => {
                     {!currentId && !isCreate ? (
                       <div>
                         <div>
-                          <button onClick={handleCreate}>
+                          <button onClick={handleCreate} className='btn btn-primary py-0'>
                             Add New Expense
                           </button>
                         </div>
@@ -356,10 +356,10 @@ const Expenses = () => {
                                 />
                               </td>
                               <td>
-                                <button type="submit">Add Expense</button>
+                                <button type="submit" className='btn btn-success py-0'>Add Expense</button>
                               </td>
                               <td>
-                                <button onClick={handleCancel}>Cancel</button>
+                                <button onClick={handleCancel} className='btn btn-primary py-0'>Cancel</button>
                               </td>
                             </tr>
                           ) : null}
@@ -425,14 +425,14 @@ const Expenses = () => {
                                 </td>
                                 <td>
                                   {!currentId && !isCreate ? (
-                                    <button onClick={handleEdit(exp)}>
+                                    <button onClick={handleEdit(exp)} className='btn btn-success py-0'>
                                       Edit
                                     </button>
                                   ) : null}
                                 </td>
                                 <td>
                                   {!currentId && !isCreate ? (
-                                    <button onClick={handleDelete(exp)}>
+                                    <button onClick={handleDelete(exp)} className='btn btn-danger py-0'>
                                       Delete
                                     </button>
                                   ) : null}
@@ -498,10 +498,10 @@ const Expenses = () => {
                                   />
                                 </td>
                                 <td>
-                                  <button type="submit">Update</button>
+                                  <button type="submit" className='btn btn-success py-0'>Update</button>
                                 </td>
                                 <td>
-                                  <button onClick={handleCancel}>Cancel</button>
+                                  <button onClick={handleCancel} className='btn btn-primary py-0'>Cancel</button>
                                 </td>
                               </tr>
                             );
