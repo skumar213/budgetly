@@ -337,7 +337,7 @@ const Expenses = () => {
         ) : null}
       </>
 
-      <div  id="content">
+      <div id="content">
         <div className="container-fluid">
           <div className="card-body">
             <div
@@ -346,7 +346,11 @@ const Expenses = () => {
               role="grid"
               aria-describedby="dataTable_info"
             >
-              <form id="dataTable" className="table my-0">
+              <form
+                id="dataTable"
+                className="table my-0"
+                onSubmit={handleUpdateSubmit}
+              >
                 <table>
                   <thead>
                     <tr>
@@ -430,34 +434,25 @@ const Expenses = () => {
                       );
                     } else {
                       return (
-                        <div key={exp.id}>
-                          <form onSubmit={handleUpdateSubmit}>
-                            <div>
-                              <label htmlFor="merchant">
-                                <small>Merchant</small>
-                              </label>
+                        <tbody key={exp.id}>
+                          <tr>
+                            <td>
                               <input
                                 name="merchant"
                                 type="text"
                                 value={merchant}
                                 onChange={handleChange}
                               />
-                            </div>
-                            <div>
-                              <label htmlFor="amount">
-                                <small>Amount</small>
-                              </label>
+                            </td>
+                            <td>
                               <input
                                 name="amount"
                                 type="number"
                                 value={amount}
                                 onChange={handleChange}
                               />
-                            </div>
-                            <div>
-                              <label htmlFor="category">
-                                <small>Category</small>
-                              </label>
+                            </td>
+                            <td>
                               <select
                                 name="category"
                                 value={category}
@@ -471,48 +466,39 @@ const Expenses = () => {
                                   );
                                 })}
                               </select>
-                            </div>
-                            <div>
-                              <label htmlFor="dueDate">
-                                <small>dueDate</small>
-                              </label>
+                            </td>
+                            <td>
                               <input
                                 name="dueDate"
                                 type="text"
                                 value={dueDate}
                                 onChange={handleChange}
                               />
-                            </div>
-                            <div>
-                              <label htmlFor="paidDate">
-                                <small>paidDate</small>
-                              </label>
+                            </td>
+                            <td>
                               <input
                                 name="paidDate"
                                 type="paidDate"
                                 value={paidDate ? paidDate : ""}
                                 onChange={handleChange}
                               />
-                            </div>
-                            <div>
-                              <label htmlFor="isRepeat">
-                                <small>Repeat</small>
-                              </label>
+                            </td>
+                            <td>
                               <input
                                 name="isRepeat"
                                 type="checkbox"
                                 checked={isRepeat}
                                 onChange={handleChange}
                               />
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                               <button type="submit">Update</button>
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                               <button onClick={handleCancel}>Cancel</button>
-                            </div>
-                          </form>
-                        </div>
+                            </td>
+                          </tr>
+                        </tbody>
                       );
                     }
                   })}
