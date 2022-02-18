@@ -45,57 +45,54 @@ export const Login = () => {
                       <div className="text-center">
                         <h4 className="text-dark mb-4">Welcome Back!</h4>
                       </div>
-                    </div>
-                    <form
-                      className="user"
-                      style={{ marginRight: "3%" }}
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="mb-3">
-                        <input
-                          className="form-control form-control-user"
-                          placeholder="Enter Email Address"
-                          aria-describedby="emailHelp"
-                          name="email"
-                          type="text"
-                          required
-                        />
+                      <form className="user" onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                          <input
+                            className="form-control form-control-user"
+                            placeholder="Enter Email Address"
+                            aria-describedby="emailHelp"
+                            name="email"
+                            type="text"
+                            required
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <input
+                            className="form-control form-control-user"
+                            placeholder="Enter Password"
+                            name="password"
+                            type="password"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <button
+                            className="btn btn-primary d-block btn-user w-100"
+                            type="submit"
+                          >
+                            Login
+                          </button>
+                          <hr></hr>
+                        </div>
+                        {error && error.response && (
+                          <div> {error.response.data} </div>
+                        )}
+                      </form>
+                      <div className="text-center">
+                        <Link to="/signup">Create an Account!</Link>
                       </div>
-                      <div className="mb-3">
-                        <input
-                          className="form-control form-control-user"
-                          placeholder="Enter Password"
-                          name="password"
-                          type="password"
-                          required
-                        />
+                      <div className="text-center">
+                        <Link to="" onClick={handleSeededDemo}>
+                          In a rush? View seeded demo without an account!
+                        </Link>
                       </div>
-                      <div>
-                        <button
-                          className="btn btn-primary d-block btn-user w-100"
-                          type="submit"
-                        >
-                          Login
-                        </button>
-                        <hr></hr>
-                      </div>
-                      {error && error.response && (
-                        <div> {error.response.data} </div>
-                      )}
-                    </form>
-                    <div className="text-center">
-                      <Link to="/signup">Create an Account!</Link>
-                    </div>
-                    <div className="text-center">
-                      <Link to="" onClick={handleSeededDemo}>
-                        In a rush? View seeded demo without an account!
-                      </Link>
-                    </div>
 
-                    {/* Needed to show full image */}
-                    <div className="btn w-100"> </div>
-                    <div className="btn w-100"> </div>
-                    <div className="btn w-100"> </div>
+                      {/* Needed to show full image */}
+                      <div className="btn w-100"> </div>
+                      <div className="btn w-100"> </div>
+                      <div className="btn w-100"> </div>
+                      <div className="btn w-100"> </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -167,86 +164,82 @@ export const Signup = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                    <form
-                      className="user"
-                      onSubmit={handleSubmit}
-                      style={{ marginRight: "3%" }}
-                    >
-                      <div className="row mb-3">
-                        <div className="col-sm-6 mb-3 mb-sm-0">
+                      <form className="user" onSubmit={handleSubmit}>
+                        <div className="row mb-3">
+                          <div className="col-sm-6 mb-3 mb-sm-0">
+                            <input
+                              className="form-control form-control-user"
+                              name="firstName"
+                              type="text"
+                              placeholder="First Name"
+                              required
+                            />
+                          </div>
+                          <div className="col-sm-6">
+                            <input
+                              className="form-control form-control-user"
+                              name="lastName"
+                              type="text"
+                              placeholder="Last Name"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="mb-3">
                           <input
                             className="form-control form-control-user"
-                            name="firstName"
+                            placeholder="Email Address"
+                            name="email"
                             type="text"
-                            placeholder="First Name"
                             required
                           />
                         </div>
-                        <div className="col-sm-6">
-                          <input
-                            className="form-control form-control-user"
-                            name="lastName"
-                            type="text"
-                            placeholder="Last Name"
-                            required
-                          />
+
+                        <div className="row mb-3">
+                          <div className="col-sm-6 mb-3-sm-0">
+                            <input
+                              className="form-control form-control-user"
+                              placeholder="Password"
+                              name="password"
+                              type="password"
+                              required
+                            />
+                          </div>
+                          <div className="col-sm-6">
+                            <input
+                              className="form-control form-control-user"
+                              placeholder="Monthly Income"
+                              name="monthlyIncome"
+                              type="number"
+                              required
+                            />
+                          </div>
                         </div>
+
+                        <div>
+                          <button
+                            className="btn btn-primary d-block btn-user w-100"
+                            type="submit"
+                          >
+                            Login
+                          </button>
+                          <hr></hr>
+                        </div>
+                      </form>
+                      <div className="text-center">
+                        <Link to="/login">Already have an account? Login!</Link>
                       </div>
-                      <div className="mb-3">
-                        <input
-                          className="form-control form-control-user"
-                          placeholder="Email Address"
-                          name="email"
-                          type="text"
-                          required
-                        />
+                      <div className="text-center">
+                        <Link to="" onClick={handleSeededDemo}>
+                          In a rush? View seeded demo without an account!
+                        </Link>
                       </div>
 
-                      <div className="row mb-3">
-                        <div className="col-sm-6 mb-3-sm-0">
-                          <input
-                            className="form-control form-control-user"
-                            placeholder="Password"
-                            name="password"
-                            type="password"
-                            required
-                          />
-                        </div>
-                        <div className="col-sm-6">
-                          <input
-                            className="form-control form-control-user"
-                            placeholder="Monthly Income"
-                            name="monthlyIncome"
-                            type="number"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <button
-                          className="btn btn-primary d-block btn-user w-100"
-                          type="submit"
-                        >
-                          Login
-                        </button>
-                        <hr></hr>
-                      </div>
-                    </form>
-                    <div className="text-center">
-                      <Link to="/login">Already have an account? Login!</Link>
+                      {/* Needed to show full image */}
+                      <div className="btn w-100"> </div>
+                      <div className="btn w-100"> </div>
+                      <div className="btn w-100"> </div>
                     </div>
-                    <div className="text-center">
-                      <Link to="" onClick={handleSeededDemo}>
-                        In a rush? View seeded demo without an account!
-                      </Link>
-                    </div>
-
-                    {/* Needed to show full image */}
-                    <div className="btn w-100"> </div>
-                    <div className="btn w-100"> </div>
-                    <div className="btn w-100"> </div>
                   </div>
                 </div>
               </div>
