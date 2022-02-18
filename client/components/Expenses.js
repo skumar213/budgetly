@@ -221,7 +221,6 @@ const Expenses = () => {
   };
 
   return (
-    <div>
       <div id="content">
         <div className="container-fluid">
           <h3 className="text-dark mb-4 m-3">Expenses</h3>
@@ -537,7 +536,6 @@ const Expenses = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
