@@ -233,180 +233,106 @@ const Budgets = () => {
         <hr></hr>
       </div>
 
-      <>
-        {!currentId &&
-        !isCreate &&
-        allocatedCategories.length !== allCategories.length ? (
-          <div>
-            <button onClick={handleCreate}>Add New Budget</button> <hr></hr>
-          </div>
-        ) : null}
-      </>
-
-      <div>
-        <label htmlFor="DropDownMonth">
-          <small>Select Month </small>
-        </label>
-        <select
-          name="DropDownMonth"
-          value={selectedMonth}
-          onChange={handleMonthChange}
-        >
-          {currentMonths.map((month, idx) => (
-            <option key={idx} value={month + 1}>
-              {month + 1}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="DropDownYear">
-          <small>Select Year </small>
-        </label>
-        <select
-          name="DropDownYear"
-          value={selectedYear}
-          onChange={handleYearChange}
-        >
-          {Object.entries(years).map(year => (
-            <option key={year[1]} value={year[0]}>
-              {year[0]}
-            </option>
-          ))}
-        </select>
-      </div>
-      <hr></hr>
-
       <div id="content">
         <div className="container-fluid">
           <h3 className="text-dark mb-4 m-3">Expenses</h3>
           <div className="card shadow">
             <div className="card-body">
-              <form
-                onSubmit={isCreate ? handleCreateSubmit : handleUpdateSubmit}
-              >
-                <table id="dataTable" className="table my-0">
-                  <thead>
-                    <tr>
-                      <th>Category</th>
-                      <th>Amount</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <>
-                      {isCreate ? (
-                        <tr>
-                          <td>
-                            <select
-                              name="category"
-                              value={category}
-                              onChange={handleChange}
-                            >
-                              {allCategories
-                                .filter(
-                                  cat => !allocatedCategories.includes(cat.name)
-                                )
-                                .map(cat => {
-                                  return (
-                                    <option value={cat.name} key={cat.id}>
-                                      {cat.name}
-                                    </option>
-                                  );
-                                })}
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              name="amount"
-                              type="number"
-                              value={amount}
-                              onChange={handleChange}
-                            />
-                          </td>
-                          <td>
-                            <button
-                              type="submit"
-                              className="btn btn-success py-0"
-                            >
-                              Add Budget
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              onClick={handleCancel}
-                              className="btn btn-primary py-0"
-                            >
-                              Cancel
-                            </button>
-                          </td>
-                        </tr>
-                      ) : null}
-                    </>
+              <div className="row">
+                <div className="col-md-6 text-nowrap">
+                  <div
+                    id="dataTable_length"
+                    className="dataTables_length"
+                    aria-controls="dataTable"
+                  >
+                    <label htmlFor="DropDownMonth" className="form-label">
+                      <small>Select Month </small>
+                    </label>
+                    <select
+                      className="d-inline-block form-select form-select-sm w-25"
+                      name="DropDownMonth"
+                      value={selectedMonth}
+                      onChange={handleMonthChange}
+                    >
+                      {currentMonths.map((month, idx) => (
+                        <option key={idx} value={month + 1}>
+                          {month + 1}
+                        </option>
+                      ))}
+                    </select>
+                        
+                    <label htmlFor="DropDownYear" className="form-label">
+                      <small>Select Year </small>
+                    </label>
+                    <select
+                      className="d-inline-block form-select form-select-sm w-50"
+                      name="DropDownYear"
+                      value={selectedYear}
+                      onChange={handleYearChange}
+                    >
+                      {Object.entries(years).map(year => (
+                        <option key={year[1]} value={year[0]}>
+                          {year[0]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div
+                    id="dataTable_filter"
+                    className="text-md-end dataTables_filter"
+                  >
+                    {!currentId &&
+                    !isCreate &&
+                    allocatedCategories.length !== allCategories.length ? (
+                      <button onClick={handleCreate} className="btn btn-primary py-0">Add New Budget</button>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
 
-                    {filteredBudgets.map(bud => {
-                      if (currentId !== bud.id) {
-                        return (
-                          <tr key={bud.id}>
+              <div
+                id="dataTable"
+                className="table-responsive table mt-2"
+                role="grid"
+                aria-describedby="dataTable_info"
+              >
+                <form
+                  onSubmit={isCreate ? handleCreateSubmit : handleUpdateSubmit}
+                >
+                  <table id="dataTable" className="table my-0">
+                    <thead>
+                      <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <>
+                        {isCreate ? (
+                          <tr>
                             <td>
-                              <input
-                                className="border-0"
+                              <select
                                 name="category"
-                                type="text"
-                                value={bud.category.name}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                className="border-0"
-                                name="amount"
-                                type="number"
-                                value={bud.amount}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              {!currentId && !isCreate ? (
-                                <button
-                                  onClick={handleEdit(bud)}
-                                  className="btn btn-success py-0"
-                                >
-                                  Edit
-                                </button>
-                              ) : null}
-                            </td>
-                            <td>
-                              {!currentId && !isCreate ? (
-                                <button
-                                  onClick={handleDelete(bud)}
-                                  className="btn btn-danger py-0"
-                                >
-                                  Delete
-                                </button>
-                              ) : null}
-                            </td>
-                          </tr>
-                        );
-                      } else {
-                        return (
-                          <tr key={bud.id}>
-                            <td>
-                              <div>
-                                <select
-                                  name="category"
-                                  value={category}
-                                  onChange={handleChange}
-                                >
-                                  {remainingCategoriesWithCurrent.map(cat => {
+                                value={category}
+                                onChange={handleChange}
+                              >
+                                {allCategories
+                                  .filter(
+                                    cat =>
+                                      !allocatedCategories.includes(cat.name)
+                                  )
+                                  .map(cat => {
                                     return (
                                       <option value={cat.name} key={cat.id}>
                                         {cat.name}
                                       </option>
                                     );
                                   })}
-                                </select>
-                              </div>
+                              </select>
                             </td>
                             <td>
                               <input
@@ -421,7 +347,7 @@ const Budgets = () => {
                                 type="submit"
                                 className="btn btn-success py-0"
                               >
-                                Update
+                                Add Budget
                               </button>
                             </td>
                             <td>
@@ -433,12 +359,105 @@ const Budgets = () => {
                               </button>
                             </td>
                           </tr>
-                        );
-                      }
-                    })}
-                  </tbody>
-                </table>
-              </form>
+                        ) : null}
+                      </>
+
+                      {filteredBudgets.map(bud => {
+                        if (currentId !== bud.id) {
+                          return (
+                            <tr key={bud.id}>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="category"
+                                  type="text"
+                                  value={bud.category.name}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="amount"
+                                  type="number"
+                                  value={bud.amount}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleEdit(bud)}
+                                    className="btn btn-success py-0"
+                                  >
+                                    Edit
+                                  </button>
+                                ) : null}
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleDelete(bud)}
+                                    className="btn btn-danger py-0"
+                                  >
+                                    Delete
+                                  </button>
+                                ) : null}
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return (
+                            <tr key={bud.id}>
+                              <td>
+                                <div>
+                                  <select
+                                    name="category"
+                                    value={category}
+                                    onChange={handleChange}
+                                  >
+                                    {remainingCategoriesWithCurrent.map(cat => {
+                                      return (
+                                        <option value={cat.name} key={cat.id}>
+                                          {cat.name}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                </div>
+                              </td>
+                              <td>
+                                <input
+                                  name="amount"
+                                  type="number"
+                                  value={amount}
+                                  onChange={handleChange}
+                                />
+                              </td>
+                              <td>
+                                <button
+                                  type="submit"
+                                  className="btn btn-success py-0"
+                                >
+                                  Update
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  onClick={handleCancel}
+                                  className="btn btn-primary py-0"
+                                >
+                                  Cancel
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      })}
+                    </tbody>
+                  </table>
+                </form>
+              </div>
             </div>
           </div>
         </div>

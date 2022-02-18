@@ -320,7 +320,7 @@ const Dashboard = () => {
             <small>Select Year </small>
           </label>
           <select
-            className="d-inline-block form-select form-select-sm w-25"
+            className="d-inline-block form-select form-select-sm w-50"
             name="DropDownYear"
             value={selectedYear}
             onChange={handleYearChange}

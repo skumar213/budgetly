@@ -256,56 +256,210 @@ const Expenses = () => {
                     className="text-md-end dataTables_filter"
                   >
                     {!currentId && !isCreate ? (
-                      <div>
-                        <div>
                           <button
                             onClick={handleCreate}
                             className="btn btn-primary py-0"
                           >
                             Add New Expense
                           </button>
-                        </div>
-                        <br></br>
-                      </div>
                     ) : null}
                   </div>
                 </div>
+              </div>
 
-                <div
-                  id="dataTable"
-                  className="table-responsive table mt-2"
-                  role="grid"
-                  aria-describedby="dataTable_info"
+              <div
+                id="dataTable"
+                className="table-responsive table mt-2"
+                role="grid"
+                aria-describedby="dataTable_info"
+              >
+                <form
+                  onSubmit={isCreate ? handleCreateSubmit : handleUpdateSubmit}
                 >
-                  <form
-                    onSubmit={
-                      isCreate ? handleCreateSubmit : handleUpdateSubmit
-                    }
-                  >
-                    <table id="dataTable" className="table my-0">
-                      <thead>
-                        <tr>
-                          <th>Merchant</th>
-                          <th>Amount</th>
-                          <th>Category</th>
-                          <th>Due Date</th>
-                          <th>Paid Date</th>
-                          <th>Repeat</th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <>
-                          {isCreate ? (
-                            <tr>
+                  <table id="dataTable" className="table my-0">
+                    <thead>
+                      <tr>
+                        <th>Merchant</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Due Date</th>
+                        <th>Paid Date</th>
+                        <th>Repeat</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <>
+                        {isCreate ? (
+                          <tr>
+                            <td>
+                              <input
+                                name="merchant"
+                                type="text"
+                                value={merchant}
+                                onChange={handleChange}
+                                required
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="amount"
+                                type="number"
+                                value={amount}
+                                onChange={handleChange}
+                                required
+                              />
+                            </td>
+                            <td>
+                              <select
+                                name="category"
+                                value={category}
+                                onChange={handleChange}
+                              >
+                                {allCategories.map(cat => {
+                                  return (
+                                    <option value={cat.name} key={cat.id}>
+                                      {cat.name}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </td>
+                            <td>
+                              <input
+                                name="dueDate"
+                                type="date"
+                                value={dueDate}
+                                onChange={handleChange}
+                                required
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="paidDate"
+                                type="date"
+                                value={paidDate ? paidDate : ""}
+                                onChange={handleChange}
+                              />
+                            </td>
+                            <td>
+                              <input
+                                name="isRepeat"
+                                type="checkbox"
+                                value={isRepeat}
+                                onChange={handleChange}
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="submit"
+                                className="btn btn-success py-0"
+                              >
+                                Add Expense
+                              </button>
+                            </td>
+                            <td>
+                              <button
+                                onClick={handleCancel}
+                                className="btn btn-primary py-0"
+                              >
+                                Cancel
+                              </button>
+                            </td>
+                          </tr>
+                        ) : null}
+                      </>
+
+                      {filteredExpenses.map(exp => {
+                        if (currentId !== exp.id) {
+                          return (
+                            <tr key={exp.id}>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="merchant"
+                                  type="text"
+                                  value={exp.merchant}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="amount"
+                                  type="number"
+                                  value={exp.amount}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="category"
+                                  type="text"
+                                  value={exp.category.name}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="dueDate"
+                                  type="text"
+                                  value={exp.dueDate}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="paidDate"
+                                  type="paidDate"
+                                  value={exp.paidDate ? exp.paidDate : ""}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  className="border-0"
+                                  name="isRepeat"
+                                  type="checkbox"
+                                  checked={exp.isRepeat}
+                                  readOnly
+                                />
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleEdit(exp)}
+                                    className="btn btn-success py-0"
+                                  >
+                                    Edit
+                                  </button>
+                                ) : null}
+                              </td>
+                              <td>
+                                {!currentId && !isCreate ? (
+                                  <button
+                                    onClick={handleDelete(exp)}
+                                    className="btn btn-danger py-0"
+                                  >
+                                    Delete
+                                  </button>
+                                ) : null}
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return (
+                            <tr key={exp.id}>
                               <td>
                                 <input
                                   name="merchant"
                                   type="text"
                                   value={merchant}
                                   onChange={handleChange}
-                                  required
                                 />
                               </td>
                               <td>
@@ -314,7 +468,6 @@ const Expenses = () => {
                                   type="number"
                                   value={amount}
                                   onChange={handleChange}
-                                  required
                                 />
                               </td>
                               <td>
@@ -335,16 +488,15 @@ const Expenses = () => {
                               <td>
                                 <input
                                   name="dueDate"
-                                  type="date"
+                                  type="text"
                                   value={dueDate}
                                   onChange={handleChange}
-                                  required
                                 />
                               </td>
                               <td>
                                 <input
                                   name="paidDate"
-                                  type="date"
+                                  type="paidDate"
                                   value={paidDate ? paidDate : ""}
                                   onChange={handleChange}
                                 />
@@ -353,7 +505,7 @@ const Expenses = () => {
                                 <input
                                   name="isRepeat"
                                   type="checkbox"
-                                  value={isRepeat}
+                                  checked={isRepeat}
                                   onChange={handleChange}
                                 />
                               </td>
@@ -362,7 +514,7 @@ const Expenses = () => {
                                   type="submit"
                                   className="btn btn-success py-0"
                                 >
-                                  Add Expense
+                                  Update
                                 </button>
                               </td>
                               <td>
@@ -374,171 +526,12 @@ const Expenses = () => {
                                 </button>
                               </td>
                             </tr>
-                          ) : null}
-                        </>
-
-                        {filteredExpenses.map(exp => {
-                          if (currentId !== exp.id) {
-                            return (
-                              <tr key={exp.id}>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="merchant"
-                                    type="text"
-                                    value={exp.merchant}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="amount"
-                                    type="number"
-                                    value={exp.amount}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="category"
-                                    type="text"
-                                    value={exp.category.name}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="dueDate"
-                                    type="text"
-                                    value={exp.dueDate}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="paidDate"
-                                    type="paidDate"
-                                    value={exp.paidDate ? exp.paidDate : ""}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="border-0"
-                                    name="isRepeat"
-                                    type="checkbox"
-                                    checked={exp.isRepeat}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  {!currentId && !isCreate ? (
-                                    <button
-                                      onClick={handleEdit(exp)}
-                                      className="btn btn-success py-0"
-                                    >
-                                      Edit
-                                    </button>
-                                  ) : null}
-                                </td>
-                                <td>
-                                  {!currentId && !isCreate ? (
-                                    <button
-                                      onClick={handleDelete(exp)}
-                                      className="btn btn-danger py-0"
-                                    >
-                                      Delete
-                                    </button>
-                                  ) : null}
-                                </td>
-                              </tr>
-                            );
-                          } else {
-                            return (
-                              <tr key={exp.id}>
-                                <td>
-                                  <input
-                                    name="merchant"
-                                    type="text"
-                                    value={merchant}
-                                    onChange={handleChange}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    name="amount"
-                                    type="number"
-                                    value={amount}
-                                    onChange={handleChange}
-                                  />
-                                </td>
-                                <td>
-                                  <select
-                                    name="category"
-                                    value={category}
-                                    onChange={handleChange}
-                                  >
-                                    {allCategories.map(cat => {
-                                      return (
-                                        <option value={cat.name} key={cat.id}>
-                                          {cat.name}
-                                        </option>
-                                      );
-                                    })}
-                                  </select>
-                                </td>
-                                <td>
-                                  <input
-                                    name="dueDate"
-                                    type="text"
-                                    value={dueDate}
-                                    onChange={handleChange}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    name="paidDate"
-                                    type="paidDate"
-                                    value={paidDate ? paidDate : ""}
-                                    onChange={handleChange}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    name="isRepeat"
-                                    type="checkbox"
-                                    checked={isRepeat}
-                                    onChange={handleChange}
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    type="submit"
-                                    className="btn btn-success py-0"
-                                  >
-                                    Update
-                                  </button>
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={handleCancel}
-                                    className="btn btn-primary py-0"
-                                  >
-                                    Cancel
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          }
-                        })}
-                      </tbody>
-                    </table>
-                  </form>
-                </div>
+                          );
+                        }
+                      })}
+                    </tbody>
+                  </table>
+                </form>
               </div>
             </div>
           </div>
