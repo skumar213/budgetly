@@ -128,7 +128,7 @@ const Investments = () => {
                 <div className="col-md-6 text-nowrap">
                   {!currentId && !isCreate ? (
                     <button
-                      className="btn btn-primary py-0"
+                      className="btn btn-primary py-0 mb-2"
                       onClick={handleCreate}
                     >
                       Add New Investment

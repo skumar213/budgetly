@@ -253,35 +253,35 @@ const Budgets = () => {
                 >
                   <label htmlFor="DropDownMonth" className="form-label">
                     <small>Select Month </small>
+                    <select
+                      className="form-select-sm d-block form-select form-select-sm"
+                      name="DropDownMonth"
+                      value={selectedMonth}
+                      onChange={handleMonthChange}
+                    >
+                      {currentMonths.map((month, idx) => (
+                        <option key={idx} value={month + 1}>
+                          {month + 1}
+                        </option>
+                      ))}
+                    </select>
                   </label>
-                  <select
-                    className="d-inline-block form-select form-select-sm w-25"
-                    name="DropDownMonth"
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
-                  >
-                    {currentMonths.map((month, idx) => (
-                      <option key={idx} value={month + 1}>
-                        {month + 1}
-                      </option>
-                    ))}
-                  </select>
                       
                   <label htmlFor="DropDownYear" className="form-label">
                     <small>Select Year </small>
+                    <select
+                      className="form-select-sm d-block form-select form-select-sm"
+                      name="DropDownYear"
+                      value={selectedYear}
+                      onChange={handleYearChange}
+                    >
+                      {Object.entries(years).map(year => (
+                        <option key={year[1]} value={year[0]}>
+                          {year[0]}
+                        </option>
+                      ))}
+                    </select>
                   </label>
-                  <select
-                    className="d-inline-block form-select form-select-sm w-50"
-                    name="DropDownYear"
-                    value={selectedYear}
-                    onChange={handleYearChange}
-                  >
-                    {Object.entries(years).map(year => (
-                      <option key={year[1]} value={year[0]}>
-                        {year[0]}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </div>
               <div className="col-md-6">
@@ -292,7 +292,7 @@ const Budgets = () => {
                   {!currentId &&
                   !isCreate &&
                   allocatedCategories.length !== allCategories.length ? (
-                    <div>
+                    <div className="mt-3">
                       <button
                         onClick={handleCreate}
                         className="btn btn-primary py-0"

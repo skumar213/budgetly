@@ -239,38 +239,38 @@ const UserProfile = () => {
                           className="form-label"
                         >
                           <small>Select Month </small>
+                          <select
+                            className="form-select-sm d-block form-select form-select-sm"
+                            name="incomeDropDownMonth"
+                            value={selectedMonth}
+                            onChange={handleMonthChange}
+                          >
+                            {currentMonths.map((month, idx) => (
+                              <option key={idx} value={month + 1}>
+                                {month + 1}
+                              </option>
+                            ))}
+                          </select>
                         </label>
-                        <select
-                          className="d-inline-block form-select form-select-sm w-25"
-                          name="incomeDropDownMonth"
-                          value={selectedMonth}
-                          onChange={handleMonthChange}
-                        >
-                          {currentMonths.map((month, idx) => (
-                            <option key={idx} value={month + 1}>
-                              {month + 1}
-                            </option>
-                          ))}
-                        </select>
                             
                         <label
                           htmlFor="incomeDropDownYear"
                           className="form-label"
                         >
                           <small>Select Year </small>
+                          <select
+                            className="form-select-sm d-block form-select form-select-sm"
+                            name="incomeDropDownYear"
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                          >
+                            {Object.entries(years).map(year => (
+                              <option key={year[1]} value={year[0]}>
+                                {year[0]}
+                              </option>
+                            ))}
+                          </select>
                         </label>
-                        <select
-                          className="d-inline-block form-select form-select-sm w-50"
-                          name="incomeDropDownYear"
-                          value={selectedYear}
-                          onChange={handleYearChange}
-                        >
-                          {Object.entries(years).map(year => (
-                            <option key={year[1]} value={year[0]}>
-                              {year[0]}
-                            </option>
-                          ))}
-                        </select>
                       </div>
                     </div>
                     <br></br>
