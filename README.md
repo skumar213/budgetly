@@ -10,7 +10,7 @@
 
 # Tech Stack
 
-Budgetly was built using React and Redux for state management on the front-end. All charts and styling were done with chart.js and Bootstrap. The back-end and database were done using Express, Sequelize, Postgres and Node.js.
+Budgetly was built using React and Redux for state management on the front-end. All charts and styling were done with Chart.js and Bootstrap. The back-end and database were done using Express, Sequelize, Postgres and Node.js.
 
 # Setup & Start
 
