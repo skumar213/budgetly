@@ -40,4 +40,4 @@ Demo here: https://budgetly-sk.herokuapp.com/
 
 # Contact Info
 
-Sabi Kumar: https://github.com/skumar213 | http://www.linkedin.com/in/skumar213 | https://sabikumar.io
+Sabi Kumar: [Github](https://github.com/skumar213) | [LinkedIn](http://www.linkedin.com/in/skumar213) | [Portfolio](https://sabikumar.io)
