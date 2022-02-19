@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container-fluid d-flex flex-column p-0">
         <a
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-          href="/"
+          href={isLoggedIn ? "/dashboard" : "/"}
         >
           <div className="sidebar-brand-icon rotate-n-15">
             <i className="fas fa-bold"></i>
