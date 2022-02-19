@@ -40,4 +40,4 @@ Demo here: https://budgetly-sk.herokuapp.com/
 
 # Contact Info
 
-Sabi Kumar: [Github](https://github.com/skumar213) | [LinkedIn](http://www.linkedin.com/in/skumar213)
+Sabi Kumar: [Github](https://github.com/skumar213) | [LinkedIn](http://www.linkedin.com/in/skumar213) | <a href="mailto:skumar213@gmail.com">Email</a>
