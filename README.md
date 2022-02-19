@@ -3,6 +3,7 @@
 <div align='center'>
 <img src="public/logo.png" height='150'>
 </div>
+<br/>
 <div align='center'>Don't want to give your personal banking information to a budgeting app? Budgetly can help! Budgetly is for those that want a secure budgeting app that will help them develop a budgeting routine while also sacrificing no functionality. Budgetly will help you develop a budgeting mindset while also allowing you to track your investments!
 </div>
 <br/>
@@ -28,14 +29,14 @@ Budgetly was built using React and Redux for state management on the front-end. 
 3. Add and pay expenses in Expenses. Can pay an expense by just inputting the paid date
 4. Add budgets in Budgets. Only one budget can be added for a month; the add new budget button will disappear if they're all being used. New budgets will be added to the selected date/year.
 5. Add new investments in Investments
-
+<br/>
 <div align='center'>
 <img src="public/budgetlyGif.gif" height="400">
 </div>
 <h1 align='center'>
 Demo here: https://budgetly-sk.herokuapp.com/
 </h1>
-
+<br/>
 # Developers
 
 1. Sabi Kumar: https://github.com/skumar213 | http://www.linkedin.com/in/skumar213 | https://sabikumar.io
