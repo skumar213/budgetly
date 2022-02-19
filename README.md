@@ -4,7 +4,7 @@
 <img src="public/logo.png" height='150'>
 </div>
 <br/>
-<div align='center'>Don't want to give your personal banking information to a budgeting app? Budgetly can help! Budgetly is for those that want a secure budgeting app that will help them develop a budgeting routine while also sacrificing no functionality. Budgetly will help you develop a budgeting mindset while also allowing you to track your investments!
+<div align='center'>Don't want to give your personal banking information to a budgeting app? Budgetly can help! Budgetly is for those that want a robust and secure budgeting app that will help them develop a budgeting routine. Budgetly will help you develop a budgeting mindset while also allowing you to track your investments!
 </div>
 <br/>
 
