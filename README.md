@@ -37,6 +37,7 @@ Budgetly was built using React and Redux for state management on the front-end. 
 Demo here: https://budgetly-sk.herokuapp.com/
 </h1>
 <br/>
-# Developers
 
-1. Sabi Kumar: https://github.com/skumar213 | http://www.linkedin.com/in/skumar213 | https://sabikumar.io
+# Dev Contact Info
+
+Sabi Kumar: https://github.com/skumar213 | http://www.linkedin.com/in/skumar213 | https://sabikumar.io
