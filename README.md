@@ -38,6 +38,6 @@ Demo here: https://budgetly-sk.herokuapp.com/
 </h1>
 <br/>
 
-# Dev Contact Info
+# Contact Info
 
 Sabi Kumar: https://github.com/skumar213 | http://www.linkedin.com/in/skumar213 | https://sabikumar.io
