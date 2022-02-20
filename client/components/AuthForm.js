@@ -49,7 +49,7 @@ export const Login = () => {
                         <div className="mb-3">
                           <input
                             className="form-control form-control-user"
-                            placeholder="Enter Email Address"
+                            placeholder="Email Address"
                             aria-describedby="emailHelp"
                             name="email"
                             type="text"
@@ -59,7 +59,7 @@ export const Login = () => {
                         <div className="mb-3">
                           <input
                             className="form-control form-control-user"
-                            placeholder="Enter Password"
+                            placeholder="Password"
                             name="password"
                             type="password"
                             required
@@ -83,7 +83,7 @@ export const Login = () => {
                       </div>
                       <div className="text-center">
                         <Link to="" onClick={handleSeededDemo}>
-                          In a rush? View seeded demo without an account!
+                          In a hurry? View seeded demo without an account!
                         </Link>
                       </div>
 
@@ -129,11 +129,6 @@ export const Signup = () => {
         monthlyIncome
       )
     );
-  };
-
-  //Logs user into seeded demo
-  const handleSeededDemo = () => {
-    dispatch(authenticate("mike@gmail.com", "", "login"));
   };
 
   return (
@@ -228,11 +223,6 @@ export const Signup = () => {
                       </form>
                       <div className="text-center mb-2">
                         <Link to="/login">Already have an account? Login!</Link>
-                      </div>
-                      <div className="text-center">
-                        <Link to="" onClick={handleSeededDemo}>
-                          In a rush? View seeded demo without an account!
-                        </Link>
                       </div>
 
                       {/* Needed to show full image */}
