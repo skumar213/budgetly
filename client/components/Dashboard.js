@@ -357,7 +357,7 @@ const Dashboard = () => {
               <div className="card-body">
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
-                    <div className="text-uppercase text-success fw-bold text-xs mb-1">
+                    <div className="text-uppercase text-primary fw-bold text-xs mb-1">
                       <span>
                         Remaining Budget after paid expenses (monthly)
                       </span>
@@ -398,7 +398,7 @@ const Dashboard = () => {
               <div className="card-body">
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
-                    <div className="text-uppercase text-info fw-bold text-xs mb-1">
+                    <div className="text-uppercase text-primary fw-bold text-xs mb-1">
                       <span>Actual expenses paid (Monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0 me-3">
@@ -417,7 +417,7 @@ const Dashboard = () => {
               <div className="card-body">
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
-                    <div className="text-uppercase text-warning fw-bold text-xs mb-1">
+                    <div className="text-uppercase text-primary fw-bold text-xs mb-1">
                       <span>Portfolio Profit & Loss</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
