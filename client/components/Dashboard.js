@@ -85,8 +85,6 @@ const Dashboard = () => {
     "paidDate"
   );
 
-  const selectedExpensesPaidTotal = getTotal(selectedExpensesPaid);
-
   selectedExpensesDue.forEach(dueExp => {
     if (!selectedExpensesDueOrPaid[dueExp.id]) {
       selectedExpensesDueOrPaid[dueExp.id] = dueExp;
@@ -111,10 +109,7 @@ const Dashboard = () => {
     }
   });
 
-  const selectedTotalBudget = getTotal(selectedBudgets);
-  const selectTotalExpenses = getTotal(
-    Object.values(selectedExpensesDueOrPaid)
-  );
+  const selectedTotalExpensesPaid = getTotal(selectedExpensesPaid);
 
   //PIE GRAPH data
   let pieGraphLabels = selectedExpensesPaid
@@ -342,29 +337,11 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-primary fw-bold text-xs mb-1">
-                      <span>Budget vs Paid Expenses (monthly)</span>
+                      <span>Total Budget (monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>
-                        {selectedMonthlyIncome.amount -
-                          selectedExpensesPaidTotal >=
-                        0 ? (
-                          <span className="text-success">
-                            ${" "}
-                            {(
-                              selectedMonthlyIncome.amount -
-                              selectedExpensesPaidTotal
-                            ).toFixed(2)}
-                          </span>
-                        ) : (
-                          <span className="text-danger">
-                            ${" "}
-                            {(
-                              selectedMonthlyIncome.amount -
-                              selectedExpensesPaidTotal
-                            ).toFixed(2)}
-                          </span>
-                        )}
+                        ${parseFloat(selectedMonthlyIncome.amount).toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -381,23 +358,28 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-success fw-bold text-xs mb-1">
-                      <span>Remaining Budget (monthly)</span>
+                      <span>
+                        Remaining Budget after paid expenses (monthly)
+                      </span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0">
                       <span>
-                        {selectedMonthlyIncome.amount - selectedTotalBudget >=
+                        {selectedMonthlyIncome.amount -
+                          selectedTotalExpensesPaid >=
                         0 ? (
                           <span>
                             $
                             {(
-                              selectedMonthlyIncome.amount - selectedTotalBudget
+                              selectedMonthlyIncome.amount -
+                              selectedTotalExpensesPaid
                             ).toFixed(2)}
                           </span>
                         ) : (
                           <span className="text-danger">
                             $
                             {(
-                              selectedMonthlyIncome.amount - selectedTotalBudget
+                              selectedMonthlyIncome.amount -
+                              selectedTotalExpensesPaid
                             ).toFixed(2)}
                           </span>
                         )}
@@ -417,10 +399,10 @@ const Dashboard = () => {
                 <div className="row align-items-center no-gutters">
                   <div className="col me-2">
                     <div className="text-uppercase text-info fw-bold text-xs mb-1">
-                      <span>Expected Expenses (due or paid in month)</span>
+                      <span>Actual expenses paid (Monthly)</span>
                     </div>
                     <div className="text-dark fw-bold h5 mb-0 me-3">
-                      <span>${selectTotalExpenses.toFixed(2)}</span>
+                      <span>${selectedTotalExpensesPaid.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="col-auto">
