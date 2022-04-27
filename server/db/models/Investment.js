@@ -30,7 +30,7 @@ const Investment = db.define("investment", {
 });
 
 //Hooks
-//Makes the first letter of each word for the investment name uppercase
+//Makes all ticker symbols uppercase
 Investment.beforeCreate(inv => {
   inv.tickerSymbol = inv.tickerSymbol.toUpperCase();
 });
