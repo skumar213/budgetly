@@ -25,41 +25,45 @@ async function seed() {
     `${todayDate.getMonth() + 1}/1/${todayDate.getFullYear()}`
   );
 
+  function randomRange(max, min) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
   // Creating current month Expenses
   const expenses = await Promise.all([
     Expense.create({
       merchant: "apt rent",
-      amount: 1500,
+      amount: randomRange(1500, 1400),
       dueDate,
       paidDate,
     }),
     Expense.create({
       merchant: "peco",
-      amount: 200,
+      amount: randomRange(300, 200),
       dueDate,
       paidDate,
     }),
     Expense.create({
       merchant: "whole Foods",
-      amount: 600,
+      amount: randomRange(600, 500),
       dueDate,
       paidDate,
     }),
     Expense.create({
       merchant: "Watching a movie with friends",
-      amount: 50,
+      amount: randomRange(50, 40),
       dueDate,
       paidDate,
     }),
     Expense.create({
       merchant: "Savings for the month",
-      amount: 500,
+      amount: randomRange(500, 400),
       dueDate,
       paidDate,
     }),
     Expense.create({
       merchant: "Gym Membership",
-      amount: 30,
+      amount: randomRange(30, 20),
       dueDate,
       paidDate,
     }),
@@ -68,13 +72,13 @@ async function seed() {
   const outstandingExpenses = await Promise.all([
     Expense.create({
       merchant: "Cell phone",
-      amount: 100,
+      amount: randomRange(100, 50),
       dueDate,
       repeat: true,
     }),
     Expense.create({
       merchant: "Costco",
-      amount: 80,
+      amount: randomRange(80, 40),
       dueDate,
     }),
   ]);
