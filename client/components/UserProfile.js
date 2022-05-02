@@ -70,7 +70,7 @@ const UserProfile = () => {
     if (currentDate.year === selectedYear) {
       setCurrentMonths(Array.from(Array(currentDate.num).keys()));
     } else {
-      const idx = years[selectedYear] || 1;
+      const idx = (years[selectedYear] ? years[selectedYear][0] : null) || 1;
       setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
     }
   }, [selectedYear]);
