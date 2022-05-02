@@ -89,6 +89,8 @@ const Budgets = () => {
   ).toFixed(2);
 
   const allocatedCategories = filteredBudgets.map(bud => bud.category.name);
+
+  //will show remaining categories or the currently selected category in the category dropdown
   const remainingCategoriesWithCurrent = allCategories.filter(
     cat => !allocatedCategories.includes(cat.name) || cat.name === category
   );
@@ -104,6 +106,7 @@ const Budgets = () => {
     dispatch(_getMonthlyIncomes());
   }, []);
 
+  //sets the current monthly income
   useEffect(() => {
     if (currentMonthlyIncome.length) {
       if (!monthlyIncome) {
@@ -114,11 +117,13 @@ const Budgets = () => {
     }
   }, [currentMonthlyIncome]);
 
+  //for the current year it will show from jan to current month
+  //but for previous years it will show the starting month to december
   useEffect(() => {
     if (currentDate.year === selectedYear) {
       setCurrentMonths(Array.from(Array(currentDate.num).keys()));
     } else {
-      const idx = years[selectedYear] || 1;
+      const idx = (years[selectedYear] ? years[selectedYear][0] : null) || 1;
       setCurrentMonths(Array.from(Array(12).keys()).slice(idx - 1));
     }
   }, [selectedYear]);
