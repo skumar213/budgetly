@@ -144,7 +144,7 @@ const Expenses = () => {
       isRepeat,
     };
 
-    //creates a duplicate expense if its a repeat
+    //creates a duplicate expense for the next month if its a repeat and was paid
     //also will prevent setting repeat if its paid
     if (paidDate && !oldPaidDate && isRepeat) {
       dispatch(_updateExpense(expToUpdateRepeat));

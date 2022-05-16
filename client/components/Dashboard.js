@@ -142,7 +142,7 @@ const Dashboard = () => {
     return sum;
   });
 
-  //checks if any expenses were paid an not budgeted for and includes it in the bar graph
+  //checks if any expenses were paid and not budgeted for and includes it in the bar graph
   const barGraphLabelsCopy = [...barGraphLabels];
   pieGraphLabels.forEach((pieLabel, idx) => {
     if (!barGraphLabelsCopy.includes(pieLabel)) {

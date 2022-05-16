@@ -38,6 +38,7 @@ export const _getInvestments = () => async dispatch => {
   }
 };
 
+//input can be a single stock symbol or a string of them separated by a comma
 export const getInvestmentsPrice = investments => async dispatch => {
   try {
     const tickerSymbols = investments.reduce((accu, inv, idx) => {
